@@ -1,0 +1,111 @@
+<group name="soc-securite,piste-audit,conformite,">
+  <!-- ==============================================================
+       SECURITE DU SYSTEME D'INFORMATION
+       (art. 13 & 35 loi 001-2025, ENR BC/FT centif)
+  ============================================================== -->
+  <rule id="100410" level="3">
+    <field name="event_type">auth_failure</field>
+    <field name="result">FAILED</field>
+    <description>ECHEC D'AUTHENTIFICATION SYSTEME - $(user) depuis $(src_ip) (compter les repetitions, seuil de verification: 100206)</description>
+    <group>authentication_failed,</group>
+  </rule>
+  <rule id="100411" level="11">
+    <field name="event_type">privilege_escalation</field>
+    <field name="result">GRANTED</field>
+    <description>ELEVATION DE PRIVILEGES - acces $(target) accorde a $(user) (sudo/role admin) - verifier l'habilitation</description>
+  </rule>
+  <rule id="100412" level="12">
+    <field name="event_type">security_config_change</field>
+    <field name="result">DISABLED|REMOVED</field>
+    <description>MODIFICATION DE CONFIGURATION DE SECURITE - $(component) ($(config)) desactive(e)/retire(e) par $(user) - risque de phenomene de fenetre</description>
+  </rule>
+  <rule id="100413" level="9">
+    <field name="event_type">degraded_mode</field>
+    <field name="result">ACTIVATED</field>
+    <description>MODE DEGRADE - bascule du composant $(component) sur les donnees de secours (file://) - filtrer l'importance et la perimetrie de la donnee</description>
+  </rule>
+  <rule id="100414" level="7">
+    <field name="event_type">referentiel_fraicheur</field>
+    <field name="result">PERIME</field>
+    <field name="age_days" type="pcre2">[8-9]|[1-9][0-9]+</field>
+    <description>REFERENTIEL PERIME - reference $(source) agee de $(age_days) jours (seuil: 7 j, SEUIL_PERIME_JOURS) - mise a jour exigee art. 89 loi 046-2024</description>
+  </rule>
+  <rule id="100415" level="10">
+    <field name="event_type">export_donnees</field>
+    <field name="volume" type="pcre2">[0-9]{4,}</field>
+    <description>EXPORT/EXTRACTION MASSIVE - $(volume) enregistrements clients exportes ($(scope)) par $(user) - exfiltration potentielle, renforcer l'approbation</description>
+  </rule>
+  <rule id="100416" level="8">
+    <field name="event_type">service_down</field>
+    <field name="result">DOWN|OUTAGE</field>
+    <description>INDISPONIBILITE SI - service/service $(service) arrete (disponibilite du systeme d'information, art. 35 loi 001-2025)</description>
+  </rule>
+
+  <!-- ==============================================================
+       PISTE D'AUDIT (art. 23 loi uniforme 03/2023 : 10 ans) 
+  ============================================================== -->
+  <rule id="100417" level="14">
+    <field name="event_type">action_levage</field>
+    <field name="result">UNHABILITATED|REFUSED</field>
+    <description>LEVEE DE BLOCAGE SANS PROFIL HABILITE - operation suspendue (art. 91) reouverte par $(user) non habilite(e) - information CENTIF fautive</description>
+  </rule>
+  <rule id="100418" level="11">
+    <field name="event_type">audit_tamper</field>
+    <field name="result">TIMESTAMP_BACKDATED|REWRITE|DELETE</field>
+    <description>DEGRADATION DE LA PISTE D'AUDIT - $(record) reecrit/retrodate/supprime ($(result)) - garde-fous art. 23, deport sur registre WORM</description>
+  </rule>
+  <rule id="100419" level="5">
+    <field name="event_type">rapport_confidentiel</field>
+    <field name="result">GENERATED</field>
+    <description>RAPPORT CONFIDENTIEL EMIS - examen art. 21 par $(user), ref. $(reference) - tracer la conservation 10 ans (art. 23)</description>
+  </rule>
+
+  <!-- ==============================================================
+       REGLES DE CONFORMITE (lois, directives, M3/M4 moteur)
+  ============================================================== -->
+  <rule id="100420" level="10">
+    <field name="event_type">ppe_evaluation</field>
+    <field name="result">LATE</field>
+    <description>PPE RE-EVALUATION EN RETARD - examen triennal art. 29 depasse pour $(subject) ($(due_date)) - prononcer les mesures de vigilance renforcee</description>
+  </rule>
+  <rule id="100421" level="12">
+    <field name="event_type">declaration_centif</field>
+    <field name="result">MISSING</field>
+    <description>ABSENCE DE DECLARATION CENTIF > 24 H - operation $(transaction) suspensive non declaree apres $(delai_hours) h (art. 58 loi 046-2024 : sans delai = 24 h max)</description>
+  </rule>
+  <rule id="100422" level="10">
+    <field name="event_type">consolidation_multi_compte</field>
+    <field name="cumul_7j" type="pcre2">1[5-9][0-9]{5}|[2-9][0-9]{6}|[0-9]{8}</field>
+    <description>CONSOLIDATION MULTI-COMPTES - cumul 7 j de $(cumul_7j) FCFA pour $(customer_id) (seuil M3: 1 500 000) - declaration CENTIF</description>
+  </rule>
+  <rule id="100423" level="12">
+    <field name="event_type">compte_rebond</field>
+    <field name="result">BLOQUANT</field>
+    <description>COMPTE REBOND BLOQUANT - depot suivi d'un retrait imediat (delai $(rebond_delai)) chez $(customer_id) - suspensif art. 91</description>
+  </rule>
+  <rule id="100424" level="12">
+    <field name="event_type">activation_dispersion</field>
+    <field name="result">BLOQUANT</field>
+    <description>ACTIVATION-DISPERSION BLOQUANTE - reveil puis distribution vers $(beneficiaires) destinataires en $(fenetre) h chez $(customer_id)</description>
+  </rule>
+  <rule id="100425" level="8">
+    <field name="event_type">fractionnement</field>
+    <field name="result">INFORMATIF</field>
+    <description>COLLECTE FRACTIONNEE - $(beneficiaires) beneficiaires sur $(fenetre_jours) j chez $(customer_id) - surveillance particuliere (art. 21)</description>
+  </rule>
+  <rule id="100426" level="9">
+    <field name="event_type">operation_obnl</field>
+    <field name="risk">FT|ELEVE</field>
+    <description>OPERATION OBNL A RISQUE FT - triplet ($(objet), $(origine), $(destination)) non coherent pour $(customer_id) (art. 118, risque ENR eleve)</description>
+  </rule>
+  <rule id="100427" level="10">
+    <field name="event_type">mobile_money</field>
+    <field name="typology">MULTI_COMPTE|CONVERSION_ESPECE|TRANSFRONTALIER</field>
+    <description>MOBILE MONEY - typologie ENR $(typology) observee pour $(customer_id) - comptes multiples/fractionnement/conversion especes, peu tracables</description>
+  </rule>
+  <rule id="100428" level="6">
+    <field name="event_type">sync_differentielle</field>
+    <field name="result">FAILED</field>
+    <description>SYNCHRONISATION DIFFERENTIELLE EN ECHEC - correctif liste $(source) rejete (signature $(signature)) - fraicheur du referentiel menacee</description>
+  </rule>
+</group>

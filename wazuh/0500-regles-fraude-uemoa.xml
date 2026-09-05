@@ -1,0 +1,59 @@
+<group name="fraude-uemoa,transactions,">
+  <rule id="100200" level="3">
+    <field name="event_type">transfert</field>
+    <field name="result">FAILED</field>
+    <description>Transaction de transfert rejettee (compte: $(customer_id))</description>
+  </rule>
+  <rule id="100201" level="10">
+    <field name="event_type">transfert</field>
+    <field name="amount" type="pcre2">^2[0-9]{6,}|[3-9][0-9]{6,}</field>
+    <description>TRANSFERT CRITIQUE au-dela du plafond (montant: $(amount) XOF, compte: $(customer_id))</description>
+  </rule>
+  <rule id="100202" level="7">
+    <field name="event_type">transfert</field>
+    <time>23:00-05:00</time>
+    <description>Transfert effectue hors horaire bancaire (compte: $(customer_id), montant: $(amount))</description>
+  </rule>
+  <rule id="100203" level="6">
+    <field name="event_type">creation_beneficiaire|modification_beneficiaire</field>
+    <options>no_log</options>
+    <description>Beneficiaire cree/modifie (compte: $(customer_id), beneficiaire: $(beneficiary))</description>
+  </rule>
+  <rule id="100204" level="12" frequency="2" timeframe="600">
+    <if_matched_sid>100203</if_matched_sid>
+    <field name="event_type">transfert</field>
+    <same_field>customer_id</same_field>
+    <description>FRAUDE INTERNE PROBABLE : beneficiaire modifie puis transfert immediat (&lt;10 min) - compte $(customer_id)</description>
+  </rule>
+  <rule id="100205" level="10" frequency="4" timeframe="86400">
+    <if_matched_sid>100200</if_matched_sid>
+    <field name="amount" type="pcre2">[0-9]{5,6}</field>
+    <same_field>customer_id</same_field>
+    <description>LBC-FT - STRUCTURING SOUPCONNE : repetitions de transactions sous seuil (compte: $(customer_id)) - declarable CENTIF</description>
+  </rule>
+  <rule id="100206" level="10" frequency="8" timeframe="300">
+    <if_matched_sid>100200</if_matched_sid>
+    <field name="event_type">connexion</field>
+    <same_field>customer_id</same_field>
+    <description>Force brute / credential stuffing sur le compte $(customer_id) depuis $(src_ip)</description>
+  </rule>
+  <rule id="100207" level="13">
+    <field name="event_type">modification_parametres|desactivation_controle</field>
+    <description>CRITIQUE - Contournement de controle : parametre anti-fraude modifie par $(customer_id) depuis $(src_ip)</description>
+  </rule>
+  <rule id="100208" level="11">
+    <field name="event_type">acces_db_direct</field>
+    <field name="table">clients|comptes|transactions</field>
+    <description>Acces direct base de donnees sur table sensible ($(table)) par $(customer_id) depuis $(src_ip)</description>
+  </rule>
+  <rule id="100300" level="14">
+    <if_group>audit</if_group>
+    <match>unlink|truncate|shred</match>
+    <field name="audit.file.name">/var/ossec/logs/archives|/var/log/audit|/var/log/syslog</field>
+    <description>ALERTE MAXIMALE - Tentative de suppression des journaux d'audit par uid=$(audit.uid)</description>
+  </rule>
+  <rule id="100301" level="15">
+    <match>CHAIN_BREAK|TAMPERING_DETECTED</match>
+    <description>INTEGRITE COMPROMISE - Rupture de la chaine de hachage de la piste d'audit</description>
+  </rule>
+</group>

@@ -1,0 +1,54 @@
+<group name="cif-uemoa,lbc-ft,">
+  <rule id="100400" level="12">
+    <field name="event_type">filtrage_sanctions</field>
+    <field name="result">MATCH</field>
+    <description>LISTE DES SANCTIONS ONU - Personalite ou entite TOUCHEE identifiee ($(subject)) sur la liste ($(mode)) - totalite des avoirs gele, interdiction de transaction</description>
+  </rule>
+  <rule id="100401" level="14">
+    <field name="event_type">virement|transfert|ordre_paiement</field>
+    <field name="sanctioned">yes</field>
+    <field name="result">REJECTED|SUSPENDED</field>
+    <description>TRANSACTION VERS UNE ENTITE SANCTIONNEE ($(beneficiary)) - bloquee conformement Directive 02/2015/CM/UEMOA et Resolution du Conseil de securite</description>
+  </rule>
+  <rule id="100402" level="10">
+    <field name="event_type">filtrage_personnes</field>
+    <field name="result">PEP_HIT</field>
+    <description>Personne politiquement exposee (PEP) impliquee ($(subject)) - vigilance renforcee et source de fonds a verifier (GIABA/BECEAO)</description>
+  </rule>
+  <rule id="100403" level="8">
+    <field name="event_type">filtrage_sanctions</field>
+    <field name="result">POSSIBLE_MATCH|FUZZY|AMBIGUOUS</field>
+    <description>Correspondance PARTIELLE avec la liste des sanctions ($(subject) vs $(matched_name)) - lever le doute avant operation, examen manuel CENTIF</description>
+  </rule>
+  <rule id="100404" level="6">
+    <field name="event_type">declaration_threshold</field>
+    <field name="result">EXCEEDED</field>
+    <description>Operation au-dela du seuil declaratif LBC/FT (montant: $(amount)) - obligation de declaration a la CENTIF (loi uniforme LBC/FT/FP du 31/03/2023)</description>
+  </rule>
+  <rule id="100405" level="10">
+    <field name="event_type">transfert|virement</field>
+    <field name="risk_country">yes</field>
+    <field name="result">SUSPENDED|REVIEWED</field>
+    <description>Destination dans un pays sensible / sous embargo ou aux controles insuffisants ($(country)) - revue renforcee du dossier $(customer_id)</description>
+  </rule>
+  <rule id="100406" level="13">
+    <field name="event_type">desactivation_filtrage|bypass_filtrage</field>
+    <description>CONTOURNEMENT DU DISPOSITIF CIF - filtrage des sanctions desactive/outrepasse par $(customer_id) depuis $(src_ip)</description>
+  </rule>
+  <rule id="100407" level="5">
+    <field name="event_type">liste_sanctions_update</field>
+    <field name="result">OK</field>
+    <description>Mise a jour de la liste des sanctions ONU effectuee ($(records) entites, source $(source))</description>
+  </rule>
+  <rule id="100408" level="9">
+    <field name="event_type">sfd_operation</field>
+    <field name="amount" type="pcre2">[0-9]{7,}</field>
+    <field name="result">REVIEWED</field>
+    <description>SFD - Operation de financement decentralisee au-dela du seuil prudentiel BCEAO (montant: $(amount) XOF, client: $(customer_id))</description>
+  </rule>
+  <rule id="100409" level="7">
+    <field name="event_type">liste_sanctions_update</field>
+    <field name="result">FAILED</field>
+    <description>Echec de la mise a jour de la liste des sanctions ONU (derniere reference: $(source)) - le filtrage peut etre incomplet</description>
+  </rule>
+</group>
