@@ -208,10 +208,14 @@ def detecter_activation_dispersion(client_id: str, compte: Compte,
 
 def detecter_collecte_fractionnee(client_id: str, compte: Compte,
                                    transactions_du_compte: list[Transaction]) -> Verdict | None:
-    if any(t.sens == "entree" and t.montant >= SEUIL_UNITAIRE_ATTENTION
-           for t in transactions_du_compte):
-        # Une entree consequente explique une dispersion ulterieure : c'est le
-        # schema activation_dispersion, pas une collecte, pas de double-alerte.
+    if detecter_activation_dispersion(client_id, compte, transactions_du_compte):
+        # Une reception suivie d'une dispersion rapide est deja qualifiee par
+        # detecter_activation_dispersion : ne pas requalifier les memes
+        # sorties en collecte, sous peine de doublon. Un seuil numerique fixe
+        # ne suffit pas a distinguer les deux cas (une reception de 400 000
+        # FCFA, sous SEUIL_UNITAIRE_ATTENTION, peut tout de meme declencher
+        # une dispersion) ; se referer au detecteur lui-meme est la seule
+        # facon de rester coherent avec ses propres conditions.
         return None
     sorties = sorted(
         (t for t in transactions_du_compte
