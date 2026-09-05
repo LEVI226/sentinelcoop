@@ -11,8 +11,22 @@ from .phonetics import code_nom_soundex, jetons, similarite_jeton, wape
 
 # Seuils par défaut. Fixés dès le premier jour puis affinés — jamais bloquants
 # pour la suite du développement (cf. plan des 72 heures).
+#
+# SEUIL_INFORMATIF relevé de 0.80 à 0.88 le 5 septembre 2026 (cf. data/scenarios.md,
+# section « Résultat de la première exécution »). À 0.80, mesuré en comparant une
+# paire de noms isolée, le bruit annoncé était de 0.5 % — mais Index.filtrer()
+# compare en réalité un nom saisi au nom ET à tous les alias des 1011 entrées ONU
+# (~3800 candidats), ce qui multipliait ce taux par client filtré : 7 des 10
+# clients du dataset synthétique déclenchaient une fausse alerte informative.
+# À 0.88, le dataset synthétique est propre (0 faux positif) au prix d'une seule
+# variante attestée en moins sur variantes_noms_ao.csv (rappel informatif 99.0 %
+# -> 98.0 % ; la paire manquée, Sawadogo/Savadogo, score 0.875, est en dessous du
+# score de la fausse alerte la plus proche, 0.876 — les deux distributions se
+# chevauchent à cette marge, aucun seuil ne peut séparer parfaitement les deux à
+# la fois). Toujours à recalibrer sur un échantillon réel (cf. note de
+# présentation, §4.2).
 SEUIL_BLOQUANT = 0.90
-SEUIL_INFORMATIF = 0.80
+SEUIL_INFORMATIF = 0.88
 
 
 # --------------------------------------------------------------------------

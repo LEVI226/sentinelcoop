@@ -13,9 +13,15 @@ section 3 comme relevant de l'axe feature/moteur-ia :
   - collecte fractionnee vers de multiples beneficiaires (FT) ;
   - activation puis dispersion rapide d'un compte peu actif (FT).
 
-Les seuils ci-dessous sont des seuils de demonstration (voir data/scenarios.md
-« Seuils de demonstration ») : ils rendent le dataset lisible pour un jury,
-pas calibres sur un portefeuille reel.
+SEUIL_CUMUL_7J et SEUIL_UNITAIRE_ATTENTION reprennent les seuils deja choisis
+par demo/app.js (sevenDayTotal >= 1 500 000, montant < 500 000 pour compter
+comme fractionnement) : ce ne sont pas des valeurs nouvelles inventees pour ce
+module, mais celles deja utilisees par la demo pour les memes 3 clients. Les
+autres seuils (fenetres et ratios pour compte rebond, activation-dispersion,
+collecte fractionnee) sont propres a ce module, car la demo n'a pas d'equivalent
+date/horodate a leur emprunter — ce sont des seuils de demonstration (voir
+data/scenarios.md « Seuils de demonstration »), pas calibres sur un
+portefeuille reel.
 """
 
 from dataclasses import dataclass, field
@@ -25,11 +31,11 @@ from .dataset import Client, Compte, Portefeuille, Transaction
 from .matcher import Correspondance, Index
 from .referentiel_demo import EntreePPE, trouver_ppe
 
-SEUIL_CUMUL_7J = 500_000
+SEUIL_CUMUL_7J = 1_500_000
 FENETRE_CUMUL_JOURS = 7
-SEUIL_UNITAIRE_ATTENTION = 300_000
+SEUIL_UNITAIRE_ATTENTION = 500_000
 
-SEUIL_CONSOLIDATION = 500_000
+SEUIL_CONSOLIDATION = 1_500_000
 
 FENETRE_REBOND_HEURES = 2
 RATIO_REBOND_MIN = 0.8

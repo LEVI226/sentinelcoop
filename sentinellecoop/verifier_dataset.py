@@ -18,16 +18,16 @@ from .verdicts import evaluer_client
 # (categorie, severite) attendus par client — voir data/scenarios.md,
 # tableau « Verdicts attendus, par client ».
 ATTENDU: dict[str, set[tuple[str, str]]] = {
-    "C-1001": {("FILTRAGE", "BLOQUANT")},
-    "C-1002": set(),
-    "C-1003": {("PPE", "INFORMATIF")},
-    "C-1004": {("LBC", "INFORMATIF")},
-    "C-1005": {("LBC", "BLOQUANT")},
-    "C-1006": {("LBC", "INFORMATIF")},
-    "C-1007": {("FT", "INFORMATIF")},
-    "C-1008": {("FT", "BLOQUANT")},
-    "C-1009": set(),
-    "C-1010": set(),
+    # Diallo Mamadou : filtrage (nom deja sanctionne), fractionnement et
+    # consolidation multi-comptes (LBC), collecte fractionnee et
+    # activation-dispersion (FT) — plusieurs typologies sur le meme profil,
+    # deliberement, plutot que d'inventer des clients supplementaires.
+    "C-1029": {("FILTRAGE", "BLOQUANT"), ("LBC", "INFORMATIF"),
+               ("FT", "INFORMATIF"), ("FT", "BLOQUANT")},
+    # Awa Sawadogo : temoin neutre, aucune alerte attendue.
+    "C-2214": set(),
+    # Ouedraogo Salif : PPE (referentiel interne) et compte rebond (LBC).
+    "C-3091": {("PPE", "INFORMATIF"), ("LBC", "BLOQUANT")},
 }
 
 
