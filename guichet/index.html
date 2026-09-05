@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SentinelleCoop — Poste guichet</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">SC</span>
+        <div>
+          <strong>SentinelleCoop</strong>
+          <span>Poste guichet — filtrage LBC/FT/FP, hors-ligne</span>
+        </div>
+      </div>
+
+      <nav class="tabs" role="tablist" aria-label="Sections du poste guichet">
+        <button role="tab" id="tab-filtrage" aria-controls="panel-filtrage" aria-selected="true" data-view="filtrage" class="tab is-active">Filtrage</button>
+        <button role="tab" id="tab-transactions" aria-controls="panel-transactions" aria-selected="false" tabindex="-1" data-view="transactions" class="tab">Transactions</button>
+        <button role="tab" id="tab-alertes" aria-controls="panel-alertes" aria-selected="false" tabindex="-1" data-view="alertes" class="tab">Alertes<span class="compteur" id="compteurAlertes" hidden></span></button>
+        <button role="tab" id="tab-audit" aria-controls="panel-audit" aria-selected="false" tabindex="-1" data-view="audit" class="tab">Audit</button>
+      </nav>
+
+      <div class="status" id="statusBar">
+        <span class="status-item"><span class="status-label">Référentiel</span><strong id="statusFraicheur">—</strong></span>
+        <span class="status-item"><span class="status-label">Exécution</span><strong>locale, hors-ligne</strong></span>
+      </div>
+    </header>
+
+    <main>
+      <section role="tabpanel" id="panel-filtrage" aria-labelledby="tab-filtrage" tabindex="0">
+        <h1 class="view-title">Filtrer un client avant entrée en relation</h1>
+        <p class="view-desc">Le filtrage se met à jour automatiquement pendant la saisie — aucune action à lancer (Art. 20, filtrage en temps réel).</p>
+
+        <div class="filtrage-grid">
+          <div class="panel">
+            <label for="nomClient">Nom complet du client</label>
+            <input type="text" id="nomClient" autocomplete="off" spellcheck="false" placeholder="ex. Djallo Mamadou" aria-describedby="filtrageAide">
+            <p class="aide" id="filtrageAide">Variante, translitération ou nom exact : le rapprochement est phonétique.</p>
+
+            <div class="champ-double">
+              <div>
+                <label for="clientType">Type de client</label>
+                <select id="clientType">
+                  <option>Client habituel</option>
+                  <option>Client occasionnel</option>
+                </select>
+              </div>
+              <div>
+                <label for="agence">Agence</label>
+                <select id="agence">
+                  <option>Ouagadougou — Gounghin</option>
+                  <option>Bobo-Dioulasso</option>
+                  <option>Koudougou</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel resultat" id="resultatFiltrage" aria-live="polite">
+            <p class="etat-vide">En attente de saisie…</p>
+          </div>
+
+          <aside class="panel evidence">
+            <h2>Preuve mesurée</h2>
+            <dl>
+              <div><dt>Soundex strict (référence marché)</dt><dd>67,7&nbsp;% de détection</dd></div>
+              <div><dt>Moteur WAPE, seuil informatif</dt><dd>98,0&nbsp;% de détection, 0,1&nbsp;% de bruit</dd></div>
+              <div><dt>Palatalisation</dt><dd>Diallo / Jallo / Djallo : 100&nbsp;%</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section role="tabpanel" id="panel-transactions" aria-labelledby="tab-transactions" tabindex="0" hidden>
+        <h1 class="view-title">Consolidation et surveillance comportementale</h1>
+        <p class="view-desc">État à jour du portefeuille — les signaux ci-dessous sont déjà calculés, aucune analyse à déclencher.</p>
+        <div class="cartes-clients" id="cartesClients"></div>
+      </section>
+
+      <section role="tabpanel" id="panel-alertes" aria-labelledby="tab-alertes" tabindex="0" hidden>
+        <h1 class="view-title">File de revue conformité</h1>
+        <p class="view-desc">Chaque décision est motivée, horodatée et conservée dans la piste d'audit.</p>
+        <div class="liste-alertes" id="listeAlertes"></div>
+      </section>
+
+      <section role="tabpanel" id="panel-audit" aria-labelledby="tab-audit" tabindex="0" hidden>
+        <h1 class="view-title">Audit et rapport de conformité</h1>
+        <p class="view-desc">Transformer une alerte en preuve : source, âge de liste, motif, décision.</p>
+
+        <div class="audit-grid">
+          <div class="panel">
+            <h2>État du référentiel</h2>
+            <dl>
+              <div><dt>Liste ONU</dt><dd id="auditListe">—</dd></div>
+              <div><dt>Seuil bloquant</dt><dd id="auditSeuilBloquant">—</dd></div>
+              <div><dt>Seuil informatif</dt><dd id="auditSeuilInformatif">—</dd></div>
+              <div><dt>Mode</dt><dd>local, aucune requête réseau pendant le filtrage</dd></div>
+            </dl>
+          </div>
+
+          <div class="panel">
+            <h2>Journal</h2>
+            <ol class="journal" id="auditJournal"></ol>
+          </div>
+
+          <div class="panel rapport-panel">
+            <div class="view-header">
+              <h2>Rapport</h2>
+              <button class="btn-secondaire" id="genererRapport">Générer le rapport</button>
+            </div>
+            <pre class="rapport-box" id="rapportBox" aria-live="polite">Aucun rapport généré.</pre>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="moteur.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
