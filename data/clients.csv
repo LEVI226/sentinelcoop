@@ -1,0 +1,11 @@
+id,nom,type,agence,ppe,date_ouverture,scenario,rationale_activite
+C-1001,DIALLO Mamadou,habituel,Agence Centre,non,2022-01-10,filtrage_positif,Client agricole - depots reguliers
+C-1002,SAWADOGO Awa,occasionnel,Agence Centre,non,2024-03-02,temoin_neutre,Salariee - operations ponctuelles
+C-1003,OUEDRAOGO Salif,habituel,Agence Nord,oui,2020-06-15,ppe_multi_comptes,Elu local - comptes personnels et associatifs
+C-1004,KONE Fatimata,habituel,Agence Sud,non,2023-11-20,fractionnement_lbc,Commercante declaree - petit commerce vivrier
+C-1005,TRAORE Boureima,habituel,Agence Centre,non,2024-02-14,compte_rebond_lbc,Sans activite commerciale declaree
+C-1006,KABORE Alassane,habituel,Agence Ouest,non,2019-09-01,consolidation_multi_comptes_lbc,Transporteur - plusieurs comptes agence
+C-1007,ZONGO Ibrahim,habituel,Agence Nord,non,2021-05-05,collecte_fractionnee_ft,Sans activite commerciale declaree
+C-1008,SANA Hamidou,occasionnel,Agence Sud,non,2025-07-01,activation_dispersion_ft,Compte peu actif depuis ouverture
+C-1009,OUATTARA Salamata,habituel,Agence Centre,non,2018-01-01,temoin_faux_positif_volume,Grossiste vivrier - marche de Ouagadougou
+C-1010,SAWADOGO Amidou,occasionnel,Agence Ouest,non,2025-02-10,temoin_similarite_nom,Etudiant - operations occasionnelles
