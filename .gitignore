@@ -5,3 +5,7 @@ PYP-Hamada-master/
 *.docx
 __pycache__/
 *.pyc
+
+# Script d'audit des branches (sync_github.sh)
+.sync-travail/
+RAPPORT_SYNTHESE_BRANCHES.md
