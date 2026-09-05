@@ -1,0 +1,7 @@
+graphify-out/
+mifosplatform-25.03.22.RELEASE/
+PYP-Hamada-master/
+*.pdf
+*.docx
+__pycache__/
+*.pyc

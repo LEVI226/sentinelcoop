@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SentinelleCoop - Demo CIF</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!--
+  THESIS: SentinelleCoop is a branch-work compliance cockpit, not a generic AML landing page; it refuses the pitch-deck hero and opens on work in progress.
+  OWN-WORLD: Dense cooperative operations UI, ink-on-paper clarity, measured green and amber status language, compact controls, tabular confidence.
+  STORY: A jury sees a name screened offline, a suspicious pattern detected, a compliance decision recorded and a report prepared.
+  FIRST VIEWPORT: Left rail navigation, top status strip, active screening workspace, evidence column with benchmark and list freshness.
+  FORM: Code-led operational dashboard; seed key manual-2026-cif-demo.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
+  <div class="app-shell">
+    <aside class="rail" aria-label="Navigation principale">
+      <div class="brand-mark" aria-hidden="true">SC</div>
+      <div>
+        <h1>SentinelleCoop</h1>
+        <p>Controle LBC/FT/FP local pour cooperative financiere</p>
+      </div>
+      <nav class="tabs" aria-label="Sections demo">
+        <button class="tab is-active" data-view="screening" title="Filtrer un client" aria-controls="screening" aria-selected="true">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="m16 16 4 4"></path></svg><span>Filtrage</span>
+        </button>
+        <button class="tab" data-view="transactions" title="Analyser les transactions" aria-controls="transactions" aria-selected="false">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h14m0 0-3-3m3 3-3 3M20 17H6m0 0 3-3m-3 3 3 3"></path></svg><span>Transactions</span>
+        </button>
+        <button class="tab" data-view="alerts" title="Revoir les alertes" aria-controls="alerts" aria-selected="false">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 20h18L12 3Z"></path><path d="M12 9v5m0 3h.01"></path></svg><span>Alertes</span>
+        </button>
+        <button class="tab" data-view="audit" title="Voir la piste audit" aria-controls="audit" aria-selected="false">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10"></path></svg><span>Audit</span>
+        </button>
+      </nav>
+      <div class="rail-note">
+        <strong>Mode demo</strong>
+        <span>Donnees clients simulees. Moteur Python existant: benchmark ONU joint.</span>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <section class="status-strip" aria-label="Etat du systeme">
+        <div>
+          <span class="label">Referentiel ONU</span>
+          <strong id="freshness">synchronise il y a 4 min</strong>
+        </div>
+        <div>
+          <span class="label">Execution</span>
+          <strong>hors-ligne possible</strong>
+        </div>
+        <div>
+          <span class="label">Dernier filtrage</span>
+          <strong>520 ms</strong>
+        </div>
+        <div>
+          <span class="label">Rappel WAPE</span>
+          <strong>94,9% bloquant</strong>
+        </div>
+      </section>
+
+      <section class="view is-visible" id="screening">
+        <div class="view-header">
+          <div>
+            <h2>Filtrer un client avant entree en relation</h2>
+            <p>Saisir une variante de nom ouest-africain et produire une decision exploitable au guichet.</p>
+          </div>
+          <button id="runDemo" class="primary-btn">Lancer le cas jury</button>
+        </div>
+
+        <div class="screening-grid">
+          <form id="screenForm" class="panel control-panel">
+            <label>
+              Nom complet
+              <input id="clientName" value="Djallo Mamadou" autocomplete="off" required minlength="2">
+            </label>
+            <label>
+              Type de client
+              <select id="clientType">
+                <option>Client habituel</option>
+                <option>Client occasionnel</option>
+                <option>Personne politiquement exposee</option>
+              </select>
+            </label>
+            <label>
+              Agence
+              <select id="agency">
+                <option>Ouagadougou - Gounghin</option>
+                <option>Bobo-Dioulasso</option>
+                <option>Koudougou</option>
+              </select>
+            </label>
+            <button class="primary-btn" type="submit">Filtrer maintenant</button>
+          </form>
+
+          <article class="panel result-panel" id="screenResult" aria-live="polite"></article>
+
+          <aside class="panel evidence-panel">
+            <h3>Preuve a montrer</h3>
+            <dl>
+              <div><dt>Soundex strict</dt><dd>67,7% de detection</dd></div>
+              <div><dt>WAPE informatif</dt><dd>99,0% de detection</dd></div>
+              <div><dt>Palatalisation</dt><dd>Diallo / Jallo / Djallo: 100%</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="transactions">
+        <div class="view-header">
+          <div>
+            <h2>Consolider les comptes et detecter le fractionnement</h2>
+            <p>Un client, plusieurs comptes, plusieurs petites operations: la loi demande le cumul.</p>
+          </div>
+          <button id="analyzeTransactions" class="primary-btn">Analyser</button>
+        </div>
+        <div class="panel table-panel">
+          <table>
+            <thead>
+              <tr><th>Client</th><th>Comptes</th><th>Solde global</th><th>Cumul 7 jours</th><th>Signal</th></tr>
+            </thead>
+            <tbody id="transactionRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="alerts">
+        <div class="view-header">
+          <div>
+            <h2>File de revue conformite</h2>
+            <p>Chaque decision est motivee, horodatee et conservee dans la piste d'audit.</p>
+          </div>
+        </div>
+        <div id="alertList" class="alert-list"></div>
+      </section>
+
+      <section class="view" id="audit">
+        <div class="view-header">
+          <div>
+            <h2>Audit et rapport</h2>
+            <p>Transformer une alerte en preuve: source, age de liste, motif, decision et rapport.</p>
+          </div>
+          <button id="exportReport" class="primary-btn">Télécharger le rapport</button>
+        </div>
+        <div class="audit-layout">
+          <div class="panel audit-card">
+            <h3>Etat referentiel</h3>
+            <p><strong>ONU:</strong> liste consolidee, age demo 4 minutes.</p>
+            <p><strong>Mode:</strong> local, aucune requete reseau pendant le filtrage.</p>
+            <p><strong>Dernier correctif:</strong> applique et journalise.</p>
+          </div>
+          <div class="panel audit-card">
+            <h3>Journal</h3>
+            <ol id="auditLog"></ol>
+          </div>
+          <pre id="reportBox" class="report-box" aria-live="polite"></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
