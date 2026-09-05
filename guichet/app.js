@@ -21,7 +21,14 @@
     alertes: [],
     journal: [],
     dernierFiltrage: null,
+    degrade: false,
   };
+
+  // Au-dela de ce nombre de jours sans synchronisation, le referentiel est
+  // considere perime : le filtrage continue (jamais bloquant sur ce point),
+  // mais l'indicateur de fraicheur passe en alerte visuelle (art. 89 — ne
+  // jamais laisser croire qu'une liste perimee est a jour).
+  const SEUIL_PERIME_JOURS = 7;
 
   function escapeHTML(value) {
     return String(value)
@@ -48,9 +55,22 @@
   // ---- Chargement des donnees ----------------------------------------------
 
   async function charger() {
-    const reponse = await fetch("../data/verdicts_demo.json");
-    if (!reponse.ok) throw new Error(`HTTP ${reponse.status}`);
-    state.data = await reponse.json();
+    try {
+      const reponse = await fetch("../data/verdicts_demo.json");
+      if (!reponse.ok) throw new Error(`HTTP ${reponse.status}`);
+      state.data = await reponse.json();
+      state.degrade = false;
+    } catch (erreurReseau) {
+      // Mode degrade maximal : pas de serveur, page ouverte en file://, ou
+      // reseau indisponible. On retombe sur la copie embarquee plutot que
+      // d'arreter le filtrage — donnees_secours.js est charge par une balise
+      // <script>, qui fonctionne en file:// contrairement a fetch().
+      if (typeof DONNEES_SECOURS_SENTINELLECOOP === "undefined") {
+        throw erreurReseau;
+      }
+      state.data = DONNEES_SECOURS_SENTINELLECOOP;
+      state.degrade = true;
+    }
     state.index = new Index(state.data.referentiel);
 
     for (const client of state.data.clients) {
@@ -66,26 +86,43 @@
       }
     }
 
+    document.querySelector("#banniereDegrade").hidden = !state.degrade;
+
     renderStatus();
     renderAudit();
     renderTransactions();
     renderAlertes();
-    ajouterJournal("Référentiel chargé, portefeuille analysé.");
+    ajouterJournal(
+      state.degrade
+        ? "Référentiel de secours chargé (mode dégradé, pas de connexion au serveur local)."
+        : "Référentiel chargé, portefeuille analysé."
+    );
   }
 
   // ---- Statut / audit --------------------------------------------------------
 
   function renderStatus() {
     const genere = state.data.genere_le;
+    const elementFraicheur = document.querySelector("#statusFraicheur");
+    const elementSource = document.querySelector("#statusSource");
+
     let texte = "date inconnue";
+    let perime = false;
     if (genere) {
       const dt = new Date(genere);
       const heures = (Date.now() - dt.getTime()) / 3_600_000;
+      perime = heures / 24 >= SEUIL_PERIME_JOURS;
       texte = heures < 48 && heures >= 0
         ? `synchronisé il y a ${heures.toFixed(1)} h`
         : `synchronisé le ${dt.toLocaleDateString("fr-FR")}`;
+      if (perime) texte += " — périmé";
     }
-    document.querySelector("#statusFraicheur").textContent = texte;
+    elementFraicheur.textContent = texte;
+    elementFraicheur.classList.toggle("perime", perime && !state.degrade);
+    elementFraicheur.classList.toggle("degrade", state.degrade);
+
+    elementSource.textContent = state.degrade ? "secours local (dégradé)" : "serveur local, hors-ligne";
+    elementSource.classList.toggle("degrade", state.degrade);
   }
 
   function renderAudit() {
@@ -95,6 +132,9 @@
       state.data.seuils.bloquant.toFixed(2);
     document.querySelector("#auditSeuilInformatif").textContent =
       state.data.seuils.informatif.toFixed(2);
+    document.querySelector("#auditMode").textContent = state.degrade
+      ? "dégradé — référentiel de secours embarqué, aucune requête réseau"
+      : "connecté au serveur local, aucune requête réseau externe";
     renderJournal();
   }
 

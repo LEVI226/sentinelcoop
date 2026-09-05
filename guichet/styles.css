@@ -106,6 +106,18 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 .status-item { display: flex; flex-direction: column; font-size: 0.78rem; }
 .status-label { color: #9fabc0; }
 .status-item strong { font-family: var(--mono); font-size: 0.84rem; }
+.status-item strong.perime { color: var(--amber); }
+.status-item strong.degrade { color: #f2c94c; }
+
+.banniere-degrade {
+  background: var(--amber-tint);
+  color: var(--amber);
+  border-bottom: 1px solid #e4c778;
+  padding: 8px 20px;
+  font-size: 0.86rem;
+  font-weight: 650;
+  text-align: center;
+}
 
 /* ---- Zone principale ----------------------------------------------------- */
 

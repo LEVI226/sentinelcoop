@@ -26,9 +26,13 @@
 
       <div class="status" id="statusBar">
         <span class="status-item"><span class="status-label">Référentiel</span><strong id="statusFraicheur">—</strong></span>
-        <span class="status-item"><span class="status-label">Exécution</span><strong>locale, hors-ligne</strong></span>
+        <span class="status-item"><span class="status-label">Source</span><strong id="statusSource">locale, hors-ligne</strong></span>
       </div>
     </header>
+
+    <div class="banniere-degrade" id="banniereDegrade" role="status" hidden>
+      Mode dégradé — référentiel de secours embarqué, non synchronisé. Le filtrage reste actif ; vérifier la connexion dès que possible.
+    </div>
 
     <main>
       <section role="tabpanel" id="panel-filtrage" aria-labelledby="tab-filtrage" tabindex="0">
@@ -98,7 +102,7 @@
               <div><dt>Liste ONU</dt><dd id="auditListe">—</dd></div>
               <div><dt>Seuil bloquant</dt><dd id="auditSeuilBloquant">—</dd></div>
               <div><dt>Seuil informatif</dt><dd id="auditSeuilInformatif">—</dd></div>
-              <div><dt>Mode</dt><dd>local, aucune requête réseau pendant le filtrage</dd></div>
+              <div><dt>Mode</dt><dd id="auditMode">—</dd></div>
             </dl>
           </div>
 
@@ -119,6 +123,7 @@
     </main>
   </div>
 
+  <script src="donnees_secours.js"></script>
   <script src="moteur.js"></script>
   <script src="app.js"></script>
 </body>
