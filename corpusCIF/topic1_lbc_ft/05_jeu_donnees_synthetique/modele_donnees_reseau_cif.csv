@@ -1,0 +1,54 @@
+table,champ,type,obligatoire,description,exemple,visibilite
+caisse,caisse_id,string,oui,Identifiant de caisse ou agence,CAISSE_DORI,reseau
+caisse,nom_caisse,string,oui,Nom de la caisse,Dori,reseau
+caisse,ville,string,oui,Ville de rattachement,Dori,reseau
+caisse,pays,string,oui,Pays,Burkina Faso,reseau
+caisse,niveau_risque_zone,enum,oui,vert orange rouge,rouge,reseau
+caisse,seuil_depot_justificatif,decimal,oui,Seuil local demandant justificatif,500000,conformite
+caisse,seuil_retrait_justificatif,decimal,oui,Seuil local demandant justificatif,500000,conformite
+client,global_client_id,string,oui,Identifiant pseudonymise reseau,GCLI_001,reseau_limite
+client,local_client_id,string,oui,Identifiant client dans la caisse,LCLI_DORI_001,caisse
+client,type_client,enum,oui,personne_physique ou personne_morale,personne_physique,caisse
+client,nom_normalise,string,oui,Nom fictif normalise,KABORE AMADOU,caisse
+client,date_naissance,date,non,Date fictive de naissance,1984-03-18,caisse
+client,nationalite,string,non,Nationalite fictive,Burkina Faso,caisse
+client,activite,string,oui,Activite declaree,commerce betail,caisse
+client,beneficiaire_effectif,string,si morale,Beneficiaire effectif fictif,BE_001,conformite
+client,statut_ppe,boolean,oui,Indicateur PPE simule,false,conformite
+client,score_risque_client,integer,oui,Score KYC 0 a 100,65,conformite
+piece_identite,piece_id,string,oui,Identifiant piece fictive,PID_001,caisse
+piece_identite,type_piece,enum,oui,CNIB passeport RCCM,CNIB,caisse
+piece_identite,date_expiration,date,oui,Date expiration fictive,2027-12-31,caisse
+piece_identite,statut_validite,enum,oui,valide expiree incoherente,valide,caisse
+compte,compte_id,string,oui,Identifiant compte,CPT_001,caisse
+compte,global_client_id,string,oui,Lien client reseau,GCLI_001,reseau_limite
+compte,caisse_id,string,oui,Caisse detentrice,CAISSE_DORI,reseau
+compte,type_produit,enum,oui,epargne depot credit tontine mobile,epargne,caisse
+compte,solde,decimal,oui,Solde courant,125000,caisse
+compte,date_ouverture,date,oui,Date ouverture,2026-09-05,caisse
+mandat,mandat_id,string,oui,Identifiant procuration,MAND_001,caisse
+mandat,client_id,string,oui,Titulaire du compte,GCLI_001,caisse
+mandat,mandataire_id,string,oui,Tiers autorise,MANDATAIRE_001,caisse
+mandat,date_debut,date,oui,Debut validite,2026-09-01,caisse
+mandat,date_fin,date,oui,Fin validite,2026-10-01,caisse
+mandat,plafond,decimal,oui,Plafond retrait autorise,300000,caisse
+operation,operation_id,string,oui,Identifiant operation,OP_001,caisse
+operation,caisse_id,string,oui,Caisse de realisation,CAISSE_DORI,caisse
+operation,compte_id,string,oui,Compte concerne,CPT_001,caisse
+operation,type_operation,enum,oui,depot retrait ouverture retrait_procuration virement,depot,caisse
+operation,montant,decimal,oui,Montant operation,250000,caisse
+operation,date_operation,datetime,oui,Horodatage,2026-09-05T10:30:00,caisse
+operation,motif,string,oui,Motif declare,vente betail,caisse
+operation,origine_fonds,string,selon seuil,Origine fonds declaree,recette commerce,caisse
+operation,justificatif_id,string,selon seuil,Reference justificatif,JUS_001,conformite
+operation,canal,enum,oui,guichet mobile agent virement,guichet,caisse
+alerte,alerte_id,string,oui,Identifiant alerte,ALT_001,conformite
+alerte,type_alerte,enum,oui,sanction ppe cnib seuil fractionnement inhabituel procuration zone,sanction,conformite
+alerte,niveau,enum,oui,informatif bloquant,bloquant,caisse
+alerte,score,integer,oui,Score 0 a 100,92,conformite
+alerte,statut,enum,oui,nouvelle revue faux_positif escalade cloturee,nouvelle,conformite
+alerte,decision,string,non,Decision humaine,escalade CENTIF,conformite
+audit,audit_id,string,oui,Identifiant journal,AUD_001,audit
+audit,acteur_role,string,oui,Role utilisateur,agent_caisse,audit
+audit,action,string,oui,Action realisee,creation_operation,audit
+audit,horodatage,datetime,oui,Date action,2026-09-05T10:31:00,audit

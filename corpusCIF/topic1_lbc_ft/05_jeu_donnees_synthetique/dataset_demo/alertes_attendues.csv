@@ -1,0 +1,11 @@
+alerte_id,operation_id,global_client_id,type_alerte,niveau,score,motif,statut
+ALT_001,OP_001,GCLI_001,sanction,bloquant,96,Correspondance forte avec liste sanction synthetique,nouvelle
+ALT_002,OP_003,GCLI_001,fractionnement,informatif,82,Trois depots sous seuil dans la meme journee a Dori,nouvelle
+ALT_003,OP_004,GCLI_001,multi_comptes,informatif,76,"Client avec comptes dans Dori et Banfora, solde global eleve",nouvelle
+ALT_004,OP_005,GCLI_002,procuration,bloquant,91,Mandat expire pour retrait par procuration,nouvelle
+ALT_005,OP_005,GCLI_002,cnib,bloquant,88,Piece client expiree,nouvelle
+ALT_006,OP_006,GCLI_003,sanction,bloquant,93,Alias JALLO/DIALLO detecte,nouvelle
+ALT_007,OP_007,GCLI_004,ppe,informatif,70,"Client PPE, vigilance renforcee",nouvelle
+ALT_008,OP_008,GCLI_006,personne_morale,informatif,73,Beneficiaire effectif PPE,nouvelle
+ALT_009,OP_009,GCLI_008,zone,informatif,85,Retrait eleve en zone rouge avec motif orpaillage,nouvelle
+ALT_010,OP_009,GCLI_008,sanction,bloquant,90,Alias OUMAR MAIGA proche liste sanction,nouvelle

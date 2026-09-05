@@ -1,0 +1,4 @@
+beneficiaire_id,global_client_id,nom,date_naissance,part_detention,statut_ppe
+BE_001,GCLI_006,TRAORE ADAMA,1975-04-18,60,false
+BE_002,GCLI_006,SANKARA MARIAM,1980-09-12,40,true
+BE_003,GCLI_007,HOUNTONJI PAUL,1972-06-20,0,false

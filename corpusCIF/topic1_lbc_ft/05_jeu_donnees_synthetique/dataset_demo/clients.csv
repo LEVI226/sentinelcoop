@@ -1,0 +1,9 @@
+global_client_id,local_client_id,caisse_origine,type_client,nom,alias,date_naissance,nationalite,activite,statut_ppe,score_risque_initial
+GCLI_001,DOR_0001,CAISSE_DORI,personne_physique,KABORE AMADOU,KABRE AMADOU,1984-03-18,Burkina Faso,commerce betail,false,68
+GCLI_002,BAN_0001,CAISSE_BANFORA,personne_physique,OUEDRAOGO SALIFOU,WEDRAOGO SALIF,1979-11-02,Burkina Faso,transport,false,35
+GCLI_003,OUA_0001,CAISSE_OUAGA,personne_physique,DIALLO MAMADOU,JALLO MAMADOU,1990-05-14,Mali,transfert marchandises,false,62
+GCLI_004,DOR_0002,CAISSE_DORI,personne_physique,SAWADOGO FATIMATA,,1993-07-09,Burkina Faso,petit commerce,true,72
+GCLI_005,BAN_0002,CAISSE_BANFORA,personne_physique,NIKIEMA ALI,,1988-01-22,Burkina Faso,agriculture,false,28
+GCLI_006,OUA_0002,CAISSE_OUAGA,personne_morale,SOCIETE SAHEL TRADING,SAHEL TRADING SARL,,Burkina Faso,import export,false,70
+GCLI_007,COT_0001,CAISSE_COTONOU,personne_morale,ONG SOLIDARITE FRONTIERE,OSF BENIN,,Benin,association humanitaire,false,64
+GCLI_008,DOR_0003,CAISSE_DORI,personne_physique,MAIGA OUSMANE,OUMAR MAIGA,1981-09-30,Mali,orpaillage,false,78

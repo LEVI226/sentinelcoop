@@ -1,0 +1,6 @@
+liste_id,type_liste,nom,alias,pays,date_naissance,criticite,source
+WL_001,sanction,KABRE AMADOU,KABORE AMADOU,Burkina Faso,1984-03-18,haute,synthetique_demo
+WL_002,ppe,SAWADOGO FATIMATA,,Burkina Faso,1993-07-09,moyenne,synthetique_demo
+WL_003,sanction,DIALLO MAMADOU,JALLO MAMADOU,Mali,1990-05-14,haute,synthetique_demo
+WL_004,ppe,SANKARA MARIAM,,Burkina Faso,1980-09-12,moyenne,synthetique_demo
+WL_005,sanction,MAIGA OUMAR,OUMAR MAIGA,Mali,1981-09-30,haute,synthetique_demo

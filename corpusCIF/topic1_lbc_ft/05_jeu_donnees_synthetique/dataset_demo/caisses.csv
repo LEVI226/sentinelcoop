@@ -1,0 +1,5 @@
+caisse_id,nom,ville,pays,zone_risque,seuil_depot,seuil_retrait,delai_revue_alerte_h,mode_connectivite
+CAISSE_DORI,Caisse populaire de Dori,Dori,Burkina Faso,rouge,500000,500000,4,intermittente
+CAISSE_BANFORA,Caisse populaire de Banfora,Banfora,Burkina Faso,verte,1000000,1000000,24,stable
+CAISSE_OUAGA,Caisse urbaine Ouagadougou,Ouagadougou,Burkina Faso,orange,750000,750000,8,stable
+CAISSE_COTONOU,Caisse partenaire Cotonou,Cotonou,Benin,verte,1200000,1200000,24,stable

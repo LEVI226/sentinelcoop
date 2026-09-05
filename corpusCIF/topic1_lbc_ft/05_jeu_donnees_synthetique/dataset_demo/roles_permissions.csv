@@ -1,0 +1,7 @@
+role,voir_client_local,voir_details_autres_caisses,creer_operation,traiter_alerte,modifier_seuil,exporter
+agent_caisse,oui,non,oui,non,non,non
+chef_caisse,oui,non,oui,limite,non,non
+conformite_caisse,oui,indicateurs,non,oui,non,oui
+conformite_reseau,pseudonymise,oui_selon_besoin,non,oui,non,oui
+admin,non,non,non,non,oui,non
+auditeur,selon_mission,selon_mission,non,non,non,oui

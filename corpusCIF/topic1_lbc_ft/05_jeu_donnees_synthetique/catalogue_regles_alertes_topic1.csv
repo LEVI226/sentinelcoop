@@ -1,0 +1,16 @@
+code_regle,famille,description,niveau_base,donnees_utilisees,exemple_declenchement,action_attendue
+R001,sanctions,Correspondance forte client avec liste de sanctions,bloquant,nom alias date_naissance pays,Score matching superieur a 90,Bloquer et revue conformite
+R002,sanctions,Correspondance moyenne ou homonymie,informatif,nom alias date_naissance pays,Nom proche mais date differente,Revue conformite et justification faux positif
+R003,ppe,Client ou beneficiaire effectif PPE,informatif,statut_ppe fonction pays,Client marque PPE,Revue renforcee
+R004,cnib,Piece expiree ou invalide,bloquant,type_piece date_expiration,Date expiration depassee,Bloquer ouverture ou retrait
+R005,seuil,Depot au-dessus du seuil local,informatif,montant caisse seuil_depot,Depot 700000 a Dori seuil 500000,Demander origine des fonds
+R006,seuil,Retrait au-dessus du seuil local,informatif,montant caisse seuil_retrait,Retrait 900000 a caisse orange,Demander motif et justificatif
+R007,fractionnement,Plusieurs depots sous seuil sur courte periode,informatif,cumul operations periode,4 depots de 240000 en 48h,Revue conformite
+R008,multi_comptes,Solde global eleve sur plusieurs caisses,informatif,global_client_id soldes comptes,Solde cumule superieur seuil reseau,Revue reseau
+R009,zone,Operation en zone rouge avec espece,informatif,caisse zone canal montant,Depot espece a Dori,Revue selon seuil abaisse
+R010,procuration,Retrait par procuration expiree,bloquant,mandat date_fin montant,Retrait apres fin mandat,Bloquer operation
+R011,procuration,Mandataire lie a plusieurs clients,informatif,mandataire_id nombre_clients,Un mandataire pour 5 clients,Revue conformite
+R012,inhabituel,Montant inhabituel par rapport au profil,informatif,historique montant activite,Montant 10 fois mediane client,Demander justification
+R013,produit,Flux incoherent avec produit ou activite,informatif,type_produit activite montant,Compte epargne recevant flux commercial massif,Revue
+R014,liste_obsolete,Listes sanctions non mises a jour,bloquant,version_liste date_maj,Date maj depassee,Bloquer filtrage critique ou alerter admin
+R015,personne_morale,Beneficiaire effectif manquant,bloquant,type_client beneficiaire_effectif,Societe sans BE,Bloquer ouverture

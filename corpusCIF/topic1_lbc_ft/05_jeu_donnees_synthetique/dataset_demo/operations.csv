@@ -1,0 +1,11 @@
+operation_id,date_operation,caisse_id,compte_id,type_operation,montant,canal,motif,origine_fonds,justificatif_id,mandat_id
+OP_001,2026-09-05T08:30:00,CAISSE_DORI,CPT_DOR_001,depot,240000,guichet,vente betail,recette marche,,
+OP_002,2026-09-05T10:15:00,CAISSE_DORI,CPT_DOR_001,depot,245000,guichet,vente betail,recette marche,,
+OP_003,2026-09-05T15:40:00,CAISSE_DORI,CPT_DOR_001,depot,230000,guichet,vente betail,recette marche,,
+OP_004,2026-09-06T09:00:00,CAISSE_BANFORA,CPT_BAN_001,depot,980000,guichet,commerce,non renseignee,,
+OP_005,2026-09-06T11:20:00,CAISSE_BANFORA,CPT_BAN_002,retrait_procuration,250000,guichet,depense familiale,,FORM_RET_002,MAND_002
+OP_006,2026-09-06T13:10:00,CAISSE_OUAGA,CPT_OUA_001,virement,600000,mobile,achat marchandises,activite commerciale,JUS_006,
+OP_007,2026-09-06T14:00:00,CAISSE_DORI,CPT_DOR_002,ouverture_compte,20000,guichet,adhesion,epargne personnelle,,
+OP_008,2026-09-07T09:30:00,CAISSE_OUAGA,CPT_OUA_002,depot,1500000,virement,contrat import,client entreprise,JUS_008,
+OP_009,2026-09-07T10:45:00,CAISSE_DORI,CPT_DOR_003,retrait,900000,guichet,achat or,,,
+OP_010,2026-09-07T16:00:00,CAISSE_COTONOU,CPT_COT_001,depot,1100000,guichet,don projet,bailleur fictif,JUS_010,

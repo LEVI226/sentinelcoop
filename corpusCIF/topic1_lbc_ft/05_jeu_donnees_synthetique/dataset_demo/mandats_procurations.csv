@@ -1,0 +1,4 @@
+mandat_id,global_client_id,mandataire_nom,mandataire_piece,date_debut,date_fin,plafond,statut
+MAND_001,GCLI_001,KABORE ISSA,CNIB-MAND-001,2026-09-01,2026-09-30,300000,valide
+MAND_002,GCLI_002,SOME PAUL,CNIB-MAND-002,2026-08-01,2026-09-01,200000,expire
+MAND_003,GCLI_008,SOME PAUL,CNIB-MAND-002,2026-09-01,2026-12-31,500000,valide

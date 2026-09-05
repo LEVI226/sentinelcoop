@@ -1,0 +1,25 @@
+couche,option,score_hackathon,score_production,legerete,interoperabilite,risque,decision
+frontend,React + Vite + TypeScript,5,4,4,4,Equipe doit connaitre React,Recommande MVP
+frontend,HTML CSS JavaScript pur,4,2,5,3,Maintenance plus difficile si app grandit,Possible si equipe veut zero dependance
+frontend,Angular,2,4,2,4,Trop lourd pour 72h,Non recommande MVP
+backend,FastAPI Python,5,4,4,5,Discipline necessaire sur structure projet,Recommande
+backend,Node Express,4,3,4,5,Moins naturel pour reutiliser sentinellecoop,Alternative
+backend,Spring Boot,2,5,2,5,Trop lourd pour hackathon,Option production
+base_locale,SQLite,5,3,5,3,Concurrence limitee,Recommande MVP et caisse legere
+base_centrale,PostgreSQL,3,5,3,5,Administration requise,Recommande cible
+cache,Redis,2,5,3,4,Non necessaire au MVP,Production seulement
+messagerie,RabbitMQ,2,4,3,4,Complexite operationnelle,Production pilote
+messagerie,Kafka ou Redpanda,1,5,2,5,Trop lourd MVP,Production grand volume
+auth,JWT demo local,5,2,5,3,Securite limitee,Recommande demo
+auth,Keycloak,2,5,3,5,Setup trop long MVP,Production
+deploiement,Localhost,5,1,5,2,Pas multi-utilisateur reel,Recommande demo
+deploiement,Docker Compose,4,4,4,4,Temps packaging,Recommande si equipe maitrise
+deploiement,Kubernetes,1,5,1,5,Trop lourd hackathon,Production seulement
+sync,JSON batch,5,3,5,4,Pas temps reel complet,Recommande MVP
+sync,REST API,4,5,4,5,Necessite contrats stables,Recommande
+sync,Event streaming,1,5,2,5,Trop complexe 72h,Production
+matching,WAPE + similarite,5,4,5,3,Doit expliquer faux positifs,Recommande
+matching,IA/LLM,2,3,1,2,Opaquite et dependance reseau,Non recommande coeur MVP
+reporting,CSV export,5,3,5,5,Peu sophistique,Recommande MVP
+observabilite,Logs applicatifs simples,5,3,5,3,Suffisant demo,Recommande MVP
+observabilite,OpenTelemetry Prometheus Grafana,1,5,2,4,Trop lourd MVP,Production
