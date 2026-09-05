@@ -79,3 +79,32 @@ construit pour que les deux échecs soient visibles si le calibrage est mauvais.
 - Ce dataset ne remplace pas `variantes_noms_ao.csv` (99 paires, déjà utilisé par
   `benchmark.py` pour mesurer le moteur M2) : les deux sont complémentaires, l'un teste le nom,
   l'autre teste le comportement transactionnel.
+
+## Résultat de la première exécution connectée au moteur (`verifier_dataset.py`)
+
+Constat mesuré, à traiter avant la démo : **le moteur M3/M4 (fractionnement, compte rebond,
+consolidation, collecte fractionnée FT, activation-dispersion, PPE) obtient 6/6 sur tous les
+scénarios où il est seul en cause — aucune détection en trop, aucune détection manquée.** En
+revanche, seuls 3 clients sur 10 obtiennent le verdict global exactement attendu, parce que le
+filtrage nominal (M2) déclenche une alerte informative en trop sur la plupart des témoins qui ne
+devraient rien déclencher (`C-1002`, `C-1003`, `C-1004`, `C-1005`, `C-1006`, `C-1008`, `C-1010`).
+
+**Le mécanisme.** `benchmark.py` mesure le bruit sur des paires *un nom contre un seul autre nom
+principal* (0,5 % de faux positifs annoncé au §3.1 de la note de présentation). Mais
+`Index.filtrer()`, en usage réel, compare un nom saisi au guichet contre le nom **et tous les
+alias** de chacune des 1011 entrées du référentiel ONU — soit près de 3800 chaînes candidates par
+client filtré. Un taux de faux positifs de 0,5 % mesuré par paire ne se traduit pas par 0,5 % de
+clients faussement alertés une fois multiplié par ~3800 candidats : c'est ce que cette exécution
+montre concrètement.
+
+**Ce que ce n'est pas.** Ce n'est pas un bug dans les détections ajoutées pour ce dataset
+(M3/M4/PPE) : chacune s'est comportée exactement comme prévu, y compris sur les témoins prévus
+pour ne rien déclencher (`C-1009`, gros volumes légitimes). C'est un écart entre la façon dont le
+bruit de M2 a été mesuré et la façon dont M2 est réellement utilisé au moment du filtrage.
+
+**Décision à prendre en équipe, pas ici** — plusieurs pistes, non mutuellement exclusives :
+relever `SEUIL_INFORMATIF` dans `matcher.py` et mesurer à nouveau ; exiger un écart de score entre
+le meilleur et le second-meilleur candidat avant de déclencher l'alerte ; ou accepter le
+comportement actuel si l'objectif reste que l'agent dispose d'une file de revue peu coûteuse à
+traiter (l'alerte informative n'est jamais bloquante). Ne pas relever le seuil sans avoir
+re-exécuté `benchmark.py` pour vérifier que le rappel sur `variantes_noms_ao.csv` reste correct.
