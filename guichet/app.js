@@ -178,6 +178,20 @@
     const nom = nomBrut.trim();
     if (nom.length < 2) {
       zone.innerHTML = '<p class="etat-vide">En attente de saisie…</p>';
+      state.dernierFiltrage = null;
+      return;
+    }
+
+    // Un seul jeton (prenom seul, nom de famille pas encore tape) n'est pas
+    // une requete de filtrage significative : avec un seul mot de chaque
+    // cote, une simple coincidence phonetique peut depasser le seuil
+    // bloquant faute d'un second jeton pour la contredire (mesure sur ce
+    // dataset : "Djallo" seul se rapproche a 96% d'un alias sans rapport).
+    // On attend un nom complet avant de lancer le rapprochement, plutot que
+    // d'afficher un verdict instable pendant la frappe.
+    if (jetons(nom).length < 2) {
+      zone.innerHTML = '<p class="etat-vide">Continuez la saisie — nom et prénom complets requis pour le filtrage.</p>';
+      state.dernierFiltrage = null;
       return;
     }
 
