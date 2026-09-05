@@ -31,6 +31,7 @@ OpenSearch « wazuh-alerts-* » ──► Dashboard
 | `query_alerts.py` | Lecture des alertes depuis OpenSearch (préfixes modifiables) |
 | `liste-sanctions-onu.md` | Sources officielles (ONU, BCEAO, GIABA) + mapping de règles |
 | `surveillance-equipe.md` | **Synthèse consolidée des branches de l'équipe** (topologie, apports, écarts, sujets SIEM) |
+| `contraintes-modele-leger.md` | **Audit du respect du cahier des charges modèle léger** (ressources, online+offline, rapidité, connexion ≤ 512 Ko) |
 | `sync_github.sh` | Audit reproductible des branches distantes (génère le rapport de synthèse `RAPPORT_SYNTHESE_BRANCHES.md`) |
 
 ## Règles CIF (1004xx) — correspondance
