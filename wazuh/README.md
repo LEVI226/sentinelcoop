@@ -30,6 +30,8 @@ OpenSearch « wazuh-alerts-* » ──► Dashboard
 | `demo_soc.sh` | Émission syslog des **19 scénarios SOC** (100410–100428) |
 | `query_alerts.py` | Lecture des alertes depuis OpenSearch (préfixes modifiables) |
 | `liste-sanctions-onu.md` | Sources officielles (ONU, BCEAO, GIABA) + mapping de règles |
+| `surveillance-equipe.md` | **Synthèse consolidée des branches de l'équipe** (topologie, apports, écarts, sujets SIEM) |
+| `sync_github.sh` | Audit reproductible des branches distantes (génère le rapport de synthèse `RAPPORT_SYNTHESE_BRANCHES.md`) |
 
 ## Règles CIF (1004xx) — correspondance
 
