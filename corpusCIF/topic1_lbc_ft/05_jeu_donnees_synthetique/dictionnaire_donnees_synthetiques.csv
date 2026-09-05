@@ -1,0 +1,21 @@
+champ,type,description,exemple,source,usage_topic1
+client_id,string,Identifiant technique non nominatif,C001,synthetique,Aucune donnee reelle
+nom_normalise,string,Nom fictif normalise pour filtrage,KABORE AMADOU,synthetique,Tester homonymies
+alias,string,Variante orthographique ou translitteration,KABORE AMADOU O.,synthetique,Tester fuzzy matching
+date_naissance,date,Date fictive de naissance,1984-03-18,synthetique,Score de rapprochement
+pays_residence,string,Pays UEMOA ou autre,Burkina Faso,synthetique/public,Risque pays
+type_client,enum,"Personne physique, morale, occasionnel",personne_physique,synthetique,Segmentation KYC
+statut_ppe,boolean,Indicateur PPE simule,false,synthetique,Filtrage PPE
+score_kyc,integer,Score de risque client 0-100,35,calcule,Justifier les regles
+compte_id,string,Identifiant de compte,A1001,synthetique,Multi-comptes
+solde_compte,decimal,Solde courant du compte,125000,synthetique,Solde global client
+transaction_id,string,Identifiant operation,T00001,synthetique,Audit trail
+date_operation,datetime,Date et heure de l'operation,2026-09-05T10:15:00,synthetique,Chronologie
+montant,decimal,Montant de l'operation,950000,synthetique,Seuils et cumul
+sens,enum,debit ou credit,credit,synthetique,Flux entrant/sortant
+canal,enum,"guichet, mobile, agent, virement",guichet,synthetique,Detection comportementale
+contrepartie_nom,string,Nom fictif de contrepartie,SOCIETE ALPHA,synthetique,Filtrage transaction
+motif,string,Libelle operation,Depot espece,synthetique,Scenarios suspects
+alerte_type,enum,"sanction, ppe, seuil, fractionnement, inhabituel",fractionnement,calcule,Qualification alerte
+alerte_niveau,enum,"informatif, bloquant",informatif,calcule,Workflow conformite
+decision_conformite,enum,"a_revoir, faux_positif, escalade, declaration",a_revoir,calcule/humain,Gouvernance

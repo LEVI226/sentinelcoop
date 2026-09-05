@@ -1,0 +1,20 @@
+[
+  {
+    "kind": "source",
+    "category": "briefing",
+    "source_path": "C:\\Users\\ulric\\Downloads\\Briefing_Regles_Candidats_Hackathons_CIF_2026-09-05-v2.0.pptx",
+    "clean_path": "C:\\Users\\ulric\\Documents\\cifHackathon\\corpusCIF\\topic1_lbc_ft\\00_briefing_hackathon\\Briefing_Regles_Candidats_Hackathons_CIF_2026-09-05-v2.0.pptx"
+  },
+  {
+    "kind": "source",
+    "category": "briefing",
+    "source_path": "C:\\Users\\ulric\\Downloads\\tdr-appel-a-candidatures-global-hackathon-cif-digicoop-wa-2026.pdf",
+    "clean_path": "C:\\Users\\ulric\\Documents\\cifHackathon\\corpusCIF\\topic1_lbc_ft\\00_briefing_hackathon\\tdr-appel-a-candidatures-global-hackathon-cif-digicoop-wa 26.pdf"
+  },
+  {
+    "kind": "source",
+    "category": "briefing",
+    "source_path": "C:\\Users\\ulric\\Downloads\\directive_no02_2015_cm_uemoa_lbc_ft-2.pdf",
+    "clean_path": "C:\\Users\\ulric\\Documents\\cifHackathon\\corpusCIF\\topic1_lbc_ft\\00_briefing_hackathon\\directive_no02_2015_cm_uemoa_lbc_ft-2.pdf"
+  }
+]
