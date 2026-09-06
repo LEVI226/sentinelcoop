@@ -158,3 +158,100 @@ def test_unauthorized_access_rejected():
     code, j = call("GET", "/dashboard/summary")
     assert code == 401
     assert j["success"] is False
+
+
+# ---------------------------------------------------------------------------
+# Postes de travail (superadmin) — CDC §5
+# ---------------------------------------------------------------------------
+def test_superadmin_creates_and_deletes_poste(token):
+    import uuid
+    code_poste = f"PTE-{uuid.uuid4().hex[:6].upper()}"
+    code, b = call("GET", "/branches", token=token)
+    assert code == 200 and b["data"]
+    branch_id = b["data"][0]["id"]
+    code, c = call("POST", "/postes", token=token,
+                   body={"code": code_poste, "name": "Guichet E2E", "branch_id": branch_id})
+    assert code == 200, c
+    poste_id = c["data"]["id"]
+    code, lst = call("GET", "/postes", token=token)
+    assert code == 200 and any(p["id"] == poste_id for p in lst["data"])
+    # Suppression (soft) — le poste est désactivé, le code reste réservé
+    code, d = call("DELETE", f"/postes/{poste_id}", token=token)
+    assert code == 200 and d["data"]["is_active"] is False
+    code, dup = call("POST", "/postes", token=token,
+                     body={"code": code_poste, "name": "Guichet", "branch_id": branch_id})
+    assert code in (409, 422)
+
+
+def test_agent_cannot_manage_postes():
+    code, login = call("POST", "/auth/login",
+                       body={"email": "agent1@cifguard.net", "password": "CIFGuard@2026"})
+    assert code == 200
+    code, _ = call("POST", "/postes", token=login["data"]["access_token"],
+                   body={"code": "PTE-X", "name": "X", "branch_id": 1})
+    assert code == 403
+
+
+def test_auditeur_cannot_manage_postes():
+    code, login = call("POST", "/auth/login",
+                       body={"email": "auditeur@cifguard.net", "password": "CIFGuard@2026"})
+    assert code == 200
+    code, _ = call("GET", "/postes", token=login["data"]["access_token"])
+    assert code == 403
+
+
+# ---------------------------------------------------------------------------
+# Réinitialisation de mot de passe (superadmin/admin)
+# ---------------------------------------------------------------------------
+def test_superadmin_reset_password(token):
+    import uuid
+    uname = f"e2e_reset_{uuid.uuid4().hex[:6]}"
+    email = f"{uname}@cifguard.net"
+    code, c = call("POST", "/users", token=token,
+                   body={"email": email, "username": uname,
+                         "first_name": "E2E", "last_name": "Reset",
+                         "role": "agent_caisse"})
+    assert code == 200, c
+    uid = c["data"]["id"]
+    code, r = call("POST", f"/users/{uid}/reset-password", token=token,
+                   body={"new_password": "NouveauMdp2026"})
+    assert code == 200, r
+    code, login = call("POST", "/auth/login",
+                       body={"email": email, "password": "NouveauMdp2026"})
+    assert code == 200, login
+
+
+def test_reset_password_weak_rejected(token):
+    code, u = call("GET", "/users", token=token)
+    assert code == 200 and u["data"]
+    uid = u["data"][0]["id"]
+    code, _ = call("POST", f"/users/{uid}/reset-password", token=token,
+                   body={"new_password": "short"})
+    assert code == 422  # min_length=8 (validation pydantic)
+
+
+# ---------------------------------------------------------------------------
+# Journaux d'audit : non supprimables, conservation configurable
+# ---------------------------------------------------------------------------
+def test_audit_logs_are_not_deletable(token):
+    code, lst = call("GET", "/audit", token=token)
+    assert code == 200 and lst["data"]
+    log_id = lst["data"][0]["id"]
+    code, _ = call("DELETE", f"/audit/{log_id}", token=token)
+    assert code in (404, 405)  # aucun endpoint de suppression n'existe
+
+
+def test_settings_include_retention_days(token):
+    code, j = call("GET", "/settings", token=token)
+    assert code == 200
+    assert "audit_log_retention_days" in j["data"]
+
+
+def test_superadmin_configures_log_retention(token):
+    code, j = call("PUT", "/settings", token=token,
+                   body={"audit_log_retention_days": "730"})
+    assert code == 200
+    code, g = call("GET", "/settings", token=token)
+    assert code == 200 and g["data"]["audit_log_retention_days"] == "730"
+    # restauration de la valeur par défaut
+    call("PUT", "/settings", token=token, body={"audit_log_retention_days": "365"})

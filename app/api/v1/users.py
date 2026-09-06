@@ -1,9 +1,11 @@
 """Module USERS / ROLES & PERMISSIONS — CDC §8."""
 from __future__ import annotations
 
+from datetime import datetime, timezone
+
 from fastapi import APIRouter, Depends, Query, Request
 from pydantic import BaseModel, EmailStr, Field
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -11,7 +13,7 @@ from app.core import security
 from app.core.dependencies import CurrentUser, get_current_user, require
 from app.core.errors import AppError
 from app.database import get_db
-from app.models.auth import Role, User, user_roles
+from app.models.auth import RefreshToken, Role, User, UserSession, user_roles
 from app.services.audit_service import audit
 
 router = APIRouter(tags=["users"])
@@ -32,6 +34,10 @@ class UserUpdate(BaseModel):
     last_name: str | None = None
     is_active: bool | None = None
     branch_id: int | None = None
+
+
+class PasswordReset(BaseModel):
+    new_password: str = Field(min_length=8)
 
 
 @router.get("/users")
@@ -110,3 +116,38 @@ async def list_roles(user: CurrentUser = Depends(require("read:users")),
         "id": r.id, "code": r.code, "name": r.name, "is_system": r.is_system,
         "permissions": [p.code for p in r.permissions],
     } for r in rows], "meta": {"requestId": "roles"}}
+
+
+@router.post("/users/{user_id}/reset-password")
+async def reset_password(user_id: int, body: PasswordReset, request: Request,
+                         user: CurrentUser = Depends(require("update:users")),
+                         db: AsyncSession = Depends(get_db)):
+    """Reinitialisation admin du mot de passe — invalide toutes les sessions actives."""
+    _validate_password(body.new_password)
+    res = await db.execute(select(User).where(User.id == user_id))
+    u_ = res.scalar_one_or_none()
+    if u_ is None:
+        raise AppError("USER_NOT_FOUND", "Utilisateur introuvable", status=404)
+    u_.password_hash = security.hash_password(body.new_password)
+    u_.must_change_password = True
+    await db.execute(
+        update(UserSession).where(
+            UserSession.user_id == user_id, UserSession.revoked_at.is_(None)
+        ).values(revoked_at=datetime.now(timezone.utc))
+    )
+    await db.execute(
+        update(RefreshToken).where(
+            RefreshToken.user_id == user_id, RefreshToken.revoked_at.is_(None)
+        ).values(revoked_at=datetime.now(timezone.utc))
+    )
+    await audit(db, actor_id=user.id, actor_role=user.role, action="PASSWORD_RESET",
+                entity_type="USER", entity_id=user_id,
+                reason="Reinitialisation admin", request_id=request.state.request_id)
+    await db.commit()
+    return {"success": True, "data": {"message": "Mot de passe reinitialisé, sessions révoquées"},
+            "meta": {"requestId": request.state.request_id}}
+
+
+def _validate_password(pw: str) -> None:
+    if not any(c.isupper() for c in pw) or not any(c.islower() for c in pw) or not any(c.isdigit() for c in pw):
+        raise AppError("WEAK_PASSWORD", "Le mot de passe doit contenir majuscule, minuscule et chiffre", 400)

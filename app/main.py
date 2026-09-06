@@ -5,6 +5,7 @@ Lancement (Windows) :
 """
 from __future__ import annotations
 
+import asyncio
 import json
 
 from fastapi import FastAPI, Request
@@ -18,8 +19,9 @@ from app.core.errors import register_exception_handlers, request_id_middleware
 from app.database import get_db
 from app.api.v1 import (  # noqa: F401
     accounts, alerts, audit, auth, cases, customers, dashboard, declarations,
-    misc, network, org, rules, screening, transactions, users,
+    misc, network, org, postes, rules, screening, transactions, users,
 )
+from app.services.audit_service import purge_obsolete_audit_logs
 
 # Windows : psycopg (asyncpg protocol layer) exige un SelectorEventLoop.
 ensure_selector_loop()
@@ -53,9 +55,33 @@ for router in (
     auth.router, customers.router, transactions.router, accounts.router,
     alerts.router, cases.router, rules.router, screening.router,
     declarations.router, dashboard.router, org.router, users.router,
-    audit.router, network.router, misc.router,
+    audit.router, network.router, misc.router, postes.router,
 ):
     app.include_router(router, prefix="/api/v1")
+
+
+# ------------------------- Purge périodique des logs d'audit -------------------------
+@app.on_event("startup")
+async def start_audit_log_purge_task():
+    """Tache de fond : purge automatique periodique des journaux d'audit obsoletes.
+
+    Aucun endpoint ne permet de supprimer manuellement les logs (meme le
+    superadmin) : seule cette tache retire les entrees depassant la duree de
+    conservation configuree via `audit_log_retention_days`.
+    """
+    async def _purge_loop():
+        while True:
+            try:
+                async for db in get_db():
+                    count = await purge_obsolete_audit_logs(db)
+                    if count:
+                        print(f"[log-purge] {count} entree(s) d'audit obsoletes purges")
+                    break
+            except Exception as exc:  # pragma: no cover
+                print(f"[log-purge] erreur: {type(exc).__name__}: {exc}")
+            await asyncio.sleep(86400)  # cycle quotidien
+
+    asyncio.create_task(_purge_loop())
 
 
 # ------------------------- Health / status -------------------------

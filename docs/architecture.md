@@ -33,7 +33,7 @@ app/
     auth, customers, transactions, accounts, alerts, cases,
     rules, screening, declarations, dashboard, org, users, audit,
     network, misc
-  scripts/                # init_db, seed, migrate_class_diagram, genkeys
+  scripts/                # init_db, seed, sync_rbac, migrate_class_diagram, genkeys
   static/admin/           # Console admin (index.html, dashboard.html)
 run.py                    # Launcher : fix event loop puis uvicorn
 ```
@@ -49,7 +49,25 @@ run.py                    # Launcher : fix event loop puis uvicorn
    (`can_access_branch`, `can_read_sensitive`).
 5. Réponses standard `{success, data, meta{requestId}}` ; erreurs
    `{success, error{code,message,details}, requestId}`.
-6. Registre d'audit append-only (`AuditLog`) sur les actions sensibles.
+6. Registre d'audit **append-only** (`AuditLog`) sur les actions sensibles ;
+   aucune route ne permet leur suppression. La rétention est pilotée par le
+   paramètre système `audit_log_retention_days` (défaut 365 j) et appliquée par
+   une tâche de fond qui purge quotidiennement les entrées dépassées (~24 h).
+
+## Postes de travail & rétention des logs
+
+- **`PosteDeTravail`** (`postes_de_travail`) : poste de travail rattaché à une
+  caisse (`branch_id`) et facultativement à un compte utilisateur
+  (`user_id`, unique). `code` unique et durable d'un poste.
+- Création/suppression réservées au superadmin (`manage:postes`) ; suppression
+  **logique** (`is_active=false`) : historique conservé, code réservé.
+- **Réinitialisation de mot de passe** (`POST /users/{id}/reset-password`,
+  `update:users`) : impose une politique de force, force le changement au
+  prochain login et révoque sessions + refresh tokens.
+- **Rétention de l'audit** : `audit_service.purge_obsolete_audit_logs()` purge
+  les `AuditLog.timestamp` plus vieux que le délai configuré (lecture du
+  paramètre `audit_log_retention_days`, min 1). La régularité est assurée par
+  la tâche `start_audit_log_purge_task` lancée au démarrage de l'application.
 
 ## Moteurs métier
 

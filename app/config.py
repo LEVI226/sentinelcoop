@@ -47,6 +47,10 @@ class Settings(BaseSettings):
         "CRITICAL": [80, 100],
     }
 
+    # Duree de conservation par defaut des journaux d'audit (jours).
+    # Surchargee par le parametre systeme `audit_log_retention_days`.
+    AUDIT_LOG_RETENTION_DAYS: int = 365
+
     @property
     def risk_bands(self) -> list[tuple[str, int, int]]:
         return [(name, lo, hi) for name, (lo, hi) in self.RISK_LEVELS.items()]

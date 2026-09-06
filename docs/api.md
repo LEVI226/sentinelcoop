@@ -99,11 +99,28 @@ Authentification : `Authorization: Bearer <access>`. Comptes démo (mot de passe
 | GET/POST/PATCH | `/branches[/{id}]` | Caisses (détail + profil de risque) |
 | POST | `/branches/{id}/risk-profile` | Mettre à jour le profil de risque de caisse |
 
+## Postes de travail (`/postes`)
+| Méthode | Route | Description |
+|---|---|---|
+| GET | `/postes` | Lister les postes (filtre branche/actif) |
+| POST | `/postes` | Créer un poste (`manage:postes`) |
+| GET/PATCH | `/postes/{id}` | Détail / modification d'un poste |
+| DELETE | `/postes/{id}` | Suppression logique (`manage:postes`) |
+
+La création est réservée au superadmin/admin. La suppression est **logique**
+(`is_active=false`) : l'historique est conservé et le `code` reste réservé
+(recréation → `409 DUPLICATE_POSTE`).
+
 ## Utilisateurs & rôles (`/users`, `/roles`)
 | Méthode | Route | Description |
 |---|---|---|
 | GET/POST/PATCH | `/users[/{id}]` | Utilisateurs |
+| POST | `/users/{id}/reset-password` | Réinitialiser un mot de passe (`update:users`, superadmin) |
 | GET | `/roles` | Rôles + permissions |
+
+La réinitialisation impose 8+ caractères avec majuscule/chiffre, force le
+changement au prochain login (`must_change_password`) et révoque toutes les
+sessions actives + tokens de rafraîchissement de l'utilisateur.
 
 ## Réseau (`/network`)
 | Méthode | Route | Description |
@@ -118,6 +135,12 @@ Authentification : `Authorization: Bearer <access>`. Comptes démo (mot de passe
 |---|---|---|
 | GET | `/audit` | Journal (filtres entity/action/actor, pagination) |
 | GET | `/audit/summary` | Agrégats par action |
+
+Le journal est **append-only** : aucune route ne permet de supprimer ou de
+modifier une entrée, y compris pour le superadmin. La rétention est configurée
+via le paramètre système `audit_log_retention_days` (jours, défaut 365,
+modifiable par le superadmin dans `/settings`) ; une tâche de fond purge chaque
+jour les entrées plus anciennes que ce délai.
 
 ## Divers (`/info`, `/documents`, `/attachments`, `/reports`, `/notifications`, `/sync`, `/settings`)
 | Méthode | Route | Description |

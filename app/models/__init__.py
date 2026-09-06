@@ -6,6 +6,7 @@ from app.models.auth import (
     RefreshToken,
 )
 from app.models.org import Cooperative, Branch, BranchRiskProfile, OperatingZone
+from app.models.poste import PosteDeTravail
 from app.models.customer import (
     Customer,
     CustomerContact,
@@ -55,7 +56,7 @@ from app.models.extra import (
 
 __all__ = [
     "User", "Role", "Permission", "UserSession", "RefreshToken",
-    "Cooperative", "Branch", "BranchRiskProfile", "OperatingZone",
+    "Cooperative", "Branch", "BranchRiskProfile", "OperatingZone", "PosteDeTravail",
     "Customer", "CustomerContact", "CustomerAddress", "CustomerDocument",
     "BeneficialOwner", "PePRelation", "CustomerRiskScore", "NetworkIdentity",
     "IdentityMatch",

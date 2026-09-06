@@ -1,12 +1,24 @@
-"""Service d'audit append-only (CDC §29)."""
+"""Service d'audit append-only (CDC §29).
+
+Le journal est destine a etre inalterable : aucun endpoint ne permet de
+supprimer une entree a la demande (meme le superadmin). Seule la purge
+automatique periodique, basee sur la duree de conservation configuree dans
+`system_settings` (cle `audit_log_retention_days`, defaut
+`AUDIT_LOG_RETENTION_DAYS`), retire les entrees obsoletes.
+"""
 from __future__ import annotations
 
 import json
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
+from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models.extra import AuditLog
+from app.config import get_settings
+from app.models.extra import AuditLog, SystemSetting
+
+RETENTION_SETTING_KEY = "audit_log_retention_days"
 
 
 class AuditService:
@@ -48,3 +60,32 @@ async def audit(db: AsyncSession, *, actor_id: Optional[int] = None,
         old_value=old_value, new_value=new_value, reason=reason,
         request_id=request_id, ip_address=ip_address,
     )
+
+
+async def get_audit_retention_days(db: AsyncSession) -> int:
+    """Duree de conservation (jours) configuree via system_settings, sinon defaut."""
+    default = get_settings().AUDIT_LOG_RETENTION_DAYS
+    row = (await db.execute(
+        select(SystemSetting).where(SystemSetting.key == RETENTION_SETTING_KEY)
+    )).scalar_one_or_none()
+    if row is None:
+        return default
+    try:
+        return max(1, int(str(row.value).strip()))
+    except ValueError:
+        return default
+
+
+async def purge_obsolete_audit_logs(db: AsyncSession) -> int:
+    """Supprime les entrees d'audit plus anciennes que la duree de conservation.
+
+    Appelee uniquement par la tache de fond periodique (jamais via un
+    endpoint) afin de preserver l'integrite du journal.
+    """
+    retention_days = await get_audit_retention_days(db)
+    cutoff = datetime.now(timezone.utc) - timedelta(days=retention_days)
+    res = await db.execute(
+        delete(AuditLog).where(AuditLog.timestamp < cutoff)
+    )
+    await db.commit()
+    return res.rowcount or 0

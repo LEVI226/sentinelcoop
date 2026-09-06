@@ -201,3 +201,28 @@ class TestAbac:
         u = self._user(roles=["conformite_reseau"], branch=None)
         assert can_read_sensitive(u, "restricted") is True
         assert can_access_branch(u, 9) is True
+
+
+# ---------------------------------------------------------------------------
+# Conservation des journaux d'audit (rétention)
+# ---------------------------------------------------------------------------
+class TestAuditRetentionConfig:
+    def test_retention_setting_key_is_defined(self):
+        from app.services.audit_service import RETENTION_SETTING_KEY
+        assert RETENTION_SETTING_KEY == "audit_log_retention_days"
+
+    def test_config_default_retention_days(self):
+        from app.config import get_settings
+        assert get_settings().AUDIT_LOG_RETENTION_DAYS >= 30
+
+    def test_no_manual_delete_permission_for_audit(self):
+        # Aucune permission "delete:audit" ne doit exister : le journal est append-only.
+        from app.core.rbac import PERMISSIONS
+        assert "delete:audit" not in PERMISSIONS
+
+    def test_superadmin_has_poste_permissions(self):
+        from app.core.rbac import PERMISSIONS, SYSTEM_ROLES
+        assert "manage:postes" in PERMISSIONS
+        assert "read:postes" in SYSTEM_ROLES["superadmin"]
+        assert "manage:postes" in SYSTEM_ROLES["superadmin"]
+        assert "read:postes" in SYSTEM_ROLES["admin"]

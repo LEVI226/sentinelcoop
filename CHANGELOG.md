@@ -3,6 +3,38 @@
 Format inspiré de [Keep a Changelog](https://keepachangelog.com/).
 Versioning **0.1.0** (état de développement/démo).
 
+## [0.1.3] — 2026-09-06
+### Ajouté
+- **Postes de travail** (`/api/v1/postes`, entité `PosteDeTravail`) : CRUD
+  complet pour le superadmin (`manage:postes`). Un poste est rattaché à une
+  caisse (`branch_id`) et éventuellement à un compte (`user_id`). La
+  suppression est **logique** (`is_active=false`) : historique conservé, code
+  réservé (`409 DUPLICATE_POSTE` à la recréation).
+- **Réinitialisation de mot de passe** (`POST /users/{id}/reset-password`,
+  `update:users`) : politique de force (8+ caractères, majuscule + chiffre),
+  `must_change_password=true`, révocation des sessions actives + refresh tokens,
+  action `PASSWORD_RESET` journalisée.
+- **Rétention configurable des logs d'audit** : paramètre système
+  `audit_log_retention_days` (défaut 365, min 1, modifiable par le superadmin
+  via `/settings`). Tâche de fond `start_audit_log_purge_task` au démarrage :
+  purge quotidienne des entrées obsolètes (`purge_obsolete_audit_logs`).
+- **`app/scripts/sync_rbac.py`** : réconcilie permissions/rôles système depuis
+  le registre RBAC (à relancer après une évolution d'`app/core/rbac.py`).
+- Tests : 12 nouveaux (4 unitaires `TestAuditRetentionConfig`, 8 E2E — postes
+  create/delete + interdictions rôle, reset-password, non-suppression audit,
+  rétention) → **56 passants**.
+
+### Corrigé
+- Ressources de rôles ajoutées (`read:postes`, `manage:postes`) : les permissions
+  d'une base déjà initialisée sont un instantané — `sync_rbac` rattache les
+  nouvelles permissions aux rôles système existants.
+- Tests E2E rendus idempotents (poste et utilisateur de test à identifiants
+  uniques par exécution).
+
+### Notes
+- `pytest tests -q` → 56/56. Journal d'audit inchangé : **append-only**, aucun
+  endpoint de suppression, y compris pour le superadmin.
+
 ## [0.1.2] — 2026-09-06
 ### Ajouté
 - **Validation des critères d'acceptation `validate_criteria.py`** : les **12 critères

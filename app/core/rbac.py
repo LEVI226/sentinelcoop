@@ -44,6 +44,8 @@ PERMISSIONS: dict[str, str] = {
     "read:notifications": "Consulter les notifications",
     "manage:sync": "Gérer la synchronisation",
     "manage:settings": "Gérer les paramètres système",
+    "read:postes": "Consulter les postes de travail",
+    "manage:postes": "Gérer les postes de travail",
 }
 
 # Rôles système (CDC §5)
@@ -56,6 +58,7 @@ SYSTEM_ROLES: dict[str, list[str]] = {
         "read:customers", "read:alerts", "read:cases", "read:reports",
         "generate:reports", "read:audit", "manage:settings", "manage:sync",
         "read:transactions", "read:accounts", "read:risk",
+        "read:postes", "manage:postes",
     ],
     "conformite_reseau": [
         "read:customers", "read:accounts", "read:transactions",

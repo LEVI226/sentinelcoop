@@ -468,6 +468,10 @@ async def run():
         db.add(SystemSetting(key="alert_sla_minutes",
                              value=json.dumps({"low": 1440, "medium": 720, "high": 360, "critical": 120}),
                              updated_by=users["admin"].id))
+        # Conservation des journaux d'audit (jours) — purge périodique automatique
+        db.add(SystemSetting(key="audit_log_retention_days",
+                             value="365",
+                             updated_by=users["admin"].id))
         await db.flush()
 
         # ------------------------------------------------------------------
