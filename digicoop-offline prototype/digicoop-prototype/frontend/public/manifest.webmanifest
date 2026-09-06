@@ -1,0 +1,9 @@
+{
+  "name": "DigiCoop Terminal — Filtrage LBC/FT/FP",
+  "short_name": "DigiCoop",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0E1613",
+  "theme_color": "#1F6F5C",
+  "icons": []
+}
