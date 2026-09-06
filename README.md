@@ -1,3 +1,5 @@
+> **Mise à jour du 6 septembre 2026 — préparation concours :** suivre [la recette du thème 1](docs/RECETTE_HACKATHON.md) et [le guide de maintenance sans IA](docs/MAINTENANCE_SANS_IA.md). Les commandes et résultats historiques sur la liste réelle ONU ci-dessous ne constituent pas une démonstration conforme à la règle des données synthétiques. Une similarité de nom ne confirme pas à elle seule une identité sanctionnée. La recette fonctionnelle reste à exécuter.
+
 ﻿# SentinelleCoop â€” prototype
 
 Filtrage LBC/FT/FP hors-ligne pour les coopÃ©ratives financiÃ¨res.

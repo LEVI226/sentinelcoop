@@ -98,3 +98,7 @@ Tout changement important doit être ajouté à:
 - ce guide si la reproduction change.
 
 Le projet doit rester explicable par ses fichiers. L'IA peut aider à produire, mais la documentation doit permettre à une personne de reprendre le travail seule.
+
+## Complément du 6 septembre 2026
+
+Avant une démonstration, suivre [la recette du concours](RECETTE_HACKATHON.md). Les commandes historiques ci-dessus ne sont pas une recette synthétique validée. Pour diagnostiquer, corriger et transmettre le projet, suivre [Maintenance sans IA](MAINTENANCE_SANS_IA.md). Les tests doivent être consignés avec leur résultat réel ; les exigences documentées ne sont pas des fonctionnalités certifiées.
