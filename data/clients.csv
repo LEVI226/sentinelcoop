@@ -1,0 +1,4 @@
+id,nom,type,agence,ppe,date_ouverture,scenario,rationale_activite
+C-1029,Diallo Mamadou,habituel,Agence Centre,non,2022-01-10,filtrage_positif_lbc_ft,
+C-2214,Awa Sawadogo,occasionnel,Agence Centre,non,2024-03-02,temoin_neutre,
+C-3091,Ouedraogo Salif,habituel,Agence Nord,oui,2020-06-15,ppe_compte_rebond,

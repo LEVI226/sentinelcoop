@@ -1,0 +1,2954 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)https://p.superdesign.dev/draft/358f5dc3-669a-4275-bda7-19403291699f -->
+<html lang="fr">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIF Guard — Détail d'une alerte</title>
+  <script src="./saved_resource"></script>
+  <script src="./iconify-icon.min.js.téléchargement"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="./css2" rel="stylesheet">
+  <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { night: '#1a2332', institution: '#2c5282', success: '#38a169', amber: '#d69e2e', danger: '#e53e3e' } } } }</script>
+
+  <meta name="preview-version" content="358f5dc3-669a-4275-bda7-19403291699f">
+  <meta name="preview-timestamp" content="2026-09-05T15:09:15.632Z">
+
+  <style>
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+
+    html,
+    body,
+    * {
+      -ms-overflow-style: none !important;
+      scrollbar-width: none !important;
+    }
+  </style>
+  <style>
+    body:not(.sd-ready) {
+      opacity: 0 !important;
+    }
+
+    body.sd-ready {
+      opacity: 1 !important;
+      transition: opacity 0.1s ease-in;
+    }
+
+    sd-component {
+      display: block;
+    }
+  </style>
+
+  <script type="module">
+      (function () {
+        document.addEventListener('wheel', function (e) {
+          if (e.ctrlKey) e.preventDefault();
+        }, { passive: false });
+      })();
+  </script>
+  <script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "358f5dc3-669a-4275-bda7-19403291699f");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "358f5dc3-669a-4275-bda7-19403291699f",
+      timestamp: "2026-09-05T15:09:15.632Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function (type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function () {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+
+      _captureScreenshotInternal: async function () {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function () {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function (requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+
+    };
+
+
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function (fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function (sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function () { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function (fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+
+
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function (payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function (fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function (ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+
+
+    // Message listener
+    window.addEventListener('message', function (event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+
+
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          setTimeout(function () {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+
+  </script>
+  <script type="module">
+    window.addEventListener('error', function (event) {
+      var msg = event.message || '';
+      var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+      if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+      if (window.__SUPERDESIGN_PREVIEW__) {
+        var err = event.error;
+        window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+          message: event.message, filename: event.filename,
+          lineno: event.lineno, colno: event.colno,
+          name: (err && err.name) || name || 'Error',
+          stack: (err && err.stack) || null
+        });
+      }
+    });
+    window.addEventListener('unhandledrejection', function (event) {
+      var reason = event.reason;
+      var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+      var name = (reason && reason.name) || 'UnhandledRejection';
+      if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+      if (window.__SUPERDESIGN_PREVIEW__) {
+        window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+          reason: (reason && reason.message) || String(reason),
+          name: name,
+          stack: (reason && reason.stack) || null
+        });
+      }
+    });
+  </script>
+  <script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+  <script src="./petite-vue.iife.js.téléchargement"></script>
+  <script type="module">
+    (function () {
+      'use strict';
+
+      var MAX_RENDER_DEPTH = 5;
+
+      function showPage() {
+        document.body.classList.add('sd-ready');
+      }
+
+      var componentRegistry = new Map();
+      var instanceRegistry = new Map();
+      var API_BASE = "https://api.superdesign.dev";
+      var DRAFT_ID = "358f5dc3-669a-4275-bda7-19403291699f";
+
+      function buildDefaultProps(definition) {
+        var defaultProps = {};
+        var props = definition.props;
+        if (!props || !Array.isArray(props)) return defaultProps;
+        for (var i = 0; i < props.length; i++) {
+          var prop = props[i];
+          if (prop.defaultValue === undefined) continue;
+          var path = prop.name.split('.');
+          var current = defaultProps;
+          for (var j = 0; j < path.length - 1; j++) {
+            var key = path[j];
+            if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+              current[key] = {};
+            }
+            current = current[key];
+          }
+          current[path[path.length - 1]] = prop.defaultValue;
+        }
+        return defaultProps;
+      }
+
+      function deepMerge(target, source) {
+        var result = Object.assign({}, target);
+        for (var key in source) {
+          if (!source.hasOwnProperty(key)) continue;
+          if (
+            source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+            result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+          ) {
+            result[key] = deepMerge(result[key], source[key]);
+          } else {
+            result[key] = source[key];
+          }
+        }
+        return result;
+      }
+
+      function registerComponent(id, definition) {
+        componentRegistry.set(id, definition);
+        console.log('[SDComponent] Registered component:', id);
+      }
+
+      function renderComponent(element, depth) {
+        depth = depth || 0;
+        var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+        var instanceId = element.getAttribute('instance');
+        var propsAttr = element.getAttribute('props');
+
+        if (!componentId) {
+          console.warn('[SDComponent] Missing componentId attribute on sd-component');
+          return;
+        }
+
+        if (depth >= MAX_RENDER_DEPTH) {
+          console.warn('[SDComponent] Max render depth reached for:', componentId);
+          element.setAttribute('data-error', 'max-depth');
+          return;
+        }
+
+        var definition = componentRegistry.get(componentId);
+        if (!definition) {
+          console.warn('[SDComponent] Component not found:', componentId);
+          element.setAttribute('data-pending', 'true');
+          return;
+        }
+
+        var instanceProps = {};
+        if (propsAttr) {
+          try { instanceProps = JSON.parse(propsAttr); }
+          catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+        }
+
+        var defaultProps = buildDefaultProps(definition);
+        var finalProps = deepMerge(defaultProps, instanceProps);
+
+        element.innerHTML = definition.htmlContent;
+
+        if (window.PetiteVue) {
+          finalProps.$emit = function (eventName, payload) {
+            if (payload && typeof payload === 'object' && payload.href) {
+              window.location.href = payload.href;
+              return;
+            }
+            var customEvent = new CustomEvent('sd-' + eventName, {
+              detail: payload, bubbles: true, composed: true,
+            });
+            element.dispatchEvent(customEvent);
+          };
+          window.PetiteVue.createApp(finalProps).mount(element);
+        } else {
+          console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+        }
+
+        instanceRegistry.set(instanceId, {
+          componentId: componentId,
+          element: element,
+          props: finalProps,
+          version: definition.version,
+        });
+
+        element.removeAttribute('data-pending');
+        element.setAttribute('data-rendered', 'true');
+        element.setAttribute('data-version', String(definition.version));
+        console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+        // Render any nested sd-component children that were just injected
+        var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+        if (nestedElements.length > 0) {
+          var missingIds = [];
+          nestedElements.forEach(function (nested) {
+            var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+            if (nestedId && !componentRegistry.has(nestedId)) {
+              missingIds.push(nestedId);
+            }
+          });
+
+          if (missingIds.length > 0) {
+            // Fetch missing nested components, then render
+            loadComponentsByIds(missingIds).then(function () {
+              nestedElements.forEach(function (nested) {
+                if (!nested.getAttribute('data-rendered')) {
+                  renderComponent(nested, depth + 1);
+                }
+              });
+            });
+          } else {
+            // All nested definitions already loaded — render immediately
+            nestedElements.forEach(function (nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          }
+        }
+      }
+
+      function updateComponentInstances(componentId) {
+        var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+        elements.forEach(function (el) { renderComponent(el); });
+      }
+
+      function initializeComponents() {
+        var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+        elements.forEach(function (el) {
+          if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+        });
+      }
+
+      async function loadComponentsByIds(ids) {
+        if (!ids || ids.length === 0) return;
+        // Deduplicate and filter already-loaded
+        var uniqueIds = ids.filter(function (id, i, arr) {
+          return arr.indexOf(id) === i && !componentRegistry.has(id);
+        });
+        if (uniqueIds.length === 0) return;
+
+        try {
+          console.log('[SDComponent] Batch loading components:', uniqueIds);
+          var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ componentIds: uniqueIds }),
+          });
+          if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+          var components = await response.json();
+          console.log('[SDComponent] Batch loaded', components.length, 'components');
+          components.forEach(function (comp) { registerComponent(comp.id, comp); });
+        } catch (error) {
+          console.error('[SDComponent] Failed to batch load components:', error);
+        }
+      }
+
+      async function loadComponentsForDraft() {
+        if (!DRAFT_ID) {
+          console.warn('[SDComponent] No draft ID configured');
+          showPage();
+          return;
+        }
+        try {
+          console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+          var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          });
+          if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+          var components = await response.json();
+          console.log('[SDComponent] Loaded', components.length, 'components');
+          components.forEach(function (comp) { registerComponent(comp.id, comp); });
+          initializeComponents();
+          showPage();
+        } catch (error) {
+          console.error('[SDComponent] Failed to load components:', error);
+          showPage();
+        }
+      }
+
+      function findReferencedComponents() {
+        var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+        var ids = new Set();
+        elements.forEach(function (el) {
+          var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+          if (ref) ids.add(ref);
+        });
+        return Array.from(ids);
+      }
+
+      window.__SD_COMPONENTS__ = {
+        register: registerComponent,
+        render: renderComponent,
+        update: updateComponentInstances,
+        loadForDraft: loadComponentsForDraft,
+        loadByIds: loadComponentsByIds,
+        init: initializeComponents,
+        findRefs: findReferencedComponents,
+        getRegistry: function () { return componentRegistry; },
+        getInstances: function () { return instanceRegistry; },
+        getDraftId: function () { return DRAFT_ID; },
+      };
+
+      window.addEventListener('message', function (event) {
+        if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+          var cId = event.data.componentId;
+          var def = event.data.definition;
+          if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+        }
+        if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+          var comps = event.data.components;
+          if (Array.isArray(comps)) {
+            comps.forEach(function (c) { registerComponent(c.id, c); });
+            initializeComponents();
+          }
+        }
+      });
+
+      function bootComponents() {
+        // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+        if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+          console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+          window.__SD_COMPONENT_PRELOAD__.forEach(function (comp) {
+            registerComponent(comp.id, comp);
+          });
+        }
+
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function (id) { return !componentRegistry.has(id); });
+
+        if (unloaded.length > 0) {
+          if (DRAFT_ID) {
+            loadComponentsForDraft();
+          } else {
+            // No draft ID — try batch loading the missing IDs directly
+            loadComponentsByIds(unloaded).then(function () {
+              initializeComponents();
+              showPage();
+            });
+          }
+        } else if (refs.length > 0) {
+          // All components already registered (e.g. from preload) — render immediately
+          initializeComponents();
+          showPage();
+        } else {
+          showPage();
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bootComponents);
+      } else {
+        bootComponents();
+      }
+
+      var observer = new MutationObserver(function (mutations) {
+        var hasNew = false;
+        mutations.forEach(function (m) {
+          m.addedNodes.forEach(function (node) {
+            if (node.nodeType === 1) {
+              if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+              else if (node.querySelector) {
+                if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+              }
+            }
+          });
+        });
+        if (hasNew) {
+          var refs = findReferencedComponents();
+          var unloaded = refs.filter(function (id) { return !componentRegistry.has(id); });
+          if (unloaded.length > 0) {
+            loadComponentsByIds(unloaded).then(function () {
+              initializeComponents();
+            });
+          } else {
+            initializeComponents();
+          }
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      console.log('[SDComponent] Runtime initialized');
+    })();
+  </script>
+  <style>
+    *,
+    ::before,
+    ::after {
+      --tw-border-spacing-x: 0;
+      --tw-border-spacing-y: 0;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-rotate: 0;
+      --tw-skew-x: 0;
+      --tw-skew-y: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-pan-x: ;
+      --tw-pan-y: ;
+      --tw-pinch-zoom: ;
+      --tw-scroll-snap-strictness: proximity;
+      --tw-gradient-from-position: ;
+      --tw-gradient-via-position: ;
+      --tw-gradient-to-position: ;
+      --tw-ordinal: ;
+      --tw-slashed-zero: ;
+      --tw-numeric-figure: ;
+      --tw-numeric-spacing: ;
+      --tw-numeric-fraction: ;
+      --tw-ring-inset: ;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-color: rgb(59 130 246 / 0.5);
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-colored: 0 0 #0000;
+      --tw-blur: ;
+      --tw-brightness: ;
+      --tw-contrast: ;
+      --tw-grayscale: ;
+      --tw-hue-rotate: ;
+      --tw-invert: ;
+      --tw-saturate: ;
+      --tw-sepia: ;
+      --tw-drop-shadow: ;
+      --tw-backdrop-blur: ;
+      --tw-backdrop-brightness: ;
+      --tw-backdrop-contrast: ;
+      --tw-backdrop-grayscale: ;
+      --tw-backdrop-hue-rotate: ;
+      --tw-backdrop-invert: ;
+      --tw-backdrop-opacity: ;
+      --tw-backdrop-saturate: ;
+      --tw-backdrop-sepia: ;
+      --tw-contain-size: ;
+      --tw-contain-layout: ;
+      --tw-contain-paint: ;
+      --tw-contain-style:
+    }
+
+    ::backdrop {
+      --tw-border-spacing-x: 0;
+      --tw-border-spacing-y: 0;
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-rotate: 0;
+      --tw-skew-x: 0;
+      --tw-skew-y: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-pan-x: ;
+      --tw-pan-y: ;
+      --tw-pinch-zoom: ;
+      --tw-scroll-snap-strictness: proximity;
+      --tw-gradient-from-position: ;
+      --tw-gradient-via-position: ;
+      --tw-gradient-to-position: ;
+      --tw-ordinal: ;
+      --tw-slashed-zero: ;
+      --tw-numeric-figure: ;
+      --tw-numeric-spacing: ;
+      --tw-numeric-fraction: ;
+      --tw-ring-inset: ;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-color: rgb(59 130 246 / 0.5);
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-colored: 0 0 #0000;
+      --tw-blur: ;
+      --tw-brightness: ;
+      --tw-contrast: ;
+      --tw-grayscale: ;
+      --tw-hue-rotate: ;
+      --tw-invert: ;
+      --tw-saturate: ;
+      --tw-sepia: ;
+      --tw-drop-shadow: ;
+      --tw-backdrop-blur: ;
+      --tw-backdrop-brightness: ;
+      --tw-backdrop-contrast: ;
+      --tw-backdrop-grayscale: ;
+      --tw-backdrop-hue-rotate: ;
+      --tw-backdrop-invert: ;
+      --tw-backdrop-opacity: ;
+      --tw-backdrop-saturate: ;
+      --tw-backdrop-sepia: ;
+      --tw-contain-size: ;
+      --tw-contain-layout: ;
+      --tw-contain-paint: ;
+      --tw-contain-style:
+    }
+
+    /* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */
+    *,
+    ::after,
+    ::before {
+      box-sizing: border-box;
+      border-width: 0;
+      border-style: solid;
+      border-color: #e5e7eb
+    }
+
+    ::after,
+    ::before {
+      --tw-content: ''
+    }
+
+    :host,
+    html {
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+      -moz-tab-size: 4;
+      tab-size: 4;
+      font-family: Inter, sans-serif;
+      font-feature-settings: normal;
+      font-variation-settings: normal;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    body {
+      margin: 0;
+      line-height: inherit
+    }
+
+    hr {
+      height: 0;
+      color: inherit;
+      border-top-width: 1px
+    }
+
+    abbr:where([title]) {
+      -webkit-text-decoration: underline dotted;
+      text-decoration: underline dotted
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: inherit;
+      font-weight: inherit
+    }
+
+    a {
+      color: inherit;
+      text-decoration: inherit
+    }
+
+    b,
+    strong {
+      font-weight: bolder
+    }
+
+    code,
+    kbd,
+    pre,
+    samp {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-feature-settings: normal;
+      font-variation-settings: normal;
+      font-size: 1em
+    }
+
+    small {
+      font-size: 80%
+    }
+
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline
+    }
+
+    sub {
+      bottom: -.25em
+    }
+
+    sup {
+      top: -.5em
+    }
+
+    table {
+      text-indent: 0;
+      border-color: inherit;
+      border-collapse: collapse
+    }
+
+    button,
+    input,
+    optgroup,
+    select,
+    textarea {
+      font-family: inherit;
+      font-feature-settings: inherit;
+      font-variation-settings: inherit;
+      font-size: 100%;
+      font-weight: inherit;
+      line-height: inherit;
+      letter-spacing: inherit;
+      color: inherit;
+      margin: 0;
+      padding: 0
+    }
+
+    button,
+    select {
+      text-transform: none
+    }
+
+    button,
+    input:where([type=button]),
+    input:where([type=reset]),
+    input:where([type=submit]) {
+      -webkit-appearance: button;
+      background-color: transparent;
+      background-image: none
+    }
+
+    :-moz-focusring {
+      outline: auto
+    }
+
+    :-moz-ui-invalid {
+      box-shadow: none
+    }
+
+    progress {
+      vertical-align: baseline
+    }
+
+    ::-webkit-inner-spin-button,
+    ::-webkit-outer-spin-button {
+      height: auto
+    }
+
+    [type=search] {
+      -webkit-appearance: textfield;
+      outline-offset: -2px
+    }
+
+    ::-webkit-search-decoration {
+      -webkit-appearance: none
+    }
+
+    ::-webkit-file-upload-button {
+      -webkit-appearance: button;
+      font: inherit
+    }
+
+    summary {
+      display: list-item
+    }
+
+    blockquote,
+    dd,
+    dl,
+    figure,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    hr,
+    p,
+    pre {
+      margin: 0
+    }
+
+    fieldset {
+      margin: 0;
+      padding: 0
+    }
+
+    legend {
+      padding: 0
+    }
+
+    menu,
+    ol,
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0
+    }
+
+    dialog {
+      padding: 0
+    }
+
+    textarea {
+      resize: vertical
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      opacity: 1;
+      color: #9ca3af
+    }
+
+    [role=button],
+    button {
+      cursor: pointer
+    }
+
+    :disabled {
+      cursor: default
+    }
+
+    audio,
+    canvas,
+    embed,
+    iframe,
+    img,
+    object,
+    svg,
+    video {
+      display: block;
+      vertical-align: middle
+    }
+
+    img,
+    video {
+      max-width: 100%;
+      height: auto
+    }
+
+    [hidden]:where(:not([hidden=until-found])) {
+      display: none
+    }
+
+    .fixed {
+      position: fixed
+    }
+
+    .absolute {
+      position: absolute
+    }
+
+    .relative {
+      position: relative
+    }
+
+    .sticky {
+      position: sticky
+    }
+
+    .inset-0 {
+      inset: 0px
+    }
+
+    .inset-y-0 {
+      top: 0px;
+      bottom: 0px
+    }
+
+    .left-0 {
+      left: 0px
+    }
+
+    .top-0 {
+      top: 0px
+    }
+
+    .right-0 {
+      right: 0px
+    }
+
+    .-left-\[9px\] {
+      left: -9px
+    }
+
+    .z-40 {
+      z-index: 40
+    }
+
+    .z-30 {
+      z-index: 30
+    }
+
+    .z-50 {
+      z-index: 50
+    }
+
+    .ml-auto {
+      margin-left: auto
+    }
+
+    .mt-1 {
+      margin-top: 0.25rem
+    }
+
+    .mb-3 {
+      margin-bottom: 0.75rem
+    }
+
+    .mb-7 {
+      margin-bottom: 1.75rem
+    }
+
+    .mb-5 {
+      margin-bottom: 1.25rem
+    }
+
+    .mt-2 {
+      margin-top: 0.5rem
+    }
+
+    .mt-5 {
+      margin-top: 1.25rem
+    }
+
+    .mt-6 {
+      margin-top: 1.5rem
+    }
+
+    .mb-2 {
+      margin-bottom: 0.5rem
+    }
+
+    .mb-6 {
+      margin-bottom: 1.5rem
+    }
+
+    .mt-0\.5 {
+      margin-top: 0.125rem
+    }
+
+    .ml-2 {
+      margin-left: 0.5rem
+    }
+
+    .mt-3 {
+      margin-top: 0.75rem
+    }
+
+    .mt-4 {
+      margin-top: 1rem
+    }
+
+    .block {
+      display: block
+    }
+
+    .flex {
+      display: flex
+    }
+
+    .inline-flex {
+      display: inline-flex
+    }
+
+    .grid {
+      display: grid
+    }
+
+    .hidden {
+      display: none
+    }
+
+    .h-9 {
+      height: 2.25rem
+    }
+
+    .h-\[72px\] {
+      height: 72px
+    }
+
+    .h-2\.5 {
+      height: 0.625rem
+    }
+
+    .h-4 {
+      height: 1rem
+    }
+
+    .h-3 {
+      height: 0.75rem
+    }
+
+    .h-full {
+      height: 100%
+    }
+
+    .h-10 {
+      height: 2.5rem
+    }
+
+    .h-fit {
+      height: -moz-fit-content;
+      height: fit-content
+    }
+
+    .h-11 {
+      height: 2.75rem
+    }
+
+    .min-h-screen {
+      min-height: 100vh
+    }
+
+    .w-64 {
+      width: 16rem
+    }
+
+    .w-9 {
+      width: 2.25rem
+    }
+
+    .w-2\.5 {
+      width: 0.625rem
+    }
+
+    .w-full {
+      width: 100%
+    }
+
+    .w-\[87\%\] {
+      width: 87%
+    }
+
+    .w-4 {
+      width: 1rem
+    }
+
+    .w-11 {
+      width: 2.75rem
+    }
+
+    .min-w-4 {
+      min-width: 1rem
+    }
+
+    .min-w-\[520px\] {
+      min-width: 520px
+    }
+
+    .max-w-md {
+      max-width: 28rem
+    }
+
+    .flex-1 {
+      flex: 1 1 0%
+    }
+
+    .shrink-0 {
+      flex-shrink: 0
+    }
+
+    .grid-cols-1 {
+      grid-template-columns: repeat(1, minmax(0, 1fr))
+    }
+
+    .flex-col {
+      flex-direction: column
+    }
+
+    .flex-wrap {
+      flex-wrap: wrap
+    }
+
+    .items-start {
+      align-items: flex-start
+    }
+
+    .items-center {
+      align-items: center
+    }
+
+    .justify-end {
+      justify-content: flex-end
+    }
+
+    .justify-center {
+      justify-content: center
+    }
+
+    .justify-between {
+      justify-content: space-between
+    }
+
+    .gap-3 {
+      gap: 0.75rem
+    }
+
+    .gap-2 {
+      gap: 0.5rem
+    }
+
+    .gap-6 {
+      gap: 1.5rem
+    }
+
+    .gap-4 {
+      gap: 1rem
+    }
+
+    .gap-1\.5 {
+      gap: 0.375rem
+    }
+
+    .space-y-1> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.25rem * var(--tw-space-y-reverse))
+    }
+
+    .space-y-6> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(1.5rem * var(--tw-space-y-reverse))
+    }
+
+    .space-y-3> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.75rem * var(--tw-space-y-reverse))
+    }
+
+    .space-y-4> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(1rem * var(--tw-space-y-reverse))
+    }
+
+    .space-y-2> :not([hidden])~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(0.5rem * var(--tw-space-y-reverse))
+    }
+
+    .overflow-hidden {
+      overflow: hidden
+    }
+
+    .overflow-x-auto {
+      overflow-x: auto
+    }
+
+    .rounded-lg {
+      border-radius: 0.5rem
+    }
+
+    .rounded-md {
+      border-radius: 0.375rem
+    }
+
+    .rounded-full {
+      border-radius: 9999px
+    }
+
+    .rounded {
+      border-radius: 0.25rem
+    }
+
+    .border {
+      border-width: 1px
+    }
+
+    .border-2 {
+      border-width: 2px
+    }
+
+    .border-b {
+      border-bottom-width: 1px
+    }
+
+    .border-t {
+      border-top-width: 1px
+    }
+
+    .border-l-4 {
+      border-left-width: 4px
+    }
+
+    .border-l {
+      border-left-width: 1px
+    }
+
+    .border-white\/10 {
+      border-color: rgb(255 255 255 / 0.1)
+    }
+
+    .border-slate-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(226 232 240 / var(--tw-border-opacity, 1))
+    }
+
+    .border-danger {
+      --tw-border-opacity: 1;
+      border-color: rgb(229 62 62 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-100 {
+      --tw-border-opacity: 1;
+      border-color: rgb(241 245 249 / var(--tw-border-opacity, 1))
+    }
+
+    .border-green-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(187 247 208 / var(--tw-border-opacity, 1))
+    }
+
+    .border-slate-300 {
+      --tw-border-opacity: 1;
+      border-color: rgb(203 213 225 / var(--tw-border-opacity, 1))
+    }
+
+    .border-white {
+      --tw-border-opacity: 1;
+      border-color: rgb(255 255 255 / var(--tw-border-opacity, 1))
+    }
+
+    .border-blue-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(191 219 254 / var(--tw-border-opacity, 1))
+    }
+
+    .border-red-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(254 202 202 / var(--tw-border-opacity, 1))
+    }
+
+    .border-orange-200 {
+      --tw-border-opacity: 1;
+      border-color: rgb(254 215 170 / var(--tw-border-opacity, 1))
+    }
+
+    .bg-institution {
+      --tw-bg-opacity: 1;
+      background-color: rgb(44 82 130 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-night {
+      --tw-bg-opacity: 1;
+      background-color: rgb(26 35 50 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-slate-50 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-red-500 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-success {
+      --tw-bg-opacity: 1;
+      background-color: rgb(56 161 105 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-white {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-danger {
+      --tw-bg-opacity: 1;
+      background-color: rgb(229 62 62 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-slate-200 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(226 232 240 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-orange-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(255 237 213 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-red-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(254 226 226 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-slate-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-amber {
+      --tw-bg-opacity: 1;
+      background-color: rgb(214 158 46 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-green-100 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(220 252 231 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-slate-600 {
+      --tw-bg-opacity: 1;
+      background-color: rgb(71 85 105 / var(--tw-bg-opacity, 1))
+    }
+
+    .bg-night\/60 {
+      background-color: rgb(26 35 50 / 0.6)
+    }
+
+    .p-2 {
+      padding: 0.5rem
+    }
+
+    .p-4 {
+      padding: 1rem
+    }
+
+    .p-5 {
+      padding: 1.25rem
+    }
+
+    .p-3 {
+      padding: 0.75rem
+    }
+
+    .p-6 {
+      padding: 1.5rem
+    }
+
+    .px-6 {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem
+    }
+
+    .px-3 {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem
+    }
+
+    .px-4 {
+      padding-left: 1rem;
+      padding-right: 1rem
+    }
+
+    .py-3 {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem
+    }
+
+    .py-6 {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem
+    }
+
+    .px-2 {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem
+    }
+
+    .py-0\.5 {
+      padding-top: 0.125rem;
+      padding-bottom: 0.125rem
+    }
+
+    .px-5 {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem
+    }
+
+    .py-5 {
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem
+    }
+
+    .px-1 {
+      padding-left: 0.25rem;
+      padding-right: 0.25rem
+    }
+
+    .py-1\.5 {
+      padding-top: 0.375rem;
+      padding-bottom: 0.375rem
+    }
+
+    .px-2\.5 {
+      padding-left: 0.625rem;
+      padding-right: 0.625rem
+    }
+
+    .py-1 {
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem
+    }
+
+    .py-2 {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem
+    }
+
+    .pl-5 {
+      padding-left: 1.25rem
+    }
+
+    .pb-6 {
+      padding-bottom: 1.5rem
+    }
+
+    .pl-7 {
+      padding-left: 1.75rem
+    }
+
+    .text-left {
+      text-align: left
+    }
+
+    .font-sans {
+      font-family: Inter, sans-serif
+    }
+
+    .text-xl {
+      font-size: 1.25rem;
+      line-height: 1.75rem
+    }
+
+    .text-\[10px\] {
+      font-size: 10px
+    }
+
+    .text-lg {
+      font-size: 1.125rem;
+      line-height: 1.75rem
+    }
+
+    .text-sm {
+      font-size: 0.875rem;
+      line-height: 1.25rem
+    }
+
+    .text-xs {
+      font-size: 0.75rem;
+      line-height: 1rem
+    }
+
+    .text-base {
+      font-size: 1rem;
+      line-height: 1.5rem
+    }
+
+    .text-2xl {
+      font-size: 1.5rem;
+      line-height: 2rem
+    }
+
+    .font-bold {
+      font-weight: 700
+    }
+
+    .font-medium {
+      font-weight: 500
+    }
+
+    .font-semibold {
+      font-weight: 600
+    }
+
+    .font-normal {
+      font-weight: 400
+    }
+
+    .uppercase {
+      text-transform: uppercase
+    }
+
+    .leading-5 {
+      line-height: 1.25rem
+    }
+
+    .leading-6 {
+      line-height: 1.5rem
+    }
+
+    .tracking-tight {
+      letter-spacing: -0.025em
+    }
+
+    .tracking-widest {
+      letter-spacing: 0.1em
+    }
+
+    .tracking-wide {
+      letter-spacing: 0.025em
+    }
+
+    .text-slate-700 {
+      --tw-text-opacity: 1;
+      color: rgb(51 65 85 / var(--tw-text-opacity, 1))
+    }
+
+    .text-white {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+    }
+
+    .text-sky-300 {
+      --tw-text-opacity: 1;
+      color: rgb(125 211 252 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-300 {
+      --tw-text-opacity: 1;
+      color: rgb(203 213 225 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-400 {
+      --tw-text-opacity: 1;
+      color: rgb(148 163 184 / var(--tw-text-opacity, 1))
+    }
+
+    .text-night {
+      --tw-text-opacity: 1;
+      color: rgb(26 35 50 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-200 {
+      --tw-text-opacity: 1;
+      color: rgb(226 232 240 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-500 {
+      --tw-text-opacity: 1;
+      color: rgb(100 116 139 / var(--tw-text-opacity, 1))
+    }
+
+    .text-success {
+      --tw-text-opacity: 1;
+      color: rgb(56 161 105 / var(--tw-text-opacity, 1))
+    }
+
+    .text-danger {
+      --tw-text-opacity: 1;
+      color: rgb(229 62 62 / var(--tw-text-opacity, 1))
+    }
+
+    .text-institution {
+      --tw-text-opacity: 1;
+      color: rgb(44 82 130 / var(--tw-text-opacity, 1))
+    }
+
+    .text-orange-700 {
+      --tw-text-opacity: 1;
+      color: rgb(194 65 12 / var(--tw-text-opacity, 1))
+    }
+
+    .text-slate-600 {
+      --tw-text-opacity: 1;
+      color: rgb(71 85 105 / var(--tw-text-opacity, 1))
+    }
+
+    .text-amber {
+      --tw-text-opacity: 1;
+      color: rgb(214 158 46 / var(--tw-text-opacity, 1))
+    }
+
+    .accent-\[\#2c5282\] {
+      accent-color: #2c5282
+    }
+
+    .accent-\[\#e53e3e\] {
+      accent-color: #e53e3e
+    }
+
+    .accent-\[\#1a2332\] {
+      accent-color: #1a2332
+    }
+
+    .shadow-sm {
+      --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+    }
+
+    .shadow-2xl {
+      --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+      --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+      box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+    }
+
+    .outline-none {
+      outline: 2px solid transparent;
+      outline-offset: 2px
+    }
+
+    .ring-1 {
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+    }
+
+    .ring-slate-100 {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(241 245 249 / var(--tw-ring-opacity, 1))
+    }
+
+    .ring-amber {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(214 158 46 / var(--tw-ring-opacity, 1))
+    }
+
+    .ring-institution {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(44 82 130 / var(--tw-ring-opacity, 1))
+    }
+
+    .ring-slate-200 {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(226 232 240 / var(--tw-ring-opacity, 1))
+    }
+
+    .ring-success {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(56 161 105 / var(--tw-ring-opacity, 1))
+    }
+
+    .transition {
+      transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+      transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms
+    }
+
+    .hover\:bg-white\/10:hover {
+      background-color: rgb(255 255 255 / 0.1)
+    }
+
+    .hover\:bg-slate-100:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(241 245 249 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-red-50:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(254 242 242 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-blue-50:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(239 246 255 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-green-700:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(21 128 61 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-\[\#23456e\]:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(35 69 110 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-red-700:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(185 28 28 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-slate-700:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(51 65 85 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-yellow-700:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(161 98 7 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-slate-800:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(30 41 59 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:bg-slate-50:hover {
+      --tw-bg-opacity: 1;
+      background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1))
+    }
+
+    .hover\:text-white:hover {
+      --tw-text-opacity: 1;
+      color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+    }
+
+    .hover\:underline:hover {
+      -webkit-text-decoration-line: underline;
+      text-decoration-line: underline
+    }
+
+    .focus\:border-success:focus {
+      --tw-border-opacity: 1;
+      border-color: rgb(56 161 105 / var(--tw-border-opacity, 1))
+    }
+
+    .focus\:border-institution:focus {
+      --tw-border-opacity: 1;
+      border-color: rgb(44 82 130 / var(--tw-border-opacity, 1))
+    }
+
+    .focus\:border-danger:focus {
+      --tw-border-opacity: 1;
+      border-color: rgb(229 62 62 / var(--tw-border-opacity, 1))
+    }
+
+    .focus\:border-slate-500:focus {
+      --tw-border-opacity: 1;
+      border-color: rgb(100 116 139 / var(--tw-border-opacity, 1))
+    }
+
+    .focus\:border-amber:focus {
+      --tw-border-opacity: 1;
+      border-color: rgb(214 158 46 / var(--tw-border-opacity, 1))
+    }
+
+    .focus\:border-slate-700:focus {
+      --tw-border-opacity: 1;
+      border-color: rgb(51 65 85 / var(--tw-border-opacity, 1))
+    }
+
+    .focus\:ring-2:focus {
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+    }
+
+    .focus\:ring-success\/20:focus {
+      --tw-ring-color: rgb(56 161 105 / 0.2)
+    }
+
+    .focus\:ring-institution\/20:focus {
+      --tw-ring-color: rgb(44 82 130 / 0.2)
+    }
+
+    .focus\:ring-danger\/20:focus {
+      --tw-ring-color: rgb(229 62 62 / 0.2)
+    }
+
+    .focus\:ring-slate-200:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(226 232 240 / var(--tw-ring-opacity, 1))
+    }
+
+    .focus\:ring-amber\/20:focus {
+      --tw-ring-color: rgb(214 158 46 / 0.2)
+    }
+
+    .focus\:ring-slate-300:focus {
+      --tw-ring-opacity: 1;
+      --tw-ring-color: rgb(203 213 225 / var(--tw-ring-opacity, 1))
+    }
+
+    @media (min-width: 640px) {
+      .sm\:block {
+        display: block
+      }
+
+      .sm\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      .sm\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr))
+      }
+
+      .sm\:flex-row {
+        flex-direction: row
+      }
+
+      .sm\:items-end {
+        align-items: flex-end
+      }
+
+      .sm\:p-6 {
+        padding: 1.5rem
+      }
+
+      .sm\:px-6 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem
+      }
+
+      .sm\:text-base {
+        font-size: 1rem;
+        line-height: 1.5rem
+      }
+
+      .sm\:text-3xl {
+        font-size: 1.875rem;
+        line-height: 2.25rem
+      }
+    }
+
+    @media (min-width: 768px) {
+      .md\:flex {
+        display: flex
+      }
+
+      .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .lg\:flex {
+        display: flex
+      }
+
+      .lg\:hidden {
+        display: none
+      }
+
+      .lg\:p-8 {
+        padding: 2rem
+      }
+
+      .lg\:px-8 {
+        padding-left: 2rem;
+        padding-right: 2rem
+      }
+
+      .lg\:pl-64 {
+        padding-left: 16rem
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .xl\:sticky {
+        position: sticky
+      }
+
+      .xl\:top-24 {
+        top: 6rem
+      }
+
+      .xl\:grid-cols-\[minmax\(0\2c 1\.35fr\)_minmax\(360px\2c \.9fr\)\] {
+        grid-template-columns: minmax(0, 1.35fr) minmax(360px, .9fr)
+      }
+    }
+  </style>
+</head>
+
+<body class="sd-ready">
+  <div class="min-h-screen bg-slate-50 font-sans text-slate-700" data-sd-id="1">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-night text-white lg:flex"
+      data-sd-id="2">
+      <div class="flex h-[72px] items-center gap-3 border-b border-white/10 px-6" data-sd-id="3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-institution" data-sd-id="4"><iconify-icon
+            icon="lucide:shield-check" class="text-xl"><template shadowrootmode="open">
+              <style data-style="data-style">
+                :host {
+                  display: inline-block;
+                  vertical-align: 0
+                }
+
+                span,
+                svg {
+                  display: block
+                }
+              </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path
+                    d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z">
+                  </path>
+                  <path d="m9 12l2 2l4-4"></path>
+                </g>
+              </svg>
+            </template></iconify-icon></div>
+        <div data-sd-id="5">
+          <div class="text-lg font-bold tracking-tight" data-sd-id="6">CIF <span class="text-sky-300"
+              data-sd-id="7">Guard</span></div>
+          <div class="text-[10px] uppercase tracking-widest text-slate-400" data-sd-id="8">Conformité financière</div>
+        </div>
+      </div>
+      <nav class="flex-1 space-y-1 px-3 py-6" aria-label="Navigation principale" data-sd-id="9">
+        <a id="nav-dashboard-link" href="https://draft-a4e28ff9-df77-4230-8159-3c48ec3ebc8e.preview.superdesign.dev/"
+          class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+          data-sd-id="10"><iconify-icon icon="lucide:home" class="text-lg"><template shadowrootmode="open">
+              <style data-style="data-style">
+                :host {
+                  display: inline-block;
+                  vertical-align: 0
+                }
+
+                span,
+                svg {
+                  display: block
+                }
+              </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                  <path
+                    d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z">
+                  </path>
+                </g>
+              </svg>
+            </template></iconify-icon>Tableau de bord</a>
+        <a id="nav-clients-link" href="https://draft-cdebe6ea-03fd-45a6-a097-8f30ac04d642.preview.superdesign.dev/"
+          class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+          data-sd-id="11"><iconify-icon icon="lucide:users" class="text-lg"><template shadowrootmode="open">
+              <style data-style="data-style">
+                :host {
+                  display: inline-block;
+                  vertical-align: 0
+                }
+
+                span,
+                svg {
+                  display: block
+                }
+              </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path
+                    d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87">
+                  </path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                </g>
+              </svg>
+            </template></iconify-icon>Clients</a>
+        <a id="nav-transactions-link" href="https://draft-246591b3-5306-4b4a-9d0c-1e419119c44f.preview.superdesign.dev/"
+          class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+          data-sd-id="12"><iconify-icon icon="lucide:arrow-right-left" class="text-lg"><template shadowrootmode="open">
+              <style data-style="data-style">
+                :host {
+                  display: inline-block;
+                  vertical-align: 0
+                }
+
+                span,
+                svg {
+                  display: block
+                }
+              </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m16 3l4 4l-4 4m4-4H4m4 14l-4-4l4-4m-4 4h16"></path>
+              </svg>
+            </template></iconify-icon>Transactions</a>
+        <a id="nav-alerts-link" href="https://draft-67227d50-7e9e-473e-83e0-3ef0ff4b8c2a.preview.superdesign.dev/"
+          class="flex items-center gap-3 rounded-md bg-institution px-4 py-3 text-sm font-medium text-white"
+          data-sd-id="13"><iconify-icon icon="lucide:bell" class="text-lg"><template shadowrootmode="open">
+              <style data-style="data-style">
+                :host {
+                  display: inline-block;
+                  vertical-align: 0
+                }
+
+                span,
+                svg {
+                  display: block
+                }
+              </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326">
+                </path>
+              </svg>
+            </template></iconify-icon>Alertes <span
+            class="ml-auto rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold" data-sd-id="14">18</span></a>
+        <a id="nav-cases-link" href="https://p.superdesign.dev/draft/358f5dc3-669a-4275-bda7-19403291699f#cases"
+          class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+          data-sd-id="15"><iconify-icon icon="lucide:folder-open" class="text-lg"><template shadowrootmode="open">
+              <style data-style="data-style">
+                :host {
+                  display: inline-block;
+                  vertical-align: 0
+                }
+
+                span,
+                svg {
+                  display: block
+                }
+              </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m6 14l1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2">
+                </path>
+              </svg>
+            </template></iconify-icon>Cas</a>
+        <a id="nav-reports-link" href="https://draft-f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383.preview.superdesign.dev/"
+          class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+          data-sd-id="16"><iconify-icon icon="lucide:bar-chart-3" class="text-lg"><template shadowrootmode="open">
+              <style data-style="data-style">
+                :host {
+                  display: inline-block;
+                  vertical-align: 0
+                }
+
+                span,
+                svg {
+                  display: block
+                }
+              </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M3 3v18h18m-3-4V9m-5 8V5M8 17v-3"></path>
+              </svg>
+            </template></iconify-icon>Rapports</a>
+        <a id="nav-audit-link" href="https://p.superdesign.dev/draft/358f5dc3-669a-4275-bda7-19403291699f#audit"
+          class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+          data-sd-id="17"><iconify-icon icon="lucide:history" class="text-lg"><template shadowrootmode="open">
+              <style data-style="data-style">
+                :host {
+                  display: inline-block;
+                  vertical-align: 0
+                }
+
+                span,
+                svg {
+                  display: block
+                }
+              </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                  <path d="M3 3v5h5m4-1v5l4 2"></path>
+                </g>
+              </svg>
+            </template></iconify-icon>Journal d’audit</a>
+        <a id="nav-settings-link" href="https://p.superdesign.dev/draft/358f5dc3-669a-4275-bda7-19403291699f#settings"
+          class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white"
+          data-sd-id="18"><iconify-icon icon="lucide:settings" class="text-lg"><template shadowrootmode="open">
+              <style data-style="data-style">
+                :host {
+                  display: inline-block;
+                  vertical-align: 0
+                }
+
+                span,
+                svg {
+                  display: block
+                }
+              </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path
+                    d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0a2.34 2.34 0 0 0 3.319 1.915a2.34 2.34 0 0 1 2.33 4.033a2.34 2.34 0 0 0 0 3.831a2.34 2.34 0 0 1-2.33 4.033a2.34 2.34 0 0 0-3.319 1.915a2.34 2.34 0 0 1-4.659 0a2.34 2.34 0 0 0-3.32-1.915a2.34 2.34 0 0 1-2.33-4.033a2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915">
+                  </path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </g>
+              </svg>
+            </template></iconify-icon>Paramètres</a>
+      </nav>
+      <div class="border-t border-white/10 px-5 py-5" data-sd-id="19">
+        <div class="flex items-center gap-3" data-sd-id="20"><span class="h-2.5 w-2.5 rounded-full bg-success"
+            data-sd-id="21"></span><span class="text-sm text-slate-200" data-sd-id="22">Mariam Kaboré</span></div>
+        <p class="mt-1 pl-5 text-xs text-slate-400" data-sd-id="23">Connectée · Responsable conformité</p>
+      </div>
+    </aside>
+    <div class="lg:pl-64" data-sd-id="24">
+      <header
+        class="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm sm:px-6 lg:px-8"
+        data-sd-id="25">
+        <div class="flex items-center gap-3" data-sd-id="26"><button id="mobile-menu-btn" aria-label="Ouvrir le menu"
+            class="rounded-md p-2 text-night hover:bg-slate-100 lg:hidden" data-sd-id="27"><iconify-icon
+              icon="lucide:menu" class="text-xl"><template shadowrootmode="open">
+                <style data-style="data-style">
+                  :host {
+                    display: inline-block;
+                    vertical-align: 0
+                  }
+
+                  span,
+                  svg {
+                    display: block
+                  }
+                </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path>
+                </svg>
+              </template></iconify-icon></button>
+          <div data-sd-id="28">
+            <p class="text-sm font-semibold text-night sm:text-base" data-sd-id="29">Coopérative Financière Wend-Panga
+            </p>
+            <p class="hidden text-xs text-slate-500 sm:block" data-sd-id="30">Espace de conformité</p>
+          </div>
+        </div>
+        <div class="hidden items-center gap-6 md:flex" data-sd-id="31"><span class="text-sm text-slate-500"
+            data-sd-id="32">Mariam Kaboré <span class="text-slate-300" data-sd-id="33">—</span> Responsable
+            conformité</span><span class="flex items-center gap-2 text-xs font-medium text-success"
+            data-sd-id="34"><iconify-icon icon="lucide:wifi" class="text-base"><template shadowrootmode="open">
+                <style data-style="data-style">
+                  :host {
+                    display: inline-block;
+                    vertical-align: 0
+                  }
+
+                  span,
+                  svg {
+                    display: block
+                  }
+                </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 20h.01M2 8.82a15 15 0 0 1 20 0M5 12.859a10 10 0 0 1 14 0m-10.5 3.57a5 5 0 0 1 7 0"></path>
+                </svg>
+              </template></iconify-icon>Synchronisé</span><button id="notifications-btn" aria-label="3 notifications"
+            class="relative rounded-md p-2 text-slate-500 hover:bg-slate-100" data-sd-id="35"><iconify-icon
+              icon="lucide:bell" class="text-xl"><template shadowrootmode="open">
+                <style data-style="data-style">
+                  :host {
+                    display: inline-block;
+                    vertical-align: 0
+                  }
+
+                  span,
+                  svg {
+                    display: block
+                  }
+                </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326">
+                  </path>
+                </svg>
+              </template></iconify-icon><span
+              class="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white"
+              data-sd-id="36">3</span></button><span
+            class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-night"
+            data-sd-id="37">MK</span><button id="logout-btn" aria-label="Se déconnecter"
+            class="rounded-md p-2 text-danger hover:bg-red-50" data-sd-id="38"><iconify-icon icon="lucide:log-out"
+              class="text-lg"><template shadowrootmode="open">
+                <style data-style="data-style">
+                  :host {
+                    display: inline-block;
+                    vertical-align: 0
+                  }
+
+                  span,
+                  svg {
+                    display: block
+                  }
+                </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2" d="m16 17l5-5l-5-5m5 5H9m0 9H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                </svg>
+              </template></iconify-icon></button></div>
+      </header>
+      <main class="p-4 sm:p-6 lg:p-8" data-sd-id="39">
+        <div class="mb-7 flex flex-col justify-between gap-4 sm:flex-row sm:items-end" data-sd-id="40">
+          <div data-sd-id="41"><a id="back-alerts-link"
+              href="https://draft-67227d50-7e9e-473e-83e0-3ef0ff4b8c2a.preview.superdesign.dev/"
+              class="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-institution hover:underline"
+              data-sd-id="42"><iconify-icon icon="lucide:arrow-left"><template shadowrootmode="open">
+                  <style data-style="data-style">
+                    :host {
+                      display: inline-block;
+                      vertical-align: 0
+                    }
+
+                    span,
+                    svg {
+                      display: block
+                    }
+                  </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2" d="m12 19l-7-7l7-7m7 7H5"></path>
+                  </svg>
+                </template></iconify-icon>Retour au centre des alertes</a>
+            <h1 class="text-2xl font-bold tracking-tight text-night sm:text-3xl" data-sd-id="43">Détail d'une alerte
+            </h1>
+            <p class="mt-1 text-sm text-slate-500" data-sd-id="44">Analyse et décision pour <span
+                class="font-semibold text-night" data-sd-id="45">ALT-2026-001847</span></p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2" data-sd-id="46"><span
+              class="rounded-full bg-red-100 px-3 py-1.5 text-xs font-bold text-danger"
+              data-sd-id="47">CRITIQUE</span><span
+              class="rounded-full bg-orange-100 px-3 py-1.5 text-xs font-bold text-orange-700" data-sd-id="48">EN COURS
+              D'ANALYSE</span><span class="flex items-center gap-1.5 text-sm text-slate-500"
+              data-sd-id="49"><iconify-icon icon="lucide:clock"><template shadowrootmode="open">
+                  <style data-style="data-style">
+                    :host {
+                      display: inline-block;
+                      vertical-align: 0
+                    }
+
+                    span,
+                    svg {
+                      display: block
+                    }
+                  </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M12 6v6l4 2"></path>
+                    </g>
+                  </svg>
+                </template></iconify-icon>Âge : 2 jours 3 heures</span></div>
+        </div>
+        <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,.9fr)]" data-sd-id="50">
+          <div class="space-y-6" data-sd-id="51">
+            <section class="rounded-lg border-l-4 border-danger bg-white p-5 shadow-sm ring-1 ring-slate-100"
+              data-sd-id="52">
+              <div class="mb-5 flex items-center justify-between" data-sd-id="53">
+                <h2 class="flex items-center gap-2 text-lg font-bold text-night" data-sd-id="54"><iconify-icon
+                    icon="lucide:file-warning" class="text-danger"><template shadowrootmode="open">
+                      <style data-style="data-style">
+                        :host {
+                          display: inline-block;
+                          vertical-align: 0
+                        }
+
+                        span,
+                        svg {
+                          display: block
+                        }
+                      </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Zm-3 7v4m0 4h.01"></path>
+                      </svg>
+                    </template></iconify-icon>Contexte</h2><span class="text-xs font-medium text-slate-400"
+                  data-sd-id="55">ALT-2026-001847</span>
+              </div>
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-3" data-sd-id="56">
+                <div data-sd-id="57">
+                  <p class="text-xs uppercase tracking-wide text-slate-500" data-sd-id="58">Client concerné</p>
+                  <p class="mt-1 font-semibold text-night" data-sd-id="59">Aïcha Ouédraogo</p>
+                  <p class="text-sm text-slate-500" data-sd-id="60">CIF-2026-004581</p>
+                </div>
+                <div data-sd-id="61">
+                  <p class="text-xs uppercase tracking-wide text-slate-500" data-sd-id="62">Niveau de risque</p><span
+                    class="mt-2 inline-flex rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-danger"
+                    data-sd-id="63">ÉLEVÉ</span>
+                </div>
+                <div data-sd-id="64">
+                  <p class="text-xs uppercase tracking-wide text-slate-500" data-sd-id="65">Source</p>
+                  <p class="mt-1 text-sm font-medium text-night" data-sd-id="66">Moteur de surveillance automatique</p>
+                </div>
+              </div>
+              <div class="mt-6" data-sd-id="67">
+                <h3 class="mb-3 text-sm font-semibold text-night" data-sd-id="68">Transactions déclenchantes</h3>
+                <div class="overflow-x-auto rounded-md border border-slate-200" data-sd-id="69">
+                  <table class="w-full min-w-[520px] text-left text-sm" data-sd-id="70">
+                    <thead class="bg-slate-50 text-xs uppercase text-slate-500" data-sd-id="71">
+                      <tr data-sd-id="72">
+                        <th class="px-4 py-3" data-sd-id="73">Type</th>
+                        <th class="px-4 py-3" data-sd-id="74">Montant</th>
+                        <th class="px-4 py-3" data-sd-id="75">Date</th>
+                        <th class="px-4 py-3" data-sd-id="76">Agence</th>
+                      </tr>
+                    </thead>
+                    <tbody data-sd-id="77">
+                      <tr class="border-t border-slate-100" data-sd-id="78">
+                        <td class="px-4 py-3 font-medium text-night" data-sd-id="79">Retrait</td>
+                        <td class="px-4 py-3 font-semibold" data-sd-id="80">2 850 000 FCFA</td>
+                        <td class="px-4 py-3" data-sd-id="81">05 septembre 2026</td>
+                        <td class="px-4 py-3" data-sd-id="82">Ouagadougou Centre</td>
+                      </tr>
+                      <tr class="border-t border-slate-100" data-sd-id="83">
+                        <td class="px-4 py-3 font-medium text-night" data-sd-id="84">Dépôt</td>
+                        <td class="px-4 py-3 font-semibold" data-sd-id="85">2 700 000 FCFA</td>
+                        <td class="px-4 py-3" data-sd-id="86">04 septembre 2026</td>
+                        <td class="px-4 py-3" data-sd-id="87">Ouagadougou Centre</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2" data-sd-id="88">
+                <div data-sd-id="89">
+                  <p class="text-xs uppercase tracking-wide text-slate-500" data-sd-id="90">Règle appliquée</p><code
+                    class="mt-2 block rounded bg-slate-100 px-3 py-2 text-xs leading-5 text-slate-700">Opérations répétées proches du seuil en 48 heures</code>
+                </div>
+                <div data-sd-id="91">
+                  <p class="text-xs uppercase tracking-wide text-slate-500" data-sd-id="92">Créée le</p>
+                  <p class="mt-2 text-sm text-night" data-sd-id="93">06 septembre 2026 à 14:35</p>
+                  <p class="mt-1 text-xs text-slate-500" data-sd-id="94">Créée par : Système automatique</p>
+                </div>
+              </div>
+            </section>
+            <section class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-100" data-sd-id="95">
+              <div class="mb-5 flex items-center justify-between" data-sd-id="96">
+                <h2 class="flex items-center gap-2 text-lg font-bold text-night" data-sd-id="97"><iconify-icon
+                    icon="lucide:search-check" class="text-institution"><template shadowrootmode="open">
+                      <style data-style="data-style">
+                        :host {
+                          display: inline-block;
+                          vertical-align: 0
+                        }
+
+                        span,
+                        svg {
+                          display: block
+                        }
+                      </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2">
+                          <path d="m8 11l2 2l4-4"></path>
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <path d="m21 21l-4.3-4.3"></path>
+                        </g>
+                      </svg>
+                    </template></iconify-icon>Analyse</h2><span
+                  class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-danger" data-sd-id="98">Risque
+                  proposé : ÉLEVÉ</span>
+              </div>
+              <div class="mb-6 flex items-center gap-4" data-sd-id="99">
+                <div class="flex-1" data-sd-id="100">
+                  <div class="mb-2 flex justify-between text-sm" data-sd-id="101"><span
+                      class="font-medium text-slate-600" data-sd-id="102">Score de correspondance</span><strong
+                      class="text-danger">87/100</strong></div>
+                  <div class="h-3 overflow-hidden rounded-full bg-slate-200" data-sd-id="103">
+                    <div class="h-full w-[87%] rounded-full bg-danger" data-sd-id="104"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 gap-6 md:grid-cols-2" data-sd-id="105">
+                <div data-sd-id="106">
+                  <h3 class="mb-3 text-sm font-semibold text-night" data-sd-id="107">Éléments de preuve</h3>
+                  <ul class="space-y-3 text-sm" data-sd-id="108">
+                    <li class="flex gap-2" data-sd-id="109"><iconify-icon icon="lucide:check-circle-2"
+                        class="mt-0.5 shrink-0 text-danger"><template shadowrootmode="open">
+                          <style data-style="data-style">
+                            :host {
+                              display: inline-block;
+                              vertical-align: 0
+                            }
+
+                            span,
+                            svg {
+                              display: block
+                            }
+                          </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2">
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <path d="m16 9l-5.5 5.5L8 12"></path>
+                            </g>
+                          </svg>
+                        </template></iconify-icon><span data-sd-id="110">Deux opérations en 24 heures, montant total
+                        <strong>5.55M FCFA</strong></span></li>
+                    <li class="flex gap-2" data-sd-id="111"><iconify-icon icon="lucide:check-circle-2"
+                        class="mt-0.5 shrink-0 text-danger"><template shadowrootmode="open">
+                          <style data-style="data-style">
+                            :host {
+                              display: inline-block;
+                              vertical-align: 0
+                            }
+
+                            span,
+                            svg {
+                              display: block
+                            }
+                          </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2">
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <path d="m16 9l-5.5 5.5L8 12"></path>
+                            </g>
+                          </svg>
+                        </template></iconify-icon><span data-sd-id="112">Dépasse le seuil normal <strong>(3.5M)</strong>
+                        pour ce profil</span></li>
+                    <li class="flex gap-2" data-sd-id="113"><iconify-icon icon="lucide:check-circle-2"
+                        class="mt-0.5 shrink-0 text-danger"><template shadowrootmode="open">
+                          <style data-style="data-style">
+                            :host {
+                              display: inline-block;
+                              vertical-align: 0
+                            }
+
+                            span,
+                            svg {
+                              display: block
+                            }
+                          </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2">
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <path d="m16 9l-5.5 5.5L8 12"></path>
+                            </g>
+                          </svg>
+                        </template></iconify-icon><span data-sd-id="114">Pattern similaire à une activité de blanchiment
+                        potentiel</span></li>
+                  </ul>
+                </div>
+                <div data-sd-id="115">
+                  <h3 class="mb-3 text-sm font-semibold text-night" data-sd-id="116">Liens détectés</h3>
+                  <div class="space-y-3 text-sm" data-sd-id="117"><a id="related-alerts-link"
+                      href="https://draft-67227d50-7e9e-473e-83e0-3ef0ff4b8c2a.preview.superdesign.dev/"
+                      class="flex items-center justify-between rounded-md border border-slate-200 px-3 py-3 font-medium text-institution hover:bg-blue-50"
+                      data-sd-id="118"><span data-sd-id="119">4 autres alertes associées au même
+                        client</span><iconify-icon icon="lucide:external-link"><template shadowrootmode="open">
+                          <style data-style="data-style">
+                            :host {
+                              display: inline-block;
+                              vertical-align: 0
+                            }
+
+                            span,
+                            svg {
+                              display: block
+                            }
+                          </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M15 3h6v6m-11 5L21 3m-3 10v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                          </svg>
+                        </template></iconify-icon></a><a id="related-transactions-link"
+                      href="https://draft-246591b3-5306-4b4a-9d0c-1e419119c44f.preview.superdesign.dev/"
+                      class="flex items-center justify-between rounded-md border border-slate-200 px-3 py-3 font-medium text-institution hover:bg-blue-50"
+                      data-sd-id="120"><span data-sd-id="121">2 transactions liées</span><iconify-icon
+                        icon="lucide:external-link"><template shadowrootmode="open">
+                          <style data-style="data-style">
+                            :host {
+                              display: inline-block;
+                              vertical-align: 0
+                            }
+
+                            span,
+                            svg {
+                              display: block
+                            }
+                          </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M15 3h6v6m-11 5L21 3m-3 10v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                          </svg>
+                        </template></iconify-icon></a></div>
+                </div>
+              </div>
+            </section>
+            <section class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-100" data-sd-id="122">
+              <h2 class="mb-5 flex items-center gap-2 text-lg font-bold text-night" data-sd-id="123"><iconify-icon
+                  icon="lucide:history" class="text-institution"><template shadowrootmode="open">
+                    <style data-style="data-style">
+                      :host {
+                        display: inline-block;
+                        vertical-align: 0
+                      }
+
+                      span,
+                      svg {
+                        display: block
+                      }
+                    </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2">
+                        <path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5m4-1v5l4 2"></path>
+                      </g>
+                    </svg>
+                  </template></iconify-icon>Historique</h2>
+              <ol class="relative ml-2 border-l border-slate-200" data-sd-id="124">
+                <li class="relative pb-6 pl-7" data-sd-id="125"><span
+                    class="absolute -left-[9px] top-0 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-institution ring-1 ring-institution"
+                    data-sd-id="126"></span>
+                  <p class="text-sm font-semibold text-night" data-sd-id="127">06 sept. · 14:35 — Alerte créée
+                    automatiquement</p>
+                  <p class="mt-1 text-sm text-slate-500" data-sd-id="128">Système · Raison : dépassement seuil</p>
+                </li>
+                <li class="relative pb-6 pl-7" data-sd-id="129"><span
+                    class="absolute -left-[9px] top-0 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-success ring-1 ring-success"
+                    data-sd-id="130"></span>
+                  <p class="text-sm font-semibold text-night" data-sd-id="131">06 sept. · 14:41 — Assignée à Mariam
+                    Kaboré</p>
+                  <p class="mt-1 text-sm text-slate-500" data-sd-id="132">Système · Motif : Responsable conformité</p>
+                </li>
+                <li class="relative pl-7" data-sd-id="133"><span
+                    class="absolute -left-[9px] top-0 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-amber ring-1 ring-amber"
+                    data-sd-id="134"></span>
+                  <p class="text-sm font-semibold text-night" data-sd-id="135">06 sept. · 15:12 — Commentaire ajouté</p>
+                  <p class="mt-1 text-sm text-slate-500" data-sd-id="136">Mariam Kaboré : « À examiner en priorité.
+                    Profil PEP suspect. »</p>
+                </li>
+              </ol>
+            </section>
+          </div>
+          <section class="h-fit rounded-lg bg-slate-100 p-5 shadow-sm ring-1 ring-slate-200 xl:sticky xl:top-24"
+            data-sd-id="137">
+            <div class="mb-5" data-sd-id="138">
+              <h2 class="text-xl font-bold text-night" data-sd-id="139">Prendre une décision</h2>
+              <p class="mt-1 text-sm leading-5 text-slate-500" data-sd-id="140">Vos actions seront enregistrées dans le
+                journal d'audit et justifieront le dossier.</p>
+            </div>
+            <div class="space-y-4" data-sd-id="141">
+              <div class="rounded-lg border border-green-200 bg-white p-4" data-sd-id="142">
+                <div class="flex items-center justify-between" data-sd-id="143">
+                  <h3 class="font-semibold text-night" data-sd-id="144">Prendre en charge</h3><span
+                    class="rounded-full bg-green-100 px-2 py-1 text-xs font-bold text-success" data-sd-id="145">ASSIGNÉE
+                    À MOI</span>
+                </div><label for="note" class="mt-4 block text-sm font-medium text-slate-700" data-sd-id="146">Ajouter
+                  une note <span class="font-normal text-slate-400" data-sd-id="147">(optionnel)</span></label><textarea
+                  id="note" rows="2"
+                  class="mt-2 w-full rounded-md border border-slate-300 bg-white p-3 text-sm outline-none focus:border-success focus:ring-2 focus:ring-success/20"
+                  placeholder="Ajoutez une note de prise en charge..." data-sd-id="148"></textarea><button
+                  id="take-charge-btn"
+                  class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-success px-4 text-sm font-semibold text-white transition hover:bg-green-700"
+                  data-sd-id="149"><iconify-icon icon="lucide:user-check"><template shadowrootmode="open">
+                      <style data-style="data-style">
+                        :host {
+                          display: inline-block;
+                          vertical-align: 0
+                        }
+
+                        span,
+                        svg {
+                          display: block
+                        }
+                      </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2">
+                          <path d="m16 11l2 2l4-4m-6 12v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                          <circle cx="9" cy="7" r="4"></circle>
+                        </g>
+                      </svg>
+                    </template></iconify-icon>Prendre en charge</button>
+              </div>
+              <div class="rounded-lg border border-blue-200 bg-white p-4" data-sd-id="150">
+                <h3 class="font-semibold text-night" data-sd-id="151">Demander des informations</h3>
+                <fieldset class="mt-4 space-y-2" data-sd-id="152">
+                  <legend class="mb-2 text-sm font-medium text-slate-700" data-sd-id="153">Informations demandées <span
+                      class="text-danger" data-sd-id="154">*</span></legend><label class="flex gap-2 text-sm"
+                    data-sd-id="155"><input type="radio" name="request" class="mt-1 accent-[#2c5282]"
+                      data-sd-id="156">Pièces d'identité supplémentaires</label><label class="flex gap-2 text-sm"
+                    data-sd-id="157"><input type="radio" name="request" class="mt-1 accent-[#2c5282]"
+                      data-sd-id="158">Justificatif de source des fonds</label><label class="flex gap-2 text-sm"
+                    data-sd-id="159"><input type="radio" name="request" class="mt-1 accent-[#2c5282]"
+                      data-sd-id="160">Historique complet des transactions (30j)</label><label
+                    class="flex gap-2 text-sm" data-sd-id="161"><input type="radio" name="request"
+                      class="mt-1 accent-[#2c5282]" data-sd-id="162">Autre (spécifier)</label>
+                </fieldset><label for="info-comment" class="mt-4 block text-sm font-medium text-slate-700"
+                  data-sd-id="163">Quelles informations demandez-vous ? <span class="text-danger"
+                    data-sd-id="164">*</span></label><textarea id="info-comment" required="" rows="2"
+                  class="mt-2 w-full rounded-md border border-slate-300 p-3 text-sm outline-none focus:border-institution focus:ring-2 focus:ring-institution/20"
+                  data-sd-id="165"></textarea><label for="response-delay"
+                  class="mt-3 block text-sm font-medium text-slate-700" data-sd-id="166">Délai de réponse
+                  attendu</label><select id="response-delay"
+                  class="mt-2 h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm" data-sd-id="167">
+                  <option data-sd-id="168">3 jours</option>
+                  <option data-sd-id="169">7 jours</option>
+                  <option data-sd-id="170">14 jours</option>
+                  <option data-sd-id="171">30 jours</option>
+                </select><button id="request-info-btn"
+                  class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-institution px-4 text-sm font-semibold text-white hover:bg-[#23456e]"
+                  data-sd-id="172"><iconify-icon icon="lucide:send"><template shadowrootmode="open">
+                      <style data-style="data-style">
+                        :host {
+                          display: inline-block;
+                          vertical-align: 0
+                        }
+
+                        span,
+                        svg {
+                          display: block
+                        }
+                      </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11zm7.318-19.539l-10.94 10.939">
+                        </path>
+                      </svg>
+                    </template></iconify-icon>Envoyer la demande</button>
+              </div>
+              <div class="rounded-lg border border-slate-300 bg-white p-4" data-sd-id="173">
+                <h3 class="font-semibold text-night" data-sd-id="174">Classer sans suite</h3><label for="dismiss-reason"
+                  class="mt-4 block text-sm font-medium text-slate-700" data-sd-id="175">Justification obligatoire <span
+                    class="text-danger" data-sd-id="176">*</span></label><textarea id="dismiss-reason" minlength="50"
+                  required="" rows="3" placeholder="Minimum 50 caractères"
+                  class="mt-2 w-full rounded-md border border-slate-300 p-3 text-sm outline-none focus:border-slate-500 focus:ring-2 focus:ring-slate-200"
+                  data-sd-id="177"></textarea><label class="mt-3 flex gap-2 text-sm" data-sd-id="178"><input
+                    id="dismiss-confirm" type="checkbox" class="mt-1 accent-[#2c5282]" data-sd-id="179">Je confirme que
+                  cette alerte ne présente pas de risque confirmé</label><button id="dismiss-btn"
+                  class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-slate-600 px-4 text-sm font-semibold text-white hover:bg-slate-700"
+                  data-sd-id="180">Confirmer le classement</button>
+              </div>
+              <div class="rounded-lg border border-red-200 bg-white p-4" data-sd-id="181">
+                <h3 class="font-semibold text-danger" data-sd-id="182">Confirmer comme cas suspect</h3><label
+                  for="suspect-reason" class="mt-4 block text-sm font-medium text-slate-700"
+                  data-sd-id="183">Justification de la confirmation <span class="text-danger"
+                    data-sd-id="184">*</span></label><textarea id="suspect-reason" minlength="100" required="" rows="3"
+                  placeholder="Minimum 100 caractères"
+                  class="mt-2 w-full rounded-md border border-slate-300 p-3 text-sm outline-none focus:border-danger focus:ring-2 focus:ring-danger/20"
+                  data-sd-id="185"></textarea><label for="threat-level"
+                  class="mt-3 block text-sm font-medium text-slate-700" data-sd-id="186">Niveau de menace</label><select
+                  id="threat-level" class="mt-2 h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm"
+                  data-sd-id="187">
+                  <option data-sd-id="188">Blanchiment de capitaux (LBC)</option>
+                  <option data-sd-id="189">Financement du terrorisme (FT)</option>
+                  <option data-sd-id="190">Financement de la prolifération (FP)</option>
+                  <option data-sd-id="191">Non déterminé</option>
+                </select><label class="mt-3 flex gap-2 text-sm" data-sd-id="192"><input id="authorities" type="checkbox"
+                    class="mt-1 accent-[#e53e3e]" data-sd-id="193">À transmettre aux autorités
+                  (CENOS/CENTIF)</label><button id="suspect-btn"
+                  class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-danger px-4 text-sm font-semibold text-white hover:bg-red-700"
+                  data-sd-id="194"><iconify-icon icon="lucide:shield-alert"><template shadowrootmode="open">
+                      <style data-style="data-style">
+                        :host {
+                          display: inline-block;
+                          vertical-align: 0
+                        }
+
+                        span,
+                        svg {
+                          display: block
+                        }
+                      </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1zm-8-5v4m0 4h.01">
+                        </path>
+                      </svg>
+                    </template></iconify-icon>Escalader en cas suspect</button>
+              </div>
+              <div class="rounded-lg border border-orange-200 bg-white p-4" data-sd-id="195">
+                <h3 class="font-semibold text-night" data-sd-id="196">Escalader au superviseur</h3><label
+                  for="escalation-reason" class="mt-4 block text-sm font-medium text-slate-700" data-sd-id="197">Motif
+                  de l'escalade <span class="text-danger" data-sd-id="198">*</span></label><textarea
+                  id="escalation-reason" required="" rows="2"
+                  class="mt-2 w-full rounded-md border border-slate-300 p-3 text-sm outline-none focus:border-amber focus:ring-2 focus:ring-amber/20"
+                  data-sd-id="199"></textarea><label for="supervisor"
+                  class="mt-3 block text-sm font-medium text-slate-700" data-sd-id="200">Superviseur
+                  assigné</label><select id="supervisor"
+                  class="mt-2 h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm" data-sd-id="201">
+                  <option data-sd-id="202">Sélectionner un superviseur</option>
+                  <option data-sd-id="203">Superviseur conformité</option>
+                </select><button id="escalate-btn"
+                  class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-amber px-4 text-sm font-semibold text-white hover:bg-yellow-700"
+                  data-sd-id="204"><iconify-icon icon="lucide:arrow-up-right"><template shadowrootmode="open">
+                      <style data-style="data-style">
+                        :host {
+                          display: inline-block;
+                          vertical-align: 0
+                        }
+
+                        span,
+                        svg {
+                          display: block
+                        }
+                      </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2" d="M7 7h10v10M7 17L17 7"></path>
+                      </svg>
+                    </template></iconify-icon>Envoyer au superviseur</button>
+              </div>
+              <div class="rounded-lg border border-slate-300 bg-white p-4" data-sd-id="205">
+                <h3 class="font-semibold text-night" data-sd-id="206">Clôturer avec justification</h3><label
+                  for="close-reason" class="mt-4 block text-sm font-medium text-slate-700"
+                  data-sd-id="207">Justification de la clôture <span class="text-danger"
+                    data-sd-id="208">*</span></label><textarea id="close-reason" minlength="50" required="" rows="3"
+                  placeholder="Minimum 50 caractères"
+                  class="mt-2 w-full rounded-md border border-slate-300 p-3 text-sm outline-none focus:border-slate-700 focus:ring-2 focus:ring-slate-300"
+                  data-sd-id="209"></textarea><label for="close-type"
+                  class="mt-3 block text-sm font-medium text-slate-700" data-sd-id="210">Raison de la
+                  clôture</label><select id="close-type"
+                  class="mt-2 h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm" data-sd-id="211">
+                  <option data-sd-id="212">Faux positif - Erreur de règle</option>
+                  <option data-sd-id="213">Information complétée - Risque levé</option>
+                  <option data-sd-id="214">Classé sans suite après escalade</option>
+                  <option data-sd-id="215">Autre (spécifier)</option>
+                </select><label class="mt-3 flex gap-2 text-sm" data-sd-id="216"><input id="audit-report"
+                    type="checkbox" class="mt-1 accent-[#1a2332]" data-sd-id="217">Générer un rapport pour
+                  audit</label><button id="close-alert-btn"
+                  class="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-md bg-night px-4 text-sm font-semibold text-white hover:bg-slate-800"
+                  data-sd-id="218"><iconify-icon icon="lucide:lock"><template shadowrootmode="open">
+                      <style data-style="data-style">
+                        :host {
+                          display: inline-block;
+                          vertical-align: 0
+                        }
+
+                        span,
+                        svg {
+                          display: block
+                        }
+                      </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2">
+                          <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </g>
+                      </svg>
+                    </template></iconify-icon>Clôturer l'alerte</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <div id="confirmation-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-night/60 px-4"
+      role="dialog" aria-modal="true" aria-labelledby="modal-title" data-sd-id="219">
+      <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-2xl" data-sd-id="220">
+        <div class="flex items-start gap-4" data-sd-id="221"><span
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber"
+            data-sd-id="222"><iconify-icon icon="lucide:triangle-alert" class="text-xl"><template shadowrootmode="open">
+                <style data-style="data-style">
+                  :host {
+                    display: inline-block;
+                    vertical-align: 0
+                  }
+
+                  span,
+                  svg {
+                    display: block
+                  }
+                </style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"></path>
+                </svg>
+              </template></iconify-icon></span>
+          <div data-sd-id="223">
+            <h2 id="modal-title" class="text-lg font-bold text-night" data-sd-id="224">Confirmer cette action</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-600" data-sd-id="225">Êtes-vous sûr ? Cette action est
+              irréversible.</p>
+          </div>
+        </div>
+        <div class="mt-6 flex justify-end gap-3" data-sd-id="226"><button id="cancel-modal-btn"
+            class="h-10 rounded-md border border-slate-300 px-4 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            data-sd-id="227">Annuler</button><button id="confirm-modal-btn"
+            class="h-10 rounded-md bg-danger px-4 text-sm font-semibold text-white hover:bg-red-700"
+            data-sd-id="228">Confirmer</button></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const modal = document.getElementById('confirmation-modal'); let pending = '';
+    ['take-charge-btn', 'request-info-btn', 'dismiss-btn', 'suspect-btn', 'escalate-btn', 'close-alert-btn'].forEach(id => document.getElementById(id)?.addEventListener('click', () => { pending = id; modal.classList.remove('hidden'); modal.classList.add('flex') }));
+    document.getElementById('cancel-modal-btn').addEventListener('click', () => { modal.classList.add('hidden'); modal.classList.remove('flex') }); document.getElementById('confirm-modal-btn').addEventListener('click', () => { modal.classList.add('hidden'); modal.classList.remove('flex'); const toast = document.createElement('div'); toast.className = 'fixed bottom-6 right-6 z-[60] flex items-center gap-3 rounded-lg bg-success px-5 py-4 text-sm font-semibold text-white shadow-xl'; toast.innerHTML = '<iconify-icon icon="lucide:check-circle" class="text-xl"></iconify-icon>Action enregistrée dans le journal d’audit'; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3500) });
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => { const s = document.getElementById('sidebar'); s.classList.toggle('hidden'); s.classList.toggle('flex') });
+  </script>
+
+</body>
+
+</html>

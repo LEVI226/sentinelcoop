@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)https://p.superdesign.dev/draft/f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383 -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIF Guard — Rapports et indicateurs</title>
+<script src="./saved_resource"></script>
+<script src="./iconify-icon.min.js.téléchargement"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./css2" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']},colors:{night:'#1a2332',institution:'#2c5282',success:'#38a169',amber:'#d69e2e',danger:'#e53e3e'}}}}</script>
+<style>
+.chart-grid{background-image:linear-gradient(to bottom,#e2e8f0 1px,transparent 1px);background-size:100% 25%;}
+.bar{transition:opacity .2s ease}.bar:hover{opacity:.75}
+</style>
+
+<meta name="preview-version" content="f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383">
+<meta name="preview-timestamp" content="2026-09-05T15:09:16.453Z">
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383",
+      timestamp: "2026-09-05T15:09:16.453Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script src="./petite-vue.iife.js.téléchargement"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Inter, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-7{inset:1.75rem}.inset-y-0{top:0px;bottom:0px}.inset-x-5{left:1.25rem;right:1.25rem}.left-0{left:0px}.top-0{top:0px}.right-0{right:0px}.-bottom-7{bottom:-1.75rem}.-top-5{top:-1.25rem}.bottom-1{bottom:0.25rem}.bottom-8{bottom:2rem}.left-5{left:1.25rem}.right-1{right:0.25rem}.right-5{right:1.25rem}.top-4{top:1rem}.top-\[20\%\]{top:20%}.z-40{z-index:40}.z-30{z-index:30}.ml-auto{margin-left:auto}.mt-1{margin-top:0.25rem}.mb-1{margin-bottom:0.25rem}.mb-7{margin-bottom:1.75rem}.mb-5{margin-bottom:1.25rem}.mb-6{margin-bottom:1.5rem}.mb-4{margin-bottom:1rem}.mt-10{margin-top:2.5rem}.mr-1\.5{margin-right:0.375rem}.mt-3{margin-top:0.75rem}.inline-block{display:inline-block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-9{height:2.25rem}.h-\[72px\]{height:72px}.h-2\.5{height:0.625rem}.h-4{height:1rem}.h-11{height:2.75rem}.h-56{height:14rem}.h-full{height:100%}.h-40{height:10rem}.h-2{height:0.5rem}.min-h-screen{min-height:100vh}.w-64{width:16rem}.w-9{width:2.25rem}.w-2\.5{width:0.625rem}.w-full{width:100%}.w-40{width:10rem}.w-48{width:12rem}.w-5{width:1.25rem}.w-8{width:2rem}.min-w-4{min-width:1rem}.flex-1{flex:1 1 0%}.shrink-0{flex-shrink:0}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-3{gap:0.75rem}.gap-2{gap:0.5rem}.gap-6{gap:1.5rem}.gap-4{gap:1rem}.gap-5{gap:1.25rem}.gap-x-5{column-gap:1.25rem}.gap-y-2{row-gap:0.5rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rounded-lg{border-radius:0.5rem}.rounded-md{border-radius:0.375rem}.rounded-full{border-radius:9999px}.rounded-t{border-top-left-radius:0.25rem;border-top-right-radius:0.25rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-l-4{border-left-width:4px}.border-l{border-left-width:1px}.border-dashed{border-style:dashed}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.border-amber{--tw-border-opacity:1;border-color:rgb(214 158 46 / var(--tw-border-opacity, 1))}.border-institution{--tw-border-opacity:1;border-color:rgb(44 82 130 / var(--tw-border-opacity, 1))}.border-success{--tw-border-opacity:1;border-color:rgb(56 161 105 / var(--tw-border-opacity, 1))}.border-danger{--tw-border-opacity:1;border-color:rgb(229 62 62 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.bg-institution{--tw-bg-opacity:1;background-color:rgb(44 82 130 / var(--tw-bg-opacity, 1))}.bg-night{--tw-bg-opacity:1;background-color:rgb(26 35 50 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity, 1))}.bg-success{--tw-bg-opacity:1;background-color:rgb(56 161 105 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-danger{--tw-bg-opacity:1;background-color:rgb(229 62 62 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-amber{--tw-bg-opacity:1;background-color:rgb(214 158 46 / var(--tw-bg-opacity, 1))}.bg-green-800{--tw-bg-opacity:1;background-color:rgb(22 101 52 / var(--tw-bg-opacity, 1))}.bg-orange-500{--tw-bg-opacity:1;background-color:rgb(249 115 22 / var(--tw-bg-opacity, 1))}.bg-slate-300{--tw-bg-opacity:1;background-color:rgb(203 213 225 / var(--tw-bg-opacity, 1))}.bg-slate-400{--tw-bg-opacity:1;background-color:rgb(148 163 184 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.p-2{padding:0.5rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.pl-5{padding-left:1.25rem}.pb-0{padding-bottom:0px}.pt-5{padding-top:1.25rem}.pt-4{padding-top:1rem}.text-center{text-align:center}.text-right{text-align:right}.font-sans{font-family:Inter, sans-serif}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-\[10px\]{font-size:10px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-base{font-size:1rem;line-height:1.5rem}.text-2xl{font-size:1.5rem;line-height:2rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.tracking-tight{letter-spacing:-0.025em}.tracking-widest{letter-spacing:0.1em}.tracking-wide{letter-spacing:0.025em}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-sky-300{--tw-text-opacity:1;color:rgb(125 211 252 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-night{--tw-text-opacity:1;color:rgb(26 35 50 / var(--tw-text-opacity, 1))}.text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-success{--tw-text-opacity:1;color:rgb(56 161 105 / var(--tw-text-opacity, 1))}.text-danger{--tw-text-opacity:1;color:rgb(229 62 62 / var(--tw-text-opacity, 1))}.text-institution{--tw-text-opacity:1;color:rgb(44 82 130 / var(--tw-text-opacity, 1))}.text-amber{--tw-text-opacity:1;color:rgb(214 158 46 / var(--tw-text-opacity, 1))}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.ring-slate-100{--tw-ring-opacity:1;--tw-ring-color:rgb(241 245 249 / var(--tw-ring-opacity, 1))}.hover\:bg-white\/10:hover{background-color:rgb(255 255 255 / 0.1)}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.hover\:bg-red-50:hover{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity, 1))}.hover\:bg-\[\#23456e\]:hover{--tw-bg-opacity:1;background-color:rgb(35 69 110 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.focus\:border-institution:focus{--tw-border-opacity:1;border-color:rgb(44 82 130 / var(--tw-border-opacity, 1))}@media (min-width: 640px){.sm\:block{display:block}.sm\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.sm\:flex-row{flex-direction:row}.sm\:p-6{padding:1.5rem}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:text-base{font-size:1rem;line-height:1.5rem}.sm\:text-3xl{font-size:1.875rem;line-height:2.25rem}}@media (min-width: 768px){.md\:flex{display:flex}}@media (min-width: 1024px){.lg\:flex{display:flex}.lg\:hidden{display:none}.lg\:p-8{padding:2rem}.lg\:px-8{padding-left:2rem;padding-right:2rem}.lg\:pl-64{padding-left:16rem}}@media (min-width: 1280px){.xl\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.xl\:flex-row{flex-direction:row}.xl\:items-end{align-items:flex-end}}</style></head>
+<body class="sd-ready">
+<div class="min-h-screen bg-slate-50 font-sans text-slate-700" data-sd-id="1">
+<aside class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-night text-white lg:flex" data-sd-id="2">
+  <div class="flex h-[72px] items-center gap-3 border-b border-white/10 px-6" data-sd-id="3">
+    <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-institution" data-sd-id="4"><iconify-icon icon="lucide:shield-check" class="text-xl"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12l2 2l4-4"></path></g></svg></template></iconify-icon></div>
+    <div data-sd-id="5"><div class="text-lg font-bold tracking-tight" data-sd-id="6">CIF <span class="text-sky-300" data-sd-id="7">Guard</span></div><div class="text-[10px] uppercase tracking-widest text-slate-400" data-sd-id="8">Conformité financière</div></div>
+  </div>
+  <nav class="flex-1 space-y-1 px-3 py-6" aria-label="Navigation principale" data-sd-id="9">
+    <a id="nav-dashboard-link" href="https://draft-a4e28ff9-df77-4230-8159-3c48ec3ebc8e.preview.superdesign.dev/" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-white" data-sd-id="10"><iconify-icon icon="lucide:home" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></g></svg></template></iconify-icon>Tableau de bord</a>
+    <a id="nav-clients-link" href="https://draft-cdebe6ea-03fd-45a6-a097-8f30ac04d642.preview.superdesign.dev/" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-white" data-sd-id="11"><iconify-icon icon="lucide:users" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></g></svg></template></iconify-icon>Clients</a>
+    <a id="nav-transactions-link" href="https://draft-246591b3-5306-4b4a-9d0c-1e419119c44f.preview.superdesign.dev/" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-white" data-sd-id="12"><iconify-icon icon="lucide:arrow-right-left" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 3l4 4l-4 4m4-4H4m4 14l-4-4l4-4m-4 4h16"></path></svg></template></iconify-icon>Transactions</a>
+    <a id="nav-alerts-link" href="https://draft-67227d50-7e9e-473e-83e0-3ef0ff4b8c2a.preview.superdesign.dev/" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-white" data-sd-id="13"><iconify-icon icon="lucide:bell" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg></template></iconify-icon>Alertes <span class="ml-auto rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold" data-sd-id="14">18</span></a>
+    <a id="nav-cases-link" href="https://p.superdesign.dev/draft/f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383#cases" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-white" data-sd-id="15"><iconify-icon icon="lucide:folder-open" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 14l1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"></path></svg></template></iconify-icon>Cas</a>
+    <a id="nav-reports-link" href="https://draft-f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383.preview.superdesign.dev/" aria-current="page" class="flex items-center gap-3 rounded-md bg-institution px-4 py-3 text-sm font-medium text-white" data-sd-id="16"><iconify-icon icon="lucide:bar-chart-3" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18m-3-4V9m-5 8V5M8 17v-3"></path></svg></template></iconify-icon>Rapports</a>
+    <a id="nav-audit-link" href="https://p.superdesign.dev/draft/f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383#audit" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-white" data-sd-id="17"><iconify-icon icon="lucide:history" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5m4-1v5l4 2"></path></g></svg></template></iconify-icon>Journal d’audit</a>
+    <a id="nav-settings-link" href="https://p.superdesign.dev/draft/f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383#settings" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 hover:bg-white/10 hover:text-white" data-sd-id="18"><iconify-icon icon="lucide:settings" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0a2.34 2.34 0 0 0 3.319 1.915a2.34 2.34 0 0 1 2.33 4.033a2.34 2.34 0 0 0 0 3.831a2.34 2.34 0 0 1-2.33 4.033a2.34 2.34 0 0 0-3.319 1.915a2.34 2.34 0 0 1-4.659 0a2.34 2.34 0 0 0-3.32-1.915a2.34 2.34 0 0 1-2.33-4.033a2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></g></svg></template></iconify-icon>Paramètres</a>
+  </nav>
+  <div class="border-t border-white/10 px-5 py-5" data-sd-id="19"><div class="flex items-center gap-3" data-sd-id="20"><span class="h-2.5 w-2.5 rounded-full bg-success" data-sd-id="21"></span><span class="text-sm text-slate-200" data-sd-id="22">Mariam Kaboré</span></div><p class="mt-1 pl-5 text-xs text-slate-400" data-sd-id="23">Connectée · Responsable conformité</p></div>
+</aside>
+<div class="lg:pl-64" data-sd-id="24">
+<header class="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm sm:px-6 lg:px-8" data-sd-id="25">
+  <div class="flex items-center gap-3" data-sd-id="26"><button id="mobile-menu-btn" aria-label="Ouvrir le menu" class="rounded-md p-2 text-night hover:bg-slate-100 lg:hidden" data-sd-id="27"><iconify-icon icon="lucide:menu" class="text-xl"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg></template></iconify-icon></button><div data-sd-id="28"><p class="text-sm font-semibold text-night sm:text-base" data-sd-id="29">Coopérative Financière Wend-Panga</p><p class="hidden text-xs text-slate-500 sm:block" data-sd-id="30">Espace de conformité</p></div></div>
+  <div class="hidden items-center gap-6 md:flex" data-sd-id="31"><span class="text-sm text-slate-500" data-sd-id="32">Mariam Kaboré <span class="text-slate-300" data-sd-id="33">—</span> Responsable conformité</span><span class="flex items-center gap-2 text-xs font-medium text-success" data-sd-id="34"><iconify-icon icon="lucide:wifi" class="text-base"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h.01M2 8.82a15 15 0 0 1 20 0M5 12.859a10 10 0 0 1 14 0m-10.5 3.57a5 5 0 0 1 7 0"></path></svg></template></iconify-icon>Synchronisé</span><button id="header-notifications-btn" aria-label="3 notifications" class="relative rounded-md p-2 text-slate-500 hover:bg-slate-100" data-sd-id="35"><iconify-icon icon="lucide:bell" class="text-xl"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg></template></iconify-icon><span class="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white" data-sd-id="36">3</span></button><span class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-night" data-sd-id="37">MK</span><button id="logout-btn" aria-label="Se déconnecter" class="rounded-md p-2 text-danger hover:bg-red-50" data-sd-id="38"><iconify-icon icon="lucide:log-out" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 17l5-5l-5-5m5 5H9m0 9H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg></template></iconify-icon></button></div>
+</header>
+<main class="p-4 sm:p-6 lg:p-8" data-sd-id="39">
+  <div class="mb-7 flex flex-col justify-between gap-4 xl:flex-row xl:items-end" data-sd-id="40"><div data-sd-id="41"><p class="mb-1 text-sm font-medium text-institution" data-sd-id="42">Septembre 2026</p><h1 class="text-2xl font-bold tracking-tight text-night sm:text-3xl" data-sd-id="43">Rapports et indicateurs</h1><p class="mt-1 text-sm text-slate-500" data-sd-id="44">Vue analytique complète de la conformité.</p></div><div class="flex flex-wrap gap-2" data-sd-id="45"><select id="period-select" class="h-11 rounded-md border border-slate-300 bg-white px-3 text-sm font-medium text-night outline-none focus:border-institution" data-sd-id="46"><option data-sd-id="47">Septembre 2026</option><option data-sd-id="48">Août 2026</option><option data-sd-id="49">Année 2026</option></select><button id="export-pdf-btn" class="inline-flex h-11 items-center gap-2 rounded-md bg-institution px-4 text-sm font-semibold text-white shadow-sm hover:bg-[#23456e]" data-sd-id="50"><iconify-icon icon="lucide:download"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 15V3m9 12v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10l5 5l5-5"></path></g></svg></template></iconify-icon>Exporter en PDF</button><button id="export-excel-btn" class="inline-flex h-11 items-center gap-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-night hover:bg-slate-50" data-sd-id="51"><iconify-icon icon="lucide:sheet"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><path d="M3 9h18M3 15h18M9 9v12m6-12v12"></path></g></svg></template></iconify-icon>Exporter en Excel</button><button id="print-btn" class="inline-flex h-11 items-center gap-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-night hover:bg-slate-50" data-sd-id="52"><iconify-icon icon="lucide:printer"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path><rect width="12" height="8" x="6" y="14" rx="1"></rect></g></svg></template></iconify-icon>Imprimer</button></div></div>
+  <div class="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3" data-sd-id="53"><div class="rounded-lg border-l-4 border-institution bg-white p-4 shadow-sm" data-sd-id="54"><p class="text-xs font-medium uppercase tracking-wide text-slate-500" data-sd-id="55">Clients filtrés</p><p class="mt-1 text-2xl font-bold text-night" data-sd-id="56">2 847</p><p class="mt-1 text-xs text-success" data-sd-id="57">↑ 12,4% vs août</p></div><div class="rounded-lg border-l-4 border-amber bg-white p-4 shadow-sm" data-sd-id="58"><p class="text-xs font-medium uppercase tracking-wide text-slate-500" data-sd-id="59">Alertes générées</p><p class="mt-1 text-2xl font-bold text-night" data-sd-id="60">186</p><p class="mt-1 text-xs text-amber" data-sd-id="61">18 critiques ouvertes</p></div><div class="rounded-lg border-l-4 border-success bg-white p-4 shadow-sm" data-sd-id="62"><p class="text-xs font-medium uppercase tracking-wide text-slate-500" data-sd-id="63">Traitement dans les délais</p><p class="mt-1 text-2xl font-bold text-night" data-sd-id="64">93,8%</p><p class="mt-1 text-xs text-danger" data-sd-id="65">Objectif : 95%</p></div></div>
+  <section class="grid grid-cols-1 gap-5 xl:grid-cols-2" data-sd-id="66">
+    <article class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-100" data-sd-id="67"><div class="mb-5 flex items-start justify-between" data-sd-id="68"><div data-sd-id="69"><h2 class="flex items-center gap-2 text-base font-semibold text-night" data-sd-id="70"><iconify-icon icon="lucide:users" class="text-institution"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></g></svg></template></iconify-icon>Clients filtrés par période</h2><p class="mt-1 text-xs text-slate-500" data-sd-id="71">Progression des contrôles KYC effectués</p></div><span class="rounded-md bg-blue-50 px-2 py-1 text-xs font-semibold text-institution" data-sd-id="72">YTD : 24 680</span></div><div class="flex h-56 items-end gap-5 border-b border-l border-slate-200 px-5 pb-0 pt-5" data-sd-id="73"><div class="relative flex h-full flex-1 items-end" data-sd-id="74"><div class="bar w-full rounded-t bg-institution" style="height:58%" title="7 jours : 642" data-sd-id="75"></div><span class="absolute -bottom-7 w-full text-center text-xs text-slate-500" data-sd-id="76">7 jours</span></div><div class="relative flex h-full flex-1 items-end" data-sd-id="77"><div class="bar w-full rounded-t bg-institution" style="height:78%" title="30 jours : 2 847" data-sd-id="78"></div><span class="absolute -bottom-7 w-full text-center text-xs text-slate-500" data-sd-id="79">30 jours</span></div><div class="relative flex h-full flex-1 items-end" data-sd-id="80"><div class="bar w-full rounded-t bg-institution" style="height:100%" title="YTD : 24 680" data-sd-id="81"></div><span class="absolute -bottom-7 w-full text-center text-xs text-slate-500" data-sd-id="82">YTD</span></div></div><div class="mt-10 flex justify-between text-xs text-slate-400" data-sd-id="83"><span data-sd-id="84">0</span><span data-sd-id="85">10 000</span><span data-sd-id="86">20 000</span><span data-sd-id="87">30 000 clients</span></div></article>
+    <article class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-100" data-sd-id="88"><div class="mb-4 flex items-start justify-between" data-sd-id="89"><div data-sd-id="90"><h2 class="flex items-center gap-2 text-base font-semibold text-night" data-sd-id="91"><iconify-icon icon="lucide:pie-chart" class="text-institution"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></g></svg></template></iconify-icon>Répartition des alertes par statut</h2><p class="mt-1 text-xs text-slate-500" data-sd-id="92">Total des alertes enregistrées : 186</p></div><span class="text-2xl font-bold text-night" data-sd-id="93">186</span></div><div class="flex flex-col items-center gap-5 sm:flex-row" data-sd-id="94"><div class="relative h-40 w-40 shrink-0" data-sd-id="95"><div class="h-full w-full rounded-full" style="background:conic-gradient(#2c5282 0 19%,#d69e2e 19% 39%,#38a169 39% 63%,#94a3b8 63% 71%,#f97316 71% 78%,#e53e3e 78% 88%,#cbd5e1 88% 94%,#166534 94% 100%)" data-sd-id="96"></div><div class="absolute inset-7 flex items-center justify-center rounded-full bg-white" data-sd-id="97"><div class="text-center" data-sd-id="98"><p class="text-xl font-bold text-night" data-sd-id="99">186</p><p class="text-[10px] text-slate-500" data-sd-id="100">alertes</p></div></div></div><div class="grid grid-cols-2 gap-x-5 gap-y-2 text-xs" data-sd-id="101"><p data-sd-id="102"><span class="mr-1.5 inline-block h-2.5 w-2.5 rounded-full bg-institution" data-sd-id="103"></span>Nouveau <b>35 · 19%</b></p><p data-sd-id="104"><span class="mr-1.5 inline-block h-2.5 w-2.5 rounded-full bg-amber" data-sd-id="105"></span>À examiner <b>37 · 20%</b></p><p data-sd-id="106"><span class="mr-1.5 inline-block h-2.5 w-2.5 rounded-full bg-success" data-sd-id="107"></span>En cours <b>45 · 24%</b></p><p data-sd-id="108"><span class="mr-1.5 inline-block h-2.5 w-2.5 rounded-full bg-slate-400" data-sd-id="109"></span>En attente <b>15 · 8%</b></p><p data-sd-id="110"><span class="mr-1.5 inline-block h-2.5 w-2.5 rounded-full bg-orange-500" data-sd-id="111"></span>Escaladée <b>13 · 7%</b></p><p data-sd-id="112"><span class="mr-1.5 inline-block h-2.5 w-2.5 rounded-full bg-danger" data-sd-id="113"></span>Confirmée <b>19 · 10%</b></p><p data-sd-id="114"><span class="mr-1.5 inline-block h-2.5 w-2.5 rounded-full bg-slate-300" data-sd-id="115"></span>Sans suite <b>11 · 6%</b></p><p data-sd-id="116"><span class="mr-1.5 inline-block h-2.5 w-2.5 rounded-full bg-green-800" data-sd-id="117"></span>Clôturée <b>11 · 6%</b></p></div></div></article>
+    <article class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-100" data-sd-id="118"><div class="mb-4 flex items-start justify-between" data-sd-id="119"><div data-sd-id="120"><h2 class="flex items-center gap-2 text-base font-semibold text-night" data-sd-id="121"><iconify-icon icon="lucide:timer" class="text-success"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 2h4m-2 12l3-3"></path><circle cx="12" cy="14" r="8"></circle></g></svg></template></iconify-icon>Taux de traitement dans les délais</h2><p class="mt-1 text-xs text-slate-500" data-sd-id="122">Objectif réglementaire et performance mensuelle</p></div><span class="rounded-full bg-amber-50 px-3 py-1 text-sm font-bold text-amber" data-sd-id="123">93,8%</span></div><div class="relative h-56 overflow-hidden rounded-md border border-slate-100 px-3 pt-4" data-sd-id="124"><div class="absolute left-0 right-0 top-[20%] border-t border-dashed border-danger" data-sd-id="125"><span class="absolute -top-5 right-1 text-[10px] font-semibold text-danger" data-sd-id="126">Objectif 95%</span></div><div class="absolute inset-x-5 bottom-8 top-4" data-sd-id="127"><svg viewBox="0 0 500 180" class="h-full w-full" preserveAspectRatio="none" role="img" aria-label="Courbe du taux de traitement" data-sd-id="128"><polyline points="0,95 70,74 140,81 210,57 280,68 350,43 420,50 500,38" fill="none" stroke="#38a169" stroke-width="4"></polyline><g fill="#38a169"><circle cx="0" cy="95" r="4"></circle><circle cx="70" cy="74" r="4"></circle><circle cx="140" cy="81" r="4"></circle><circle cx="210" cy="57" r="4"></circle><circle cx="280" cy="68" r="4"></circle><circle cx="350" cy="43" r="4"></circle><circle cx="420" cy="50" r="4"></circle><circle cx="500" cy="38" r="4"></circle></g></svg></div><div class="absolute bottom-1 left-5 right-5 flex justify-between text-[10px] text-slate-400" data-sd-id="129"><span data-sd-id="130">S1</span><span data-sd-id="131">S2</span><span data-sd-id="132">S3</span><span data-sd-id="133">S4</span><span data-sd-id="134">S5</span><span data-sd-id="135">S6</span><span data-sd-id="136">S7</span><span data-sd-id="137">S8</span></div></div><div class="mt-3 flex items-center justify-between text-xs" data-sd-id="138"><span class="text-slate-500" data-sd-id="139">Tendance : <b class="text-success">+4,2 points</b> sur 8 semaines</span><span class="text-slate-400" data-sd-id="140">Seuil cible : 95%</span></div></article>
+    <article class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-100" data-sd-id="141"><div class="mb-4 flex items-start justify-between" data-sd-id="142"><div data-sd-id="143"><h2 class="flex items-center gap-2 text-base font-semibold text-night" data-sd-id="144"><iconify-icon icon="lucide:list-ordered" class="text-amber"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h10m-10 7h10m-10 7h10M4 4h1v5M4 9h2m.5 11H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02"></path></svg></template></iconify-icon>Top 10 des règles déclenchées</h2><p class="mt-1 text-xs text-slate-500" data-sd-id="145">Classement par nombre d’occurrences</p></div><span class="text-xs text-slate-400" data-sd-id="146">Sept. 2026</span></div><div class="space-y-3" data-sd-id="147"><div class="flex items-center gap-3" data-sd-id="148"><span class="w-5 text-xs font-bold text-slate-500" data-sd-id="149">01</span><span class="w-48 truncate text-xs text-night" data-sd-id="150">Opérations répétées proches du seuil</span><div class="h-2 flex-1 rounded-full bg-slate-100" data-sd-id="151"><div class="h-2 rounded-full bg-danger" style="width:100%" data-sd-id="152"></div></div><b class="w-8 text-right text-xs text-danger">48</b></div><div class="flex items-center gap-3" data-sd-id="153"><span class="w-5 text-xs font-bold text-slate-500" data-sd-id="154">02</span><span class="w-48 truncate text-xs text-night" data-sd-id="155">PEP potentiel détecté</span><div class="h-2 flex-1 rounded-full bg-slate-100" data-sd-id="156"><div class="h-2 rounded-full bg-danger" style="width:75%" data-sd-id="157"></div></div><b class="w-8 text-right text-xs text-danger">36</b></div><div class="flex items-center gap-3" data-sd-id="158"><span class="w-5 text-xs font-bold text-slate-500" data-sd-id="159">03</span><span class="w-48 truncate text-xs text-night" data-sd-id="160">Transactions inhabituelles</span><div class="h-2 flex-1 rounded-full bg-slate-100" data-sd-id="161"><div class="h-2 rounded-full bg-amber" style="width:63%" data-sd-id="162"></div></div><b class="w-8 text-right text-xs text-amber">30</b></div><div class="flex items-center gap-3" data-sd-id="163"><span class="w-5 text-xs font-bold text-slate-500" data-sd-id="164">04</span><span class="w-48 truncate text-xs text-night" data-sd-id="165">Écart profil transactionnel</span><div class="h-2 flex-1 rounded-full bg-slate-100" data-sd-id="166"><div class="h-2 rounded-full bg-amber" style="width:52%" data-sd-id="167"></div></div><b class="w-8 text-right text-xs text-amber">25</b></div><div class="flex items-center gap-3" data-sd-id="168"><span class="w-5 text-xs font-bold text-slate-500" data-sd-id="169">05</span><span class="w-48 truncate text-xs text-night" data-sd-id="170">Transfert international à risque</span><div class="h-2 flex-1 rounded-full bg-slate-100" data-sd-id="171"><div class="h-2 rounded-full bg-amber" style="width:40%" data-sd-id="172"></div></div><b class="w-8 text-right text-xs text-amber">19</b></div><div class="flex items-center gap-3" data-sd-id="173"><span class="w-5 text-xs font-bold text-slate-500" data-sd-id="174">06</span><span class="w-48 truncate text-xs text-night" data-sd-id="175">Dépôts multiples</span><div class="h-2 flex-1 rounded-full bg-slate-100" data-sd-id="176"><div class="h-2 rounded-full bg-success" style="width:33%" data-sd-id="177"></div></div><b class="w-8 text-right text-xs text-success">16</b></div><div class="flex items-center gap-3" data-sd-id="178"><span class="w-5 text-xs font-bold text-slate-500" data-sd-id="179">07</span><span class="w-48 truncate text-xs text-night" data-sd-id="180">Compte récemment ouvert</span><div class="h-2 flex-1 rounded-full bg-slate-100" data-sd-id="181"><div class="h-2 rounded-full bg-success" style="width:25%" data-sd-id="182"></div></div><b class="w-8 text-right text-xs text-success">12</b></div></div></article>
+  </section>
+</main>
+</div></div>
+
+</body></html>

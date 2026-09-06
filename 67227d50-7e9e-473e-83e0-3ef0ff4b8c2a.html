@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a -->
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIF Guard — Centre des alertes</title>
+<script src="./saved_resource"></script>
+<script src="./iconify-icon.min.js.téléchargement"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./css2" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']},colors:{night:'#1a2332',institution:'#2c5282',success:'#38a169',amber:'#d69e2e',danger:'#e53e3e'}}}}</script>
+
+<meta name="preview-version" content="67227d50-7e9e-473e-83e0-3ef0ff4b8c2a">
+<meta name="preview-timestamp" content="2026-09-05T15:09:15.005Z">
+
+<style>
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+    display: none !important; width: 0 !important; height: 0 !important;
+  }
+  html, body, * {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+</style>
+<style>
+          body:not(.sd-ready) { opacity: 0 !important; }
+          body.sd-ready { opacity: 1 !important; transition: opacity 0.1s ease-in; }
+          sd-component { display: block; }
+        </style>
+
+<script type="module">
+  (function() {
+    document.addEventListener('wheel', function(e) {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+  })();
+</script>
+<script type="module">
+    // SuperDesign Runtime
+    console.log('[SuperDesign] Preview loaded for versionId:', "67227d50-7e9e-473e-83e0-3ef0ff4b8c2a");
+
+    window.__SUPERDESIGN_PREVIEW__ = {
+      versionId: "67227d50-7e9e-473e-83e0-3ef0ff4b8c2a",
+      timestamp: "2026-09-05T15:09:15.005Z",
+      _modernScreenshotModule: null,
+
+      sendMessage: function(type, data) {
+        if (window.parent) {
+          window.parent.postMessage({
+            source: 'superdesign-preview',
+            type: type,
+            data: data,
+            versionId: this.versionId
+          }, '*');
+        }
+      },
+
+      ready: function() {
+        this.sendMessage('ready', { timestamp: Date.now() });
+      },
+
+      
+      _captureScreenshotInternal: async function() {
+        if (!this._modernScreenshotModule) {
+          console.log('[SuperDesign] Loading modern-screenshot library...');
+          this._modernScreenshotModule = await import('https://esm.sh/modern-screenshot@4.6.6');
+        }
+        var modernScreenshot = this._modernScreenshotModule;
+        if (!modernScreenshot || !modernScreenshot.domToCanvas) {
+          throw new Error('modern-screenshot library not loaded');
+        }
+
+        var scrollX = window.scrollX || window.pageXOffset;
+        var scrollY = window.scrollY || window.pageYOffset;
+        var viewportWidth = window.innerWidth;
+        var viewportHeight = window.innerHeight;
+        var documentWidth = Math.max(
+          document.documentElement.scrollWidth,
+          document.documentElement.offsetWidth,
+          document.documentElement.clientWidth,
+          document.body.scrollWidth,
+          document.body.offsetWidth
+        );
+        var documentHeight = Math.max(
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight,
+          document.documentElement.clientHeight,
+          document.body.scrollHeight,
+          document.body.offsetHeight
+        );
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+
+        var dataUrl;
+
+        if (isMobile) {
+          var wrapper = document.createElement('div');
+          wrapper.style.cssText = 'position:fixed;top:0;left:0;width:' + viewportWidth + 'px;height:' + viewportHeight + 'px;overflow:hidden;z-index:999999;pointer-events:none;';
+          var clone = document.body.cloneNode(true);
+          clone.style.cssText = 'position:absolute;top:' + (-scrollY) + 'px;left:' + (-scrollX) + 'px;margin:0;width:' + documentWidth + 'px;';
+          wrapper.appendChild(clone);
+          document.body.appendChild(wrapper);
+          try {
+            var viewportCanvas = await modernScreenshot.domToCanvas(wrapper, {
+              scale: 1, backgroundColor: '#ffffff',
+              width: viewportWidth, height: viewportHeight,
+            });
+            dataUrl = viewportCanvas.toDataURL('image/png', 0.5);
+          } finally {
+            document.body.removeChild(wrapper);
+          }
+        } else {
+          var fullCanvas = await modernScreenshot.domToCanvas(document.documentElement, {
+            scale: pixelRatio, backgroundColor: '#ffffff',
+            width: documentWidth, height: documentHeight,
+          });
+          var viewportCanvas = document.createElement('canvas');
+          viewportCanvas.width = viewportWidth * pixelRatio;
+          viewportCanvas.height = viewportHeight * pixelRatio;
+          var ctx = viewportCanvas.getContext('2d');
+          if (!ctx) throw new Error('Failed to get canvas context');
+          ctx.drawImage(
+            fullCanvas,
+            scrollX * pixelRatio, scrollY * pixelRatio,
+            viewportWidth * pixelRatio, viewportHeight * pixelRatio,
+            0, 0, viewportWidth * pixelRatio, viewportHeight * pixelRatio
+          );
+          dataUrl = viewportCanvas.toDataURL('image/png', 1.0);
+        }
+
+        if (!dataUrl || !dataUrl.startsWith('data:image/png;base64,') || dataUrl.length < 100) {
+          throw new Error('Invalid screenshot data');
+        }
+
+        return {
+          dataUrl: dataUrl,
+          viewportWidth: viewportWidth,
+          viewportHeight: viewportHeight,
+          pixelRatio: pixelRatio
+        };
+      },
+
+      autoCapture: async function() {
+        if (window === window.parent) return;
+        try {
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('auto-screenshot', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+          });
+        } catch (error) {
+          console.error('[SuperDesign] Auto-capture failed:', error);
+        }
+      },
+
+      captureScreenshot: async function(requestId, autoCaptureId) {
+        try {
+          this._currentRequestId = requestId;
+          this._currentAutoCaptureId = autoCaptureId;
+          var result = await this._captureScreenshotInternal();
+          this.sendMessage('screenshot-captured', {
+            dataUrl: result.dataUrl,
+            timestamp: Date.now(),
+            viewportWidth: result.viewportWidth,
+            viewportHeight: result.viewportHeight,
+            pixelRatio: result.pixelRatio,
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          return result.dataUrl;
+        } catch (error) {
+          console.error('[SuperDesign] Screenshot capture failed:', error);
+          this.sendMessage('screenshot-error', {
+            error: error.message || String(error),
+            timestamp: Date.now(),
+            requestId: this._currentRequestId,
+            autoCaptureId: this._currentAutoCaptureId
+          });
+          throw error;
+        }
+      }
+  
+    };
+
+    
+    // Font loading helpers
+    window.__SUPERDESIGN_PREVIEW__.loadedFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadGoogleFont = function(fontFamily) {
+      if (!fontFamily || this.loadedFonts.has(fontFamily)) return;
+      if (fontFamily.startsWith('Custom-')) return;
+
+      var systemFonts = ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI',
+        'Roboto', 'Helvetica', 'Arial', 'sans-serif', 'Georgia', 'Times New Roman',
+        'Times', 'serif', 'Menlo', 'Monaco', 'Consolas', 'Courier New', 'monospace'];
+      if (systemFonts.some(function(sf) { return fontFamily.toLowerCase().includes(sf.toLowerCase()); })) return;
+
+      if (!document.querySelector('link[href*="fonts.googleapis.com"]')) {
+        var preconnect1 = document.createElement('link');
+        preconnect1.rel = 'preconnect';
+        preconnect1.href = 'https://fonts.googleapis.com';
+        document.head.appendChild(preconnect1);
+        var preconnect2 = document.createElement('link');
+        preconnect2.rel = 'preconnect';
+        preconnect2.href = 'https://fonts.gstatic.com';
+        preconnect2.crossOrigin = 'anonymous';
+        document.head.appendChild(preconnect2);
+      }
+
+      var linkId = 'google-font-' + fontFamily.replace(/\\s+/g, '-').toLowerCase();
+      if (!document.getElementById(linkId)) {
+        var link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(fontFamily) + ':wght@400;500;600;700&display=swap';
+        link.onerror = function() { console.error('[SuperDesign] Failed to load Google Font:', fontFamily); };
+        document.head.appendChild(link);
+      }
+      this.loadedFonts.add(fontFamily);
+    };
+
+    window.__SUPERDESIGN_PREVIEW__.loadedCustomFonts = new Set();
+    window.__SUPERDESIGN_PREVIEW__.loadCustomFont = function(fontInfo) {
+      if (!fontInfo || !fontInfo.family || !fontInfo.url) return;
+      if (this.loadedCustomFonts.has(fontInfo.family)) return;
+      var styleId = 'custom-font-' + fontInfo.family.replace(/[^a-zA-Z0-9]/g, '-');
+      if (document.getElementById(styleId)) return;
+      var style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = '@font-face { ' +
+        'font-family: "' + fontInfo.family + '"; ' +
+        'src: url("' + fontInfo.url + '") format("' + (fontInfo.format || 'woff2') + '"); ' +
+        'font-weight: 100 900; font-style: normal; font-display: swap; }';
+      document.head.appendChild(style);
+      this.loadedCustomFonts.add(fontInfo.family);
+    };
+  
+    
+    // Theme sync
+    window.__SUPERDESIGN_PREVIEW__.applyTheme = function(payload, isDark) {
+      var root = document.documentElement;
+      var colorVars = isDark ? payload.dark : payload.light;
+      for (var name in colorVars) {
+        if (colorVars.hasOwnProperty(name)) {
+          root.style.setProperty(name, colorVars[name]);
+        }
+      }
+
+      if (payload.customFonts && Array.isArray(payload.customFonts)) {
+        payload.customFonts.forEach(function(fontInfo) {
+          window.__SUPERDESIGN_PREVIEW__.loadCustomFont(fontInfo);
+        });
+      }
+
+      if (payload.typography) {
+        var t = payload.typography;
+        if (t.fontSans && !t.fontSans.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSans);
+        if (t.fontSerif && !t.fontSerif.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontSerif);
+        if (t.fontMono && !t.fontMono.startsWith('Custom-')) window.__SUPERDESIGN_PREVIEW__.loadGoogleFont(t.fontMono);
+
+        var formatFontValue = function(ff) {
+          if (!ff) return ff;
+          var first = ff.split(',')[0].trim().replace(/^["']|["']$/g, '');
+          return first.startsWith('var(') ? first : '"' + first + '"';
+        };
+        root.style.setProperty('--font-sans', formatFontValue(t.fontSans));
+        root.style.setProperty('--font-serif', formatFontValue(t.fontSerif));
+        root.style.setProperty('--font-mono', formatFontValue(t.fontMono));
+        root.style.setProperty('--font-size', t.fontSize);
+        root.style.setProperty('--line-height', t.lineHeight);
+        root.style.setProperty('--letter-spacing-body', t.letterSpacing);
+        root.style.setProperty('--letter-spacing-heading', t.headingLetterSpacing);
+        root.style.setProperty('--font-weight-regular', t.fontWeightRegular);
+        root.style.setProperty('--font-weight-bold', t.fontWeightBold);
+      }
+
+      if (payload.effects) {
+        root.style.setProperty('--radius', payload.effects.radius);
+        root.style.setProperty('--shadow', payload.effects.shadow);
+      }
+
+      if (isDark) { root.classList.add('dark'); } else { root.classList.remove('dark'); }
+    };
+  
+    
+    // Message listener
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'request-screenshot') {
+        if (window.__SUPERDESIGN_PREVIEW__) {
+          window.__SUPERDESIGN_PREVIEW__.captureScreenshot(event.data.requestId, event.data.autoCaptureId);
+        }
+      }
+
+      if (event.data && event.data.type === 'superdesign-theme-update') {
+        if (window.__SUPERDESIGN_PREVIEW__ && event.data.payload) {
+          var isDark = event.data.isDark || false;
+          window.__SUPERDESIGN_PREVIEW__.applyTheme(event.data.payload, isDark);
+          window.__SUPERDESIGN_PREVIEW__.sendMessage('theme-applied', { timestamp: Date.now(), isDark: isDark });
+        }
+      }
+
+      if (event.data && event.data.type === 'navigate-to-route') {
+        var route = event.data.route;
+        if (route) {
+          if (route === '/') {
+            if (window.location.hash) {
+              history.pushState(null, '', window.location.pathname + window.location.search);
+              window.dispatchEvent(new HashChangeEvent('hashchange'));
+            }
+          } else {
+            var newHash = '#' + route;
+            if (window.location.hash !== newHash) {
+              window.location.hash = route;
+            }
+          }
+        }
+      }
+    });
+  
+    
+    // Page lifecycle
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { window.__SUPERDESIGN_PREVIEW__.ready(); });
+    } else {
+      window.__SUPERDESIGN_PREVIEW__.ready();
+    }
+
+    function onPageFullyLoaded() {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          setTimeout(function() {
+            window.__SUPERDESIGN_PREVIEW__.sendMessage('loaded', { timestamp: Date.now() });
+          }, 1500);
+          // Auto-capture disabled for this preview type
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      onPageFullyLoaded();
+    } else {
+      window.addEventListener('load', onPageFullyLoaded);
+    }
+  
+  </script>
+<script type="module">
+  window.addEventListener('error', function(event) {
+    var msg = event.message || '';
+    var name = (event.error && event.error.name) || msg.split(':')[0] || '';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      var err = event.error;
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('error', {
+        message: event.message, filename: event.filename,
+        lineno: event.lineno, colno: event.colno,
+        name: (err && err.name) || name || 'Error',
+        stack: (err && err.stack) || null
+      });
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    var reason = event.reason;
+    var msg = (reason && reason.message) || (typeof reason === 'string' ? reason : '');
+    var name = (reason && reason.name) || 'UnhandledRejection';
+    if (name === 'HierarchyRequestError' || msg.includes("Failed to execute 'appendChild' on 'Node'")) return;
+    if (window.__SUPERDESIGN_PREVIEW__) {
+      window.__SUPERDESIGN_PREVIEW__.sendMessage('unhandled-rejection', {
+        reason: (reason && reason.message) || String(reason),
+        name: name,
+        stack: (reason && reason.stack) || null
+      });
+    }
+  });
+</script>
+<script type="module">import '/__visual-edit-bridge/iframe-runtime.mjs?v=81349612';</script>
+<script src="./petite-vue.iife.js.téléchargement"></script>
+<script type="module">
+  (function() {
+    'use strict';
+
+    var MAX_RENDER_DEPTH = 5;
+
+    function showPage() {
+      document.body.classList.add('sd-ready');
+    }
+
+    var componentRegistry = new Map();
+    var instanceRegistry = new Map();
+    var API_BASE = "https://api.superdesign.dev";
+    var DRAFT_ID = "67227d50-7e9e-473e-83e0-3ef0ff4b8c2a";
+
+    function buildDefaultProps(definition) {
+      var defaultProps = {};
+      var props = definition.props;
+      if (!props || !Array.isArray(props)) return defaultProps;
+      for (var i = 0; i < props.length; i++) {
+        var prop = props[i];
+        if (prop.defaultValue === undefined) continue;
+        var path = prop.name.split('.');
+        var current = defaultProps;
+        for (var j = 0; j < path.length - 1; j++) {
+          var key = path[j];
+          if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+            current[key] = {};
+          }
+          current = current[key];
+        }
+        current[path[path.length - 1]] = prop.defaultValue;
+      }
+      return defaultProps;
+    }
+
+    function deepMerge(target, source) {
+      var result = Object.assign({}, target);
+      for (var key in source) {
+        if (!source.hasOwnProperty(key)) continue;
+        if (
+          source[key] && typeof source[key] === 'object' && !Array.isArray(source[key]) &&
+          result[key] && typeof result[key] === 'object' && !Array.isArray(result[key])
+        ) {
+          result[key] = deepMerge(result[key], source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+      return result;
+    }
+
+    function registerComponent(id, definition) {
+      componentRegistry.set(id, definition);
+      console.log('[SDComponent] Registered component:', id);
+    }
+
+    function renderComponent(element, depth) {
+      depth = depth || 0;
+      var componentId = element.getAttribute('componentid') || element.getAttribute('ref');
+      var instanceId = element.getAttribute('instance');
+      var propsAttr = element.getAttribute('props');
+
+      if (!componentId) {
+        console.warn('[SDComponent] Missing componentId attribute on sd-component');
+        return;
+      }
+
+      if (depth >= MAX_RENDER_DEPTH) {
+        console.warn('[SDComponent] Max render depth reached for:', componentId);
+        element.setAttribute('data-error', 'max-depth');
+        return;
+      }
+
+      var definition = componentRegistry.get(componentId);
+      if (!definition) {
+        console.warn('[SDComponent] Component not found:', componentId);
+        element.setAttribute('data-pending', 'true');
+        return;
+      }
+
+      var instanceProps = {};
+      if (propsAttr) {
+        try { instanceProps = JSON.parse(propsAttr); }
+        catch (e) { console.warn('[SDComponent] Invalid props JSON:', propsAttr); }
+      }
+
+      var defaultProps = buildDefaultProps(definition);
+      var finalProps = deepMerge(defaultProps, instanceProps);
+
+      element.innerHTML = definition.htmlContent;
+
+      if (window.PetiteVue) {
+        finalProps.$emit = function(eventName, payload) {
+          if (payload && typeof payload === 'object' && payload.href) {
+            window.location.href = payload.href;
+            return;
+          }
+          var customEvent = new CustomEvent('sd-' + eventName, {
+            detail: payload, bubbles: true, composed: true,
+          });
+          element.dispatchEvent(customEvent);
+        };
+        window.PetiteVue.createApp(finalProps).mount(element);
+      } else {
+        console.warn('[SDComponent] Petite-Vue not loaded, template syntax will not be resolved');
+      }
+
+      instanceRegistry.set(instanceId, {
+        componentId: componentId,
+        element: element,
+        props: finalProps,
+        version: definition.version,
+      });
+
+      element.removeAttribute('data-pending');
+      element.setAttribute('data-rendered', 'true');
+      element.setAttribute('data-version', String(definition.version));
+      console.log('[SDComponent] Rendered:', componentId, instanceId);
+
+      // Render any nested sd-component children that were just injected
+      var nestedElements = element.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      if (nestedElements.length > 0) {
+        var missingIds = [];
+        nestedElements.forEach(function(nested) {
+          var nestedId = nested.getAttribute('componentid') || nested.getAttribute('ref');
+          if (nestedId && !componentRegistry.has(nestedId)) {
+            missingIds.push(nestedId);
+          }
+        });
+
+        if (missingIds.length > 0) {
+          // Fetch missing nested components, then render
+          loadComponentsByIds(missingIds).then(function() {
+            nestedElements.forEach(function(nested) {
+              if (!nested.getAttribute('data-rendered')) {
+                renderComponent(nested, depth + 1);
+              }
+            });
+          });
+        } else {
+          // All nested definitions already loaded — render immediately
+          nestedElements.forEach(function(nested) {
+            if (!nested.getAttribute('data-rendered')) {
+              renderComponent(nested, depth + 1);
+            }
+          });
+        }
+      }
+    }
+
+    function updateComponentInstances(componentId) {
+      var elements = document.querySelectorAll('sd-component[componentid="' + componentId + '"], sd-component[ref="' + componentId + '"]');
+      elements.forEach(function(el) { renderComponent(el); });
+    }
+
+    function initializeComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      elements.forEach(function(el) {
+        if (!el.getAttribute('data-rendered')) { renderComponent(el); }
+      });
+    }
+
+    async function loadComponentsByIds(ids) {
+      if (!ids || ids.length === 0) return;
+      // Deduplicate and filter already-loaded
+      var uniqueIds = ids.filter(function(id, i, arr) {
+        return arr.indexOf(id) === i && !componentRegistry.has(id);
+      });
+      if (uniqueIds.length === 0) return;
+
+      try {
+        console.log('[SDComponent] Batch loading components:', uniqueIds);
+        var response = await fetch(API_BASE + '/v1/design-drafts/components/batch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ componentIds: uniqueIds }),
+        });
+        if (!response.ok) throw new Error('Batch load failed: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Batch loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+      } catch (error) {
+        console.error('[SDComponent] Failed to batch load components:', error);
+      }
+    }
+
+    async function loadComponentsForDraft() {
+      if (!DRAFT_ID) {
+        console.warn('[SDComponent] No draft ID configured');
+        showPage();
+        return;
+      }
+      try {
+        console.log('[SDComponent] Loading components for draft:', DRAFT_ID);
+        var response = await fetch(API_BASE + '/v1/design-drafts/' + DRAFT_ID + '/components', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Failed to load components: ' + response.status);
+        var components = await response.json();
+        console.log('[SDComponent] Loaded', components.length, 'components');
+        components.forEach(function(comp) { registerComponent(comp.id, comp); });
+        initializeComponents();
+        showPage();
+      } catch (error) {
+        console.error('[SDComponent] Failed to load components:', error);
+        showPage();
+      }
+    }
+
+    function findReferencedComponents() {
+      var elements = document.querySelectorAll('sd-component[componentid], sd-component[ref]');
+      var ids = new Set();
+      elements.forEach(function(el) {
+        var ref = el.getAttribute('componentid') || el.getAttribute('ref');
+        if (ref) ids.add(ref);
+      });
+      return Array.from(ids);
+    }
+
+    window.__SD_COMPONENTS__ = {
+      register: registerComponent,
+      render: renderComponent,
+      update: updateComponentInstances,
+      loadForDraft: loadComponentsForDraft,
+      loadByIds: loadComponentsByIds,
+      init: initializeComponents,
+      findRefs: findReferencedComponents,
+      getRegistry: function() { return componentRegistry; },
+      getInstances: function() { return instanceRegistry; },
+      getDraftId: function() { return DRAFT_ID; },
+    };
+
+    window.addEventListener('message', function(event) {
+      if (event.data && event.data.type === 'SD_COMPONENT_UPDATE') {
+        var cId = event.data.componentId;
+        var def = event.data.definition;
+        if (cId && def) { registerComponent(cId, def); updateComponentInstances(cId); }
+      }
+      if (event.data && event.data.type === 'SD_COMPONENTS_REGISTER') {
+        var comps = event.data.components;
+        if (Array.isArray(comps)) {
+          comps.forEach(function(c) { registerComponent(c.id, c); });
+          initializeComponents();
+        }
+      }
+    });
+
+    function bootComponents() {
+      // Pre-register components from __SD_COMPONENT_PRELOAD__ (injected by backend for standalone previews)
+      if (window.__SD_COMPONENT_PRELOAD__ && Array.isArray(window.__SD_COMPONENT_PRELOAD__)) {
+        console.log('[SDComponent] Pre-registering', window.__SD_COMPONENT_PRELOAD__.length, 'preloaded components');
+        window.__SD_COMPONENT_PRELOAD__.forEach(function(comp) {
+          registerComponent(comp.id, comp);
+        });
+      }
+
+      var refs = findReferencedComponents();
+      var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+
+      if (unloaded.length > 0) {
+        if (DRAFT_ID) {
+          loadComponentsForDraft();
+        } else {
+          // No draft ID — try batch loading the missing IDs directly
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+            showPage();
+          });
+        }
+      } else if (refs.length > 0) {
+        // All components already registered (e.g. from preload) — render immediately
+        initializeComponents();
+        showPage();
+      } else {
+        showPage();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bootComponents);
+    } else {
+      bootComponents();
+    }
+
+    var observer = new MutationObserver(function(mutations) {
+      var hasNew = false;
+      mutations.forEach(function(m) {
+        m.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.tagName === 'SD-COMPONENT') { hasNew = true; }
+            else if (node.querySelector) {
+              if (node.querySelectorAll('sd-component[componentid], sd-component[ref]').length > 0) hasNew = true;
+            }
+          }
+        });
+      });
+      if (hasNew) {
+        var refs = findReferencedComponents();
+        var unloaded = refs.filter(function(id) { return !componentRegistry.has(id); });
+        if (unloaded.length > 0) {
+          loadComponentsByIds(unloaded).then(function() {
+            initializeComponents();
+          });
+        } else {
+          initializeComponents();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    console.log('[SDComponent] Runtime initialized');
+  })();
+  </script>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Inter, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-y-0{top:0px;bottom:0px}.left-0{left:0px}.top-0{top:0px}.right-0{right:0px}.top-\[72px\]{top:72px}.z-40{z-index:40}.z-30{z-index:30}.z-20{z-index:20}.ml-auto{margin-left:auto}.mt-1{margin-top:0.25rem}.mb-1{margin-bottom:0.25rem}.mb-7{margin-bottom:1.75rem}.mb-3{margin-bottom:0.75rem}.mb-6{margin-bottom:1.5rem}.mb-1\.5{margin-bottom:0.375rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-9{height:2.25rem}.h-\[72px\]{height:72px}.h-2\.5{height:0.625rem}.h-4{height:1rem}.h-10{height:2.5rem}.min-h-screen{min-height:100vh}.w-64{width:16rem}.w-9{width:2.25rem}.w-2\.5{width:0.625rem}.w-1\/2{width:50%}.w-full{width:100%}.min-w-4{min-width:1rem}.min-w-0{min-width:0px}.min-w-\[1220px\]{min-width:1220px}.max-w-\[240px\]{max-width:240px}.flex-1{flex:1 1 0%}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-3{gap:0.75rem}.gap-2{gap:0.5rem}.gap-6{gap:1.5rem}.gap-1\.5{gap:0.375rem}.gap-1{gap:0.25rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.overflow-x-auto{overflow-x:auto}.whitespace-nowrap{white-space:nowrap}.rounded-lg{border-radius:0.5rem}.rounded-md{border-radius:0.375rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-red-200{--tw-border-opacity:1;border-color:rgb(254 202 202 / var(--tw-border-opacity, 1))}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.bg-institution{--tw-bg-opacity:1;background-color:rgb(44 82 130 / var(--tw-bg-opacity, 1))}.bg-night{--tw-bg-opacity:1;background-color:rgb(26 35 50 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity, 1))}.bg-success{--tw-bg-opacity:1;background-color:rgb(56 161 105 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-danger{--tw-bg-opacity:1;background-color:rgb(229 62 62 / var(--tw-bg-opacity, 1))}.bg-slate-200{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity, 1))}.bg-orange-100{--tw-bg-opacity:1;background-color:rgb(255 237 213 / var(--tw-bg-opacity, 1))}.bg-red-200{--tw-bg-opacity:1;background-color:rgb(254 202 202 / var(--tw-bg-opacity, 1))}.bg-red-50\/40{background-color:rgb(254 242 242 / 0.4)}.bg-blue-100{--tw-bg-opacity:1;background-color:rgb(219 234 254 / var(--tw-bg-opacity, 1))}.bg-red-100{--tw-bg-opacity:1;background-color:rgb(254 226 226 / var(--tw-bg-opacity, 1))}.bg-success\/10{background-color:rgb(56 161 105 / 0.1)}.bg-emerald-100{--tw-bg-opacity:1;background-color:rgb(209 250 229 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.p-2{padding:0.5rem}.p-4{padding:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.pl-5{padding-left:1.25rem}.text-left{text-align:left}.font-sans{font-family:Inter, sans-serif}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-\[10px\]{font-size:10px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-base{font-size:1rem;line-height:1.5rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-\[11px\]{font-size:11px}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.font-normal{font-weight:400}.uppercase{text-transform:uppercase}.tracking-tight{letter-spacing:-0.025em}.tracking-widest{letter-spacing:0.1em}.tracking-wide{letter-spacing:0.025em}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-sky-300{--tw-text-opacity:1;color:rgb(125 211 252 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-night{--tw-text-opacity:1;color:rgb(26 35 50 / var(--tw-text-opacity, 1))}.text-slate-200{--tw-text-opacity:1;color:rgb(226 232 240 / var(--tw-text-opacity, 1))}.text-amber{--tw-text-opacity:1;color:rgb(214 158 46 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-danger{--tw-text-opacity:1;color:rgb(229 62 62 / var(--tw-text-opacity, 1))}.text-institution{--tw-text-opacity:1;color:rgb(44 82 130 / var(--tw-text-opacity, 1))}.text-orange-700{--tw-text-opacity:1;color:rgb(194 65 12 / var(--tw-text-opacity, 1))}.text-red-800{--tw-text-opacity:1;color:rgb(153 27 27 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-orange-600{--tw-text-opacity:1;color:rgb(234 88 12 / var(--tw-text-opacity, 1))}.text-success{--tw-text-opacity:1;color:rgb(56 161 105 / var(--tw-text-opacity, 1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.text-red-700{--tw-text-opacity:1;color:rgb(185 28 28 / var(--tw-text-opacity, 1))}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.ring-slate-100{--tw-ring-opacity:1;--tw-ring-color:rgb(241 245 249 / var(--tw-ring-opacity, 1))}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-white\/10:hover{background-color:rgb(255 255 255 / 0.1)}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.hover\:bg-red-50:hover{--tw-bg-opacity:1;background-color:rgb(254 242 242 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.focus\:border-institution:focus{--tw-border-opacity:1;border-color:rgb(44 82 130 / var(--tw-border-opacity, 1))}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-institution\/15:focus{--tw-ring-color:rgb(44 82 130 / 0.15)}@media (min-width: 640px){.sm\:block{display:block}.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.sm\:flex-row{flex-direction:row}.sm\:items-end{align-items:flex-end}.sm\:items-center{align-items:center}.sm\:p-6{padding:1.5rem}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:text-base{font-size:1rem;line-height:1.5rem}.sm\:text-3xl{font-size:1.875rem;line-height:2.25rem}}@media (min-width: 768px){.md\:flex{display:flex}}@media (min-width: 1024px){.lg\:flex{display:flex}.lg\:hidden{display:none}.lg\:p-8{padding:2rem}.lg\:px-8{padding-left:2rem;padding-right:2rem}.lg\:pl-64{padding-left:16rem}}@media (min-width: 1280px){.xl\:grid-cols-5{grid-template-columns:repeat(5, minmax(0, 1fr))}}</style></head>
+<body class="sd-ready">
+<div class="min-h-screen bg-slate-50 font-sans text-slate-700" data-sd-id="1">
+  <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col bg-night text-white lg:flex" data-sd-id="2">
+    <div class="flex h-[72px] items-center gap-3 border-b border-white/10 px-6" data-sd-id="3">
+      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-institution" data-sd-id="4"><iconify-icon icon="lucide:shield-check" class="text-xl"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12l2 2l4-4"></path></g></svg></template></iconify-icon></div>
+      <div data-sd-id="5"><div class="text-lg font-bold tracking-tight" data-sd-id="6">CIF <span class="text-sky-300" data-sd-id="7">Guard</span></div><div class="text-[10px] uppercase tracking-widest text-slate-400" data-sd-id="8">Conformité financière</div></div>
+    </div>
+    <nav class="flex-1 space-y-1 px-3 py-6" aria-label="Navigation principale" data-sd-id="9">
+      <a id="nav-dashboard-link" href="https://draft-a4e28ff9-df77-4230-8159-3c48ec3ebc8e.preview.superdesign.dev/" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white" data-sd-id="10"><iconify-icon icon="lucide:home" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></g></svg></template></iconify-icon>Tableau de bord</a>
+      <a id="nav-clients-link" href="https://draft-cdebe6ea-03fd-45a6-a097-8f30ac04d642.preview.superdesign.dev/" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white" data-sd-id="11"><iconify-icon icon="lucide:users" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></g></svg></template></iconify-icon>Clients</a>
+      <a id="nav-transactions-link" href="https://draft-246591b3-5306-4b4a-9d0c-1e419119c44f.preview.superdesign.dev/" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white" data-sd-id="12"><iconify-icon icon="lucide:arrow-right-left" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 3l4 4l-4 4m4-4H4m4 14l-4-4l4-4m-4 4h16"></path></svg></template></iconify-icon>Transactions</a>
+      <a id="nav-alerts-link" href="https://draft-67227d50-7e9e-473e-83e0-3ef0ff4b8c2a.preview.superdesign.dev/" class="flex items-center gap-3 rounded-md bg-institution px-4 py-3 text-sm font-medium text-white" data-sd-id="13"><iconify-icon icon="lucide:bell" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg></template></iconify-icon>Alertes <span class="ml-auto rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold" data-sd-id="14">18</span></a>
+      <a id="nav-cases-link" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#cases" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white" data-sd-id="15"><iconify-icon icon="lucide:folder-open" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 14l1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"></path></svg></template></iconify-icon>Cas</a>
+      <a id="nav-reports-link" href="https://draft-f809b1ff-d4cd-4aa8-9b8f-1a0a197fe383.preview.superdesign.dev/" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white" data-sd-id="16"><iconify-icon icon="lucide:bar-chart-3" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18m-3-4V9m-5 8V5M8 17v-3"></path></svg></template></iconify-icon>Rapports</a>
+      <a id="nav-audit-link" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#audit" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white" data-sd-id="17"><iconify-icon icon="lucide:history" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5m4-1v5l4 2"></path></g></svg></template></iconify-icon>Journal d’audit</a>
+      <a id="nav-settings-link" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#settings" class="flex items-center gap-3 rounded-md px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white" data-sd-id="18"><iconify-icon icon="lucide:settings" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0a2.34 2.34 0 0 0 3.319 1.915a2.34 2.34 0 0 1 2.33 4.033a2.34 2.34 0 0 0 0 3.831a2.34 2.34 0 0 1-2.33 4.033a2.34 2.34 0 0 0-3.319 1.915a2.34 2.34 0 0 1-4.659 0a2.34 2.34 0 0 0-3.32-1.915a2.34 2.34 0 0 1-2.33-4.033a2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></g></svg></template></iconify-icon>Paramètres</a>
+    </nav>
+    <div class="border-t border-white/10 px-5 py-5" data-sd-id="19"><div class="flex items-center gap-3" data-sd-id="20"><span class="h-2.5 w-2.5 rounded-full bg-success" data-sd-id="21"></span><span class="text-sm text-slate-200" data-sd-id="22">Mariam Kaboré</span></div><p class="mt-1 pl-5 text-xs text-slate-400" data-sd-id="23">Connectée · Responsable conformité</p></div>
+  </aside>
+  <div class="lg:pl-64" data-sd-id="24">
+    <header class="sticky top-0 z-30 flex h-[72px] items-center justify-between border-b border-slate-200 bg-white px-4 shadow-sm sm:px-6 lg:px-8" data-sd-id="25">
+      <div class="flex items-center gap-3" data-sd-id="26"><button id="mobile-menu-btn" aria-label="Ouvrir le menu" class="rounded-md p-2 text-night hover:bg-slate-100 lg:hidden" data-sd-id="27"><iconify-icon icon="lucide:menu" class="text-xl"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5h16M4 12h16M4 19h16"></path></svg></template></iconify-icon></button><div data-sd-id="28"><p class="text-sm font-semibold text-night sm:text-base" data-sd-id="29">Coopérative Financière Wend-Panga</p><p class="hidden text-xs text-slate-500 sm:block" data-sd-id="30">Espace de conformité</p></div></div>
+      <div class="hidden items-center gap-6 md:flex" data-sd-id="31"><span class="text-sm text-slate-500" data-sd-id="32">Mariam Kaboré <span class="text-slate-300" data-sd-id="33">—</span> Responsable conformité</span><span class="flex items-center gap-2 text-xs font-medium text-amber" data-sd-id="34"><iconify-icon icon="lucide:wifi-off" class="text-base"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h.01M8.5 16.429a5 5 0 0 1 7 0M5 12.859a10 10 0 0 1 5.17-2.69m8.83 2.69a10 10 0 0 0-2.007-1.523M2 8.82a15 15 0 0 1 4.177-2.643M22 8.82a15 15 0 0 0-11.288-3.764M2 2l20 20"></path></svg></template></iconify-icon>Connectivité faible</span><button id="header-notifications-btn" aria-label="3 notifications" class="relative rounded-md p-2 text-slate-500 hover:bg-slate-100" data-sd-id="35"><iconify-icon icon="lucide:bell" class="text-xl"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg></template></iconify-icon><span class="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-bold text-white" data-sd-id="36">3</span></button><span class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-night" data-sd-id="37">MK</span><button id="logout-btn" aria-label="Se déconnecter" class="rounded-md p-2 text-danger hover:bg-red-50" data-sd-id="38"><iconify-icon icon="lucide:log-out" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 17l5-5l-5-5m5 5H9m0 9H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg></template></iconify-icon></button></div>
+    </header>
+    <main class="p-4 sm:p-6 lg:p-8" data-sd-id="39">
+      <div class="mb-7 flex flex-col justify-between gap-3 sm:flex-row sm:items-end" data-sd-id="40"><div data-sd-id="41"><p class="mb-1 text-sm font-medium text-institution" data-sd-id="42">Mardi 8 septembre 2026</p><h1 class="text-2xl font-bold tracking-tight text-night sm:text-3xl" data-sd-id="43">Centre des alertes</h1><p class="mt-1 text-sm text-slate-500" data-sd-id="44">File de travail des alertes de conformité à traiter.</p></div><div class="flex items-center gap-2 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm font-medium text-danger" data-sd-id="45"><iconify-icon icon="lucide:alert-circle" class="text-lg"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4m0 4h.01"></path></g></svg></template></iconify-icon>18 alertes ouvertes</div></div>
+      <section class="sticky top-[72px] z-20 mb-6 rounded-lg bg-white p-4 shadow-sm ring-1 ring-slate-100" aria-label="Filtres des alertes" data-sd-id="46"><div class="mb-3 flex items-center gap-2 text-sm font-semibold text-night" data-sd-id="47"><iconify-icon icon="lucide:filter" class="text-institution"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 3H2l8 9.46V19l4 2v-8.54z"></path></svg></template></iconify-icon>Filtres de recherche</div><div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5" data-sd-id="48"><label class="block" data-sd-id="49"><span class="mb-1.5 block text-xs font-semibold text-slate-500" data-sd-id="50">Statut</span><select class="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-night outline-none focus:border-institution focus:ring-2 focus:ring-institution/15" data-sd-id="51"><option data-sd-id="52">Tous les statuts</option><option data-sd-id="53">Nouveau</option><option data-sd-id="54">À examiner</option><option data-sd-id="55">En cours</option><option data-sd-id="56">En attente</option><option data-sd-id="57">Escaladée</option><option data-sd-id="58">Confirmée</option><option data-sd-id="59">Classée sans suite</option><option data-sd-id="60">Clôturée</option></select></label><label class="block" data-sd-id="61"><span class="mb-1.5 block text-xs font-semibold text-slate-500" data-sd-id="62">Niveau de risque</span><select class="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-night outline-none focus:border-institution focus:ring-2 focus:ring-institution/15" data-sd-id="63"><option data-sd-id="64">Tous les niveaux</option><option data-sd-id="65">Faible</option><option data-sd-id="66">Moyen</option><option data-sd-id="67">Élevé</option><option data-sd-id="68">Critique</option></select></label><label class="block" data-sd-id="69"><span class="mb-1.5 block text-xs font-semibold text-slate-500" data-sd-id="70">Période</span><div class="flex gap-2" data-sd-id="71"><input type="date" value="2026-09-01" aria-label="Date de début" class="h-10 min-w-0 w-1/2 rounded-md border border-slate-300 px-2 text-xs text-night outline-none focus:border-institution" data-sd-id="72"><input type="date" value="2026-09-08" aria-label="Date de fin" class="h-10 min-w-0 w-1/2 rounded-md border border-slate-300 px-2 text-xs text-night outline-none focus:border-institution" data-sd-id="73"></div></label><label class="block" data-sd-id="74"><span class="mb-1.5 block text-xs font-semibold text-slate-500" data-sd-id="75">Assigné à</span><select class="h-10 w-full rounded-md border border-slate-300 bg-white px-3 text-sm text-night outline-none focus:border-institution focus:ring-2 focus:ring-institution/15" data-sd-id="76"><option data-sd-id="77">Tous les responsables</option><option data-sd-id="78">Mariam Kaboré</option><option data-sd-id="79">Amadou Traoré</option><option data-sd-id="80">Fatou Diallo</option></select></label><div class="flex items-end" data-sd-id="81"><button id="reset-filters-btn" class="inline-flex h-10 w-full items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 hover:bg-slate-50" data-sd-id="82"><iconify-icon icon="lucide:rotate-ccw"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9a9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></g></svg></template></iconify-icon>Réinitialiser</button></div></div></section>
+      <section class="rounded-lg bg-white shadow-sm ring-1 ring-slate-100" data-sd-id="83"><div class="flex flex-col justify-between gap-3 border-b border-slate-200 px-5 py-4 sm:flex-row sm:items-center" data-sd-id="84"><div data-sd-id="85"><h2 class="text-base font-bold text-night" data-sd-id="86">File de travail</h2><p class="mt-1 text-xs text-slate-500" data-sd-id="87">Priorisées par niveau de risque et ancienneté</p></div><button id="export-alerts-btn" class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-300 px-3 text-sm font-semibold text-slate-700 hover:bg-slate-50" data-sd-id="88"><iconify-icon icon="lucide:download"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 15V3m9 12v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10l5 5l5-5"></path></g></svg></template></iconify-icon>Exporter</button></div><div class="overflow-x-auto" data-sd-id="89"><table class="w-full min-w-[1220px] text-left text-sm" data-sd-id="90"><thead data-sd-id="91"><tr class="border-b border-slate-200 bg-slate-50 text-[11px] uppercase tracking-wide text-slate-500" data-sd-id="92"><th class="px-4 py-3" data-sd-id="93">ID alerte</th><th class="px-4 py-3" data-sd-id="94">Client</th><th class="px-4 py-3" data-sd-id="95">Règle déclenchée</th><th class="px-4 py-3" data-sd-id="96">Niveau</th><th class="px-4 py-3" data-sd-id="97">Statut</th><th class="px-4 py-3" data-sd-id="98">Âge</th><th class="px-4 py-3" data-sd-id="99">Assigné à</th><th class="px-4 py-3" data-sd-id="100">Actions rapides</th></tr></thead><tbody data-sd-id="101">
+      <tr class="border-b border-slate-100 bg-red-50/40 hover:bg-red-50" data-sd-id="102"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="103">ALT-2026-001847</td><td class="px-4 py-3 font-medium text-night" data-sd-id="104">Aïcha Ouédraogo<br><span class="text-xs font-normal text-slate-500" data-sd-id="105">CIF-2026-004581</span></td><td class="max-w-[240px] px-4 py-3 text-slate-600" data-sd-id="106">Opérations répétées proches du seuil en 48 heures</td><td class="px-4 py-3" data-sd-id="107"><span class="rounded-full bg-red-200 px-2.5 py-1 text-xs font-bold text-red-800" data-sd-id="108">Critique</span></td><td class="px-4 py-3" data-sd-id="109"><span class="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-2.5 py-1 text-xs font-semibold text-orange-700" data-sd-id="110"><iconify-icon icon="lucide:clock"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></g></svg></template></iconify-icon>En cours</span></td><td class="whitespace-nowrap px-4 py-3 font-medium" data-sd-id="111">2j 3h</td><td class="whitespace-nowrap px-4 py-3" data-sd-id="112">Mariam Kaboré</td><td class="px-4 py-3" data-sd-id="113"><div class="flex gap-3 text-xs font-semibold" data-sd-id="114"><a id="open-alert-1847" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="115">Ouvrir</a><a id="assign-alert-1847" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1847" class="text-slate-500 hover:underline" data-sd-id="116">Assigner</a><a id="escalate-alert-1847" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1847" class="text-orange-600 hover:underline" data-sd-id="117">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="118"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="119">ALT-2026-001839</td><td class="px-4 py-3 font-medium text-night" data-sd-id="120">Amadou Traoré<br><span class="text-xs font-normal text-slate-500" data-sd-id="121">CIF-2026-003912</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="122">Profil PEP potentiel détecté</td><td class="px-4 py-3" data-sd-id="123"><span class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-danger" data-sd-id="124">Élevé</span></td><td class="px-4 py-3" data-sd-id="125"><span class="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-institution" data-sd-id="126"><iconify-icon icon="lucide:star"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.12 2.12 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.12 2.12 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.12 2.12 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.12 2.12 0 0 0 1.597-1.16z"></path></svg></template></iconify-icon>Nouveau</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="127">1j 8h</td><td class="px-4 py-3" data-sd-id="128">Mariam Kaboré</td><td class="px-4 py-3" data-sd-id="129"><div class="flex gap-3 text-xs font-semibold" data-sd-id="130"><a id="open-alert-1839" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="131">Ouvrir</a><a id="assign-alert-1839" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1839" class="text-slate-500 hover:underline" data-sd-id="132">Assigner</a><a id="escalate-alert-1839" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1839" class="text-orange-600 hover:underline" data-sd-id="133">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="134"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="135">ALT-2026-001826</td><td class="px-4 py-3 font-medium text-night" data-sd-id="136">Fatou Diallo<br><span class="text-xs font-normal text-slate-500" data-sd-id="137">CIF-2026-005104</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="138">Retraits en espèces inhabituels</td><td class="px-4 py-3" data-sd-id="139"><span class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800" data-sd-id="140">Moyen</span></td><td class="px-4 py-3" data-sd-id="141"><span class="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800" data-sd-id="142"><iconify-icon icon="lucide:clock"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></g></svg></template></iconify-icon>À examiner</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="143">3j 1h</td><td class="px-4 py-3" data-sd-id="144">Amadou Traoré</td><td class="px-4 py-3" data-sd-id="145"><div class="flex gap-3 text-xs font-semibold" data-sd-id="146"><a id="open-alert-1826" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="147">Ouvrir</a><a id="assign-alert-1826" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1826" class="text-slate-500 hover:underline" data-sd-id="148">Assigner</a><a id="escalate-alert-1826" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1826" class="text-orange-600 hover:underline" data-sd-id="149">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="150"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="151">ALT-2026-001811</td><td class="px-4 py-3 font-medium text-night" data-sd-id="152">Moussa Sawadogo<br><span class="text-xs font-normal text-slate-500" data-sd-id="153">CIF-2026-002765</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="154">Virement international atypique</td><td class="px-4 py-3" data-sd-id="155"><span class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-danger" data-sd-id="156">Élevé</span></td><td class="px-4 py-3" data-sd-id="157"><span class="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-2.5 py-1 text-xs font-semibold text-success" data-sd-id="158"><iconify-icon icon="lucide:check"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"></path></svg></template></iconify-icon>En cours</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="159">4j 6h</td><td class="px-4 py-3" data-sd-id="160">Fatou Diallo</td><td class="px-4 py-3" data-sd-id="161"><div class="flex gap-3 text-xs font-semibold" data-sd-id="162"><a id="open-alert-1811" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="163">Ouvrir</a><a id="assign-alert-1811" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1811" class="text-slate-500 hover:underline" data-sd-id="164">Assigner</a><a id="escalate-alert-1811" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1811" class="text-orange-600 hover:underline" data-sd-id="165">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="166"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="167">ALT-2026-001799</td><td class="px-4 py-3 font-medium text-night" data-sd-id="168">Bintou Kaboré<br><span class="text-xs font-normal text-slate-500" data-sd-id="169">CIF-2026-004226</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="170">Multiples dépôts inférieurs au seuil</td><td class="px-4 py-3" data-sd-id="171"><span class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700" data-sd-id="172">Faible</span></td><td class="px-4 py-3" data-sd-id="173"><span class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600" data-sd-id="174"><iconify-icon icon="lucide:pause"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="5" height="18" x="14" y="3" rx="1"></rect><rect width="5" height="18" x="5" y="3" rx="1"></rect></g></svg></template></iconify-icon>En attente</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="175">5j 2h</td><td class="px-4 py-3" data-sd-id="176">Mariam Kaboré</td><td class="px-4 py-3" data-sd-id="177"><div class="flex gap-3 text-xs font-semibold" data-sd-id="178"><a id="open-alert-1799" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="179">Ouvrir</a><a id="assign-alert-1799" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1799" class="text-slate-500 hover:underline" data-sd-id="180">Assigner</a><a id="escalate-alert-1799" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1799" class="text-orange-600 hover:underline" data-sd-id="181">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="182"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="183">ALT-2026-001784</td><td class="px-4 py-3 font-medium text-night" data-sd-id="184">Issaka Zongo<br><span class="text-xs font-normal text-slate-500" data-sd-id="185">CIF-2026-001888</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="186">Mouvements rapides entre comptes</td><td class="px-4 py-3" data-sd-id="187"><span class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-danger" data-sd-id="188">Élevé</span></td><td class="px-4 py-3" data-sd-id="189"><span class="inline-flex items-center gap-1.5 rounded-full bg-orange-100 px-2.5 py-1 text-xs font-semibold text-orange-700" data-sd-id="190"><iconify-icon icon="lucide:arrow-up"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 12l7-7l7 7m-7 7V5"></path></svg></template></iconify-icon>Escaladée</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="191">6j 4h</td><td class="px-4 py-3" data-sd-id="192">Mariam Kaboré</td><td class="px-4 py-3" data-sd-id="193"><div class="flex gap-3 text-xs font-semibold" data-sd-id="194"><a id="open-alert-1784" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="195">Ouvrir</a><a id="assign-alert-1784" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1784" class="text-slate-500 hover:underline" data-sd-id="196">Assigner</a><a id="escalate-alert-1784" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1784" class="text-orange-600 hover:underline" data-sd-id="197">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="198"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="199">ALT-2026-001770</td><td class="px-4 py-3 font-medium text-night" data-sd-id="200">Aïcha Ouédraogo<br><span class="text-xs font-normal text-slate-500" data-sd-id="201">CIF-2026-004581</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="202">Correspondance PEP potentielle</td><td class="px-4 py-3" data-sd-id="203"><span class="rounded-full bg-red-200 px-2.5 py-1 text-xs font-bold text-red-800" data-sd-id="204">Critique</span></td><td class="px-4 py-3" data-sd-id="205"><span class="inline-flex items-center gap-1.5 rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700" data-sd-id="206"><iconify-icon icon="lucide:alert-triangle"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21.73 18l-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4m0 4h.01"></path></svg></template></iconify-icon>Confirmée</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="207">7j 8h</td><td class="px-4 py-3" data-sd-id="208">Fatou Diallo</td><td class="px-4 py-3" data-sd-id="209"><div class="flex gap-3 text-xs font-semibold" data-sd-id="210"><a id="open-alert-1770" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="211">Ouvrir</a><a id="assign-alert-1770" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1770" class="text-slate-500 hover:underline" data-sd-id="212">Assigner</a><a id="escalate-alert-1770" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1770" class="text-orange-600 hover:underline" data-sd-id="213">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="214"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="215">ALT-2026-001752</td><td class="px-4 py-3 font-medium text-night" data-sd-id="216">Amadou Traoré<br><span class="text-xs font-normal text-slate-500" data-sd-id="217">CIF-2026-003912</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="218">Activité transactionnelle inhabituelle</td><td class="px-4 py-3" data-sd-id="219"><span class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800" data-sd-id="220">Moyen</span></td><td class="px-4 py-3" data-sd-id="221"><span class="inline-flex items-center gap-1.5 rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600" data-sd-id="222"><iconify-icon icon="lucide:x"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"></path></svg></template></iconify-icon>Classée sans suite</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="223">8j 1h</td><td class="px-4 py-3" data-sd-id="224">Amadou Traoré</td><td class="px-4 py-3" data-sd-id="225"><div class="flex gap-3 text-xs font-semibold" data-sd-id="226"><a id="open-alert-1752" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="227">Ouvrir</a><a id="assign-alert-1752" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1752" class="text-slate-500 hover:underline" data-sd-id="228">Assigner</a><a id="escalate-alert-1752" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1752" class="text-orange-600 hover:underline" data-sd-id="229">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="230"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="231">ALT-2026-001730</td><td class="px-4 py-3 font-medium text-night" data-sd-id="232">Nadia Ilboudo<br><span class="text-xs font-normal text-slate-500" data-sd-id="233">CIF-2026-005887</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="234">Dépôt exceptionnel en espèces</td><td class="px-4 py-3" data-sd-id="235"><span class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800" data-sd-id="236">Moyen</span></td><td class="px-4 py-3" data-sd-id="237"><span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700" data-sd-id="238"><iconify-icon icon="lucide:check-circle"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11l3 3L22 4"></path></g></svg></template></iconify-icon>Clôturée</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="239">9j 6h</td><td class="px-4 py-3" data-sd-id="240">Mariam Kaboré</td><td class="px-4 py-3" data-sd-id="241"><div class="flex gap-3 text-xs font-semibold" data-sd-id="242"><a id="open-alert-1730" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="243">Ouvrir</a><a id="assign-alert-1730" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1730" class="text-slate-500 hover:underline" data-sd-id="244">Assigner</a><a id="escalate-alert-1730" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1730" class="text-orange-600 hover:underline" data-sd-id="245">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="246"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="247">ALT-2026-001714</td><td class="px-4 py-3 font-medium text-night" data-sd-id="248">Seydou Compaoré<br><span class="text-xs font-normal text-slate-500" data-sd-id="249">CIF-2026-003104</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="250">Transferts fractionnés sur 24 heures</td><td class="px-4 py-3" data-sd-id="251"><span class="rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-danger" data-sd-id="252">Élevé</span></td><td class="px-4 py-3" data-sd-id="253"><span class="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-2.5 py-1 text-xs font-semibold text-institution" data-sd-id="254"><iconify-icon icon="lucide:star"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.12 2.12 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.12 2.12 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.12 2.12 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.12 2.12 0 0 0 1.597-1.16z"></path></svg></template></iconify-icon>Nouveau</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="255">10j 2h</td><td class="px-4 py-3" data-sd-id="256">Fatou Diallo</td><td class="px-4 py-3" data-sd-id="257"><div class="flex gap-3 text-xs font-semibold" data-sd-id="258"><a id="open-alert-1714" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="259">Ouvrir</a><a id="assign-alert-1714" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1714" class="text-slate-500 hover:underline" data-sd-id="260">Assigner</a><a id="escalate-alert-1714" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1714" class="text-orange-600 hover:underline" data-sd-id="261">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="262"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="263">ALT-2026-001698</td><td class="px-4 py-3 font-medium text-night" data-sd-id="264">Karim Ouedraogo<br><span class="text-xs font-normal text-slate-500" data-sd-id="265">CIF-2026-002901</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="266">Incohérence entre revenu et flux</td><td class="px-4 py-3" data-sd-id="267"><span class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700" data-sd-id="268">Faible</span></td><td class="px-4 py-3" data-sd-id="269"><span class="inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800" data-sd-id="270"><iconify-icon icon="lucide:clock"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></g></svg></template></iconify-icon>À examiner</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="271">11j 4h</td><td class="px-4 py-3" data-sd-id="272">Amadou Traoré</td><td class="px-4 py-3" data-sd-id="273"><div class="flex gap-3 text-xs font-semibold" data-sd-id="274"><a id="open-alert-1698" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="275">Ouvrir</a><a id="assign-alert-1698" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1698" class="text-slate-500 hover:underline" data-sd-id="276">Assigner</a><a id="escalate-alert-1698" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1698" class="text-orange-600 hover:underline" data-sd-id="277">Escalader</a></div></td></tr>
+      <tr class="border-b border-slate-100 hover:bg-slate-50" data-sd-id="278"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="279">ALT-2026-001674</td><td class="px-4 py-3 font-medium text-night" data-sd-id="280">Aïcha Ouédraogo<br><span class="text-xs font-normal text-slate-500" data-sd-id="281">CIF-2026-004581</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="282">Retrait de 2 850 000 FCFA à Ouagadougou Centre</td><td class="px-4 py-3" data-sd-id="283"><span class="rounded-full bg-red-200 px-2.5 py-1 text-xs font-bold text-red-800" data-sd-id="284">Critique</span></td><td class="px-4 py-3" data-sd-id="285"><span class="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-2.5 py-1 text-xs font-semibold text-success" data-sd-id="286"><iconify-icon icon="lucide:check"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"></path></svg></template></iconify-icon>En cours</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="287">12j 7h</td><td class="px-4 py-3" data-sd-id="288">Mariam Kaboré</td><td class="px-4 py-3" data-sd-id="289"><div class="flex gap-3 text-xs font-semibold" data-sd-id="290"><a id="open-alert-1674" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="291">Ouvrir</a><a id="assign-alert-1674" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1674" class="text-slate-500 hover:underline" data-sd-id="292">Assigner</a><a id="escalate-alert-1674" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1674" class="text-orange-600 hover:underline" data-sd-id="293">Escalader</a></div></td></tr>
+      <tr class="hover:bg-slate-50" data-sd-id="294"><td class="px-4 py-3 font-semibold text-institution" data-sd-id="295">ALT-2026-001651</td><td class="px-4 py-3 font-medium text-night" data-sd-id="296">Oumar Bassolé<br><span class="text-xs font-normal text-slate-500" data-sd-id="297">CIF-2026-001426</span></td><td class="px-4 py-3 text-slate-600" data-sd-id="298">Client inactif redevenu actif</td><td class="px-4 py-3" data-sd-id="299"><span class="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700" data-sd-id="300">Faible</span></td><td class="px-4 py-3" data-sd-id="301"><span class="inline-flex items-center gap-1.5 rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600" data-sd-id="302"><iconify-icon icon="lucide:x"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"></path></svg></template></iconify-icon>Classée sans suite</span></td><td class="whitespace-nowrap px-4 py-3" data-sd-id="303">14j 3h</td><td class="px-4 py-3" data-sd-id="304">Fatou Diallo</td><td class="px-4 py-3" data-sd-id="305"><div class="flex gap-3 text-xs font-semibold" data-sd-id="306"><a id="open-alert-1651" href="https://draft-358f5dc3-669a-4275-bda7-19403291699f.preview.superdesign.dev/" class="text-institution hover:underline" data-sd-id="307">Ouvrir</a><a id="assign-alert-1651" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#assign-alert-1651" class="text-slate-500 hover:underline" data-sd-id="308">Assigner</a><a id="escalate-alert-1651" href="https://p.superdesign.dev/draft/67227d50-7e9e-473e-83e0-3ef0ff4b8c2a#escalate-alert-1651" class="text-orange-600 hover:underline" data-sd-id="309">Escalader</a></div></td></tr>
+      </tbody></table></div><div class="flex flex-col items-center justify-between gap-3 border-t border-slate-200 px-5 py-4 text-sm sm:flex-row" data-sd-id="310"><p class="text-slate-500" data-sd-id="311">Affichage <span class="font-semibold text-night" data-sd-id="312">1-15</span> sur <span class="font-semibold text-night" data-sd-id="313">247 alertes</span></p><div class="flex items-center gap-1" data-sd-id="314"><button id="pagination-prev" class="flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 text-slate-400" disabled="" data-sd-id="315"><iconify-icon icon="lucide:chevron-left"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 18l-6-6l6-6"></path></svg></template></iconify-icon></button><button id="pagination-current" class="flex h-9 w-9 items-center justify-center rounded-md bg-institution text-sm font-semibold text-white" data-sd-id="316">1</button><button id="pagination-two" class="flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 text-sm font-medium hover:bg-slate-50" data-sd-id="317">2</button><button id="pagination-three" class="flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 text-sm font-medium hover:bg-slate-50" data-sd-id="318">3</button><span class="px-1 text-slate-400" data-sd-id="319">…</span><button id="pagination-last" class="flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 text-sm font-medium hover:bg-slate-50" data-sd-id="320">17</button><button id="pagination-next" class="flex h-9 w-9 items-center justify-center rounded-md border border-slate-300 text-slate-700 hover:bg-slate-50" data-sd-id="321"><iconify-icon icon="lucide:chevron-right"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 18l6-6l-6-6"></path></svg></template></iconify-icon></button></div></div></section>
+    </main>
+  </div>
+</div>
+
+</body></html>

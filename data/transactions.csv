@@ -1,0 +1,20 @@
+id,compte_id,date_heure,montant,sens,compte_contrepartie_id,canal,scenario_tag
+T-01,001-771,2026-08-31 09:00,480000,entree,,guichet,fractionnement_lbc
+T-02,001-771,2026-09-01 09:15,475000,entree,,guichet,fractionnement_lbc
+T-03,001-771,2026-09-02 09:05,460000,entree,,guichet,fractionnement_lbc
+T-04,001-771,2026-09-03 09:20,430000,entree,,guichet,fractionnement_lbc
+T-05,014-219,2026-08-31 15:00,85000,sortie,EXT-3001,mobile,collecte_fractionnee_ft
+T-06,014-219,2026-09-01 15:10,90000,sortie,EXT-3002,mobile,collecte_fractionnee_ft
+T-07,014-219,2026-09-02 15:05,78000,sortie,EXT-3003,mobile,collecte_fractionnee_ft
+T-08,014-219,2026-09-03 15:20,92000,sortie,EXT-3004,mobile,collecte_fractionnee_ft
+T-09,031-554,2026-09-04 08:00,400000,entree,EXT-4001,virement,activation_dispersion_ft
+T-10,031-554,2026-09-04 09:30,120000,sortie,EXT-4002,mobile,activation_dispersion_ft
+T-11,031-554,2026-09-04 09:50,110000,sortie,EXT-4003,mobile,activation_dispersion_ft
+T-12,031-554,2026-09-04 10:10,105000,sortie,EXT-4004,mobile,activation_dispersion_ft
+T-13,031-554,2026-09-04 10:30,90000,sortie,EXT-4005,mobile,activation_dispersion_ft
+T-14,002-087,2026-09-02 09:00,800000,entree,EXT-0001,virement,compte_rebond_lbc
+T-15,002-087,2026-09-02 09:45,780000,sortie,019-441,virement,compte_rebond_lbc
+T-16,019-441,2026-09-02 09:45,780000,entree,002-087,virement,compte_rebond_lbc
+T-17,008-194,2026-08-31 14:00,25000,sortie,,mobile,baseline
+T-18,008-194,2026-09-01 10:00,14000,entree,,guichet,baseline
+T-19,008-194,2026-09-03 16:00,35000,sortie,,mobile,baseline
