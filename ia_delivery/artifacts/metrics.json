@@ -1,0 +1,38 @@
+{
+  "dataset": "synthetic-42-v1",
+  "rows": {
+    "train": 720,
+    "validation": 240,
+    "test": 240
+  },
+  "identity_splits_disjoint": true,
+  "validation_recall_target": 0.95,
+  "test_model": {
+    "tp": 117,
+    "fp": 96,
+    "fn": 3,
+    "tn": 24,
+    "precision": 0.5492957746478874,
+    "recall": 0.975,
+    "false_positive_rate": 0.8
+  },
+  "test_baseline_wape": {
+    "tp": 118,
+    "fp": 70,
+    "fn": 2,
+    "tn": 50,
+    "precision": 0.6276595744680851,
+    "recall": 0.9833333333333333,
+    "false_positive_rate": 0.5833333333333334
+  },
+  "model_threshold": 0.1879606675822251,
+  "baseline_threshold": 0.9375,
+  "promotion_observed": false,
+  "limitations": [
+    "Synthetic syllabic names, not representative of West African population",
+    "Balanced pair sample, not operational prevalence",
+    "Pair classification only; full retrieval recall not benchmarked",
+    "Not calibrated; not independently validated; no legal decisions"
+  ],
+  "training_seconds": 0.321
+}

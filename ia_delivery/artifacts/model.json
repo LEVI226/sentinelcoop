@@ -1,0 +1,27 @@
+{
+  "version": "synthetic-logistic-42-v1",
+  "feature_names": [
+    "name_wape",
+    "name_jaro",
+    "dob_equal",
+    "dob_conflict",
+    "dob_missing"
+  ],
+  "weights": [
+    2.7057005517874164,
+    -0.6258354869629512,
+    1.0307710746349006,
+    -1.7777546995227347,
+    -0.4103390411204253
+  ],
+  "bias": -1.7654264172751513,
+  "threshold": 0.1879606675822251,
+  "status": "EXPERIMENTAL_SYNTHETIC_ONLY",
+  "training": {
+    "seed": 42,
+    "iterations": 2500,
+    "learning_rate": 0.15,
+    "l2": 0.002,
+    "numpy": "2.3.5"
+  }
+}

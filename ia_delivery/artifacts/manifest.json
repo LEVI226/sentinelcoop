@@ -1,0 +1,8 @@
+{
+  "seed": 42,
+  "synthetic": true,
+  "sha256": {
+    "pairs.csv": "ea8e51bf35e8ba8e13657fa90143ce4765e93b3364779a695a0d0941220a0dd4",
+    "model.json": "361f3e68531065aa25e9a75e4c892bf7bd18f76db50ee04f06d454da8138934d"
+  }
+}

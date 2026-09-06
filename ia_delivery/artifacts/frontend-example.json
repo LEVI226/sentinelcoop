@@ -1,0 +1,88 @@
+{
+  "synthetic": true,
+  "screening": {
+    "status": "COMPLETE",
+    "customer_id": "SYN-C001",
+    "reference_version": "DEMO-1",
+    "model_version": "synthetic-logistic-42-v1",
+    "engine_version": "cif-ia-demo-1",
+    "as_of": "2026-09-06T12:00:00Z",
+    "candidates": [
+      {
+        "entity_id": "SYN-PEP1",
+        "category": "PEP",
+        "matched_alias": "Balafena Narikemi",
+        "match_score": 79.33,
+        "score_kind": "UNCALIBRATED_SYNTHETIC_MODEL_SCORE",
+        "reason_codes": [
+          "NAME_CANDIDATE",
+          "BIRTH_DATE_AGREEMENT"
+        ],
+        "identity_resolution": "UNCONFIRMED",
+        "recommended_action": "IDENTITY_REVIEW",
+        "above_model_threshold": true
+      }
+    ],
+    "operational_decision": "NOT_TAKEN_BY_ENGINE"
+  },
+  "monitoring": {
+    "status": "COMPLETE",
+    "coverage": "CUSTOMER_LOCAL",
+    "engine_version": "cif-ia-demo-1",
+    "as_of": "2026-09-06T12:00:00Z",
+    "findings": [
+      {
+        "finding_id": "c9494cd31866bb98ddad93ef",
+        "customer_id": "SYN-C001",
+        "rule_id": "FRAGMENTATION_IN",
+        "priority_score": 70,
+        "match_score": null,
+        "score_kind": "HEURISTIC_TRIAGE",
+        "proposed_risk": "HIGH",
+        "explanation": "Au moins trois mouvements de même sens sous le seuil illustratif dépassent ensemble ce seuil.",
+        "evidence_transaction_ids": [
+          "SYN-T0",
+          "SYN-T1",
+          "SYN-T2"
+        ],
+        "transactions": [
+          {
+            "transaction_id": "SYN-T0",
+            "institution_id": "SYN-I1",
+            "customer_id": "SYN-C001",
+            "currency": "XOF",
+            "amount_minor": 400000,
+            "direction": "IN",
+            "occurred_at": "2026-09-06T08:00:00Z",
+            "received_at": "2026-09-06T08:00:00Z"
+          },
+          {
+            "transaction_id": "SYN-T1",
+            "institution_id": "SYN-I1",
+            "customer_id": "SYN-C001",
+            "currency": "XOF",
+            "amount_minor": 400000,
+            "direction": "IN",
+            "occurred_at": "2026-09-06T09:00:00Z",
+            "received_at": "2026-09-06T09:00:00Z"
+          },
+          {
+            "transaction_id": "SYN-T2",
+            "institution_id": "SYN-I1",
+            "customer_id": "SYN-C001",
+            "currency": "XOF",
+            "amount_minor": 400000,
+            "direction": "IN",
+            "occurred_at": "2026-09-06T10:00:00Z",
+            "received_at": "2026-09-06T10:00:00Z"
+          }
+        ],
+        "policy_version": "DEMO-P1",
+        "recommended_action": "ANALYST_REVIEW",
+        "synthetic_demo": true
+      }
+    ],
+    "reason_codes": [],
+    "operational_decision": "NOT_TAKEN_BY_ENGINE"
+  }
+}
