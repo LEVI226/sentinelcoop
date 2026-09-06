@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CIF Guard — Connexion</title>
+<style>
+  body{font-family:Segoe UI,system-ui,Arial,sans-serif;background:#0f172a;color:#e2e8f0;
+       display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+  .card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:2.4rem;
+        width:100%;max-width:380px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  h1{margin:0 0 .25rem;font-size:1.35rem;color:#38bdf8}
+  p.sub{margin:0 0 1.5rem;color:#94a3b8;font-size:.85rem}
+  label{font-size:.8rem;color:#cbd5e1;display:block;margin:.9rem 0 .3rem}
+  input{width:100%;box-sizing:border-box;padding:.65rem .8rem;border-radius:8px;
+        border:1px solid #334155;background:#0f172a;color:#e2e8f0;font-size:.95rem}
+  button{width:100%;margin-top:1.4rem;padding:.7rem;border:0;border-radius:8px;
+         background:#0284c7;color:#fff;font-size:1rem;font-weight:600;cursor:pointer}
+  button:hover{background:#0369a1}
+  .err{color:#f87171;font-size:.8rem;min-height:1rem;margin-top:.7rem}
+  .hint{color:#64748b;font-size:.72rem;margin-top:1.2rem;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🎯 CIF Guard</h1>
+  <p class="sub">Console d'administration — Conformité LBC/FT/FP</p>
+  <form id="login-form">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="reseau@cifguard.net" autocomplete="username">
+    <label for="password">Mot de passe</label>
+    <input type="password" id="password" name="password" value="CIFGuard@2026" autocomplete="current-password">
+    <button type="submit">Se connecter</button>
+    <div class="err" id="err"></div>
+  </form>
+  <p class="hint">Démo — compte réseau : reseau@cifguard.net / CIFGuard@2026 · admin@cifguard.net (superadmin)</p>
+</div>
+<script>
+document.getElementById("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  try {
+    const r = await fetch("/api/v1/auth/login", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({email, password}),
+    });
+    const j = await r.json();
+    if (!r.ok) { document.getElementById("err").textContent = j.error?.message; return; }
+    const tok = j.data.access_token;
+    const meR = await fetch("/api/v1/auth/me", {
+      headers: {"Authorization": "Bearer " + tok},
+    });
+    const me = await meR.json();
+    sessionStorage.setItem("auth", JSON.stringify(Object.assign({access_token: tok}, me.data || {})));
+    location.href = "/admin/dashboard.html";
+  } catch (err) { document.getElementById("err").textContent = "Erreur réseau"; }
+});
+</script>
+</body>
+</html>

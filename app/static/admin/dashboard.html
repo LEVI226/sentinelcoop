@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CIF Guard — Tableau de bord</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#1e293b; --panel2:#273449; --border:#334155;
+    --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --accent2:#0284c7;
+    --green:#4ade80; --amber:#fbbf24; --red:#f87171; --purple:#a78bfa;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,system-ui,Arial,sans-serif;background:var(--bg);color:var(--text)}
+  a{color:var(--accent);text-decoration:none}
+  header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.4rem;
+        background:var(--panel);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+  .logo{font-weight:700;font-size:1.15rem;color:var(--accent)}
+  .logo span{color:var(--muted);font-weight:400;font-size:.85rem;margin-left:.5rem}
+  .userbar{display:flex;align-items:center;gap:.75rem;font-size:.85rem}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--accent2);display:flex;
+          align-items:center;justify-content:center;font-weight:700;color:#fff}
+  #logout{cursor:pointer;color:var(--muted);font-size:.8rem}
+  #logout:hover{color:var(--red)}
+  nav{display:flex;gap:.25rem;padding:.5rem 1.4rem;border-bottom:1px solid var(--border);
+      background:var(--panel);overflow-x:auto}
+  nav button{background:transparent;border:0;color:var(--muted);padding:.5rem .8rem;border-radius:8px;
+             cursor:pointer;font-size:.85rem;white-space:nowrap}
+  nav button:hover{color:var(--text)}
+  nav button.active{background:var(--panel2);color:var(--accent)}
+  main{padding:1.4rem;max-width:1400px;margin:0 auto}
+  .view{display:none}
+  .view.active{display:block}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
+  .kpi{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.2rem}
+  .kpi .label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .kpi .value{font-size:1.9rem;font-weight:700;margin-top:.3rem}
+  .kpi .sub{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+  .kpi.blue .value{color:var(--accent)} .kpi.green .value{color:var(--green)}
+  .kpi.red .value{color:var(--red)} .kpi.amber .value{color:var(--amber)} .kpi.purple .value{color:var(--purple)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+  @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+  .card h3{margin:0 0 .8rem;font-size:.95rem;color:var(--text)}
+  .bar{height:10px;background:var(--panel2);border-radius:6px;overflow:hidden;margin:.35rem 0 .6rem}
+  .bar>div{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent))}
+  .legend{display:flex;flex-wrap:wrap;gap:.5rem;font-size:.75rem;color:var(--muted)}
+  .dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:.3rem;vertical-align:middle}
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  th{color:var(--muted);font-weight:600;text-align:left;padding:.55rem .6rem;border-bottom:1px solid var(--border)}
+  td{padding:.55rem .6rem;border-bottom:1px solid var(--panel2)}
+  tr:hover td{background:var(--panel2)}
+  .pill{display:inline-block;padding:.12rem .5rem;border-radius:999px;font-size:.72rem;font-weight:600}
+  .pill.CRITICAL,.pill.HIGH,.pill.SUPERADMIN{background:rgba(248,113,113,.15);color:var(--red)}
+  .pill.MEDIUM,.pill.conformite_reseau,.pill.analyste_conformite{background:rgba(251,191,36,.15);color:var(--amber)}
+  .pill.LOW,.pill.agent_caisse,.pill.responsable_caisse{background:rgba(74,222,128,.15);color:var(--green)}
+  .pill.admin,.pill.auditeur{background:rgba(167,139,250,.15);color:var(--purple)}
+  .pill.OPEN,.pill.NEW,.pill.IN_PROGRESS,.pill.PENDING{background:rgba(56,189,248,.15);color:var(--accent)}
+  .pill.CLOSED,.pill.DISMISSED,.pill.CONFIRMED{background:rgba(148,163,184,.15);color:var(--muted)}
+  #toast{position:fixed;bottom:1.2rem;right:1.2rem;background:var(--red);color:#fff;padding:.8rem 1.1rem;
+         border-radius:10px;font-size:.85rem;display:none;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+  .section-title{font-size:.9rem;color:var(--muted);margin:1.5rem 0 .8rem;text-transform:uppercase;letter-spacing:.05em}
+  .empty{color:var(--muted);font-size:.85rem;padding:1rem;text-align:center}
+  .mono{font-family:Consolas,monospace;font-size:.75rem}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">🎯 CIF Guard <span>Conformité LBC/FT/FP</span></div>
+  <div class="userbar">
+    <span id="user-role" class="pill"></span>
+    <span id="user-name"></span>
+    <div class="avatar" id="avatar">?</div>
+    <span id="logout">Déconnexion</span>
+  </div>
+</header>
+
+<nav>
+  <button class="active" data-view="overview">Vue d'ensemble</button>
+  <button data-view="alerts">Alertes</button>
+  <button data-view="cases">Dossiers</button>
+  <button data-view="customers">Clients</button>
+  <button data-view="screening">Filtrage</button>
+  <button data-view="audit">Audit</button>
+  <button data-view="org">Réseau & Caisses</button>
+</nav>
+
+<main>
+  <!-- ==================== OVERVIEW ==================== -->
+  <section class="view active" id="view-overview">
+    <div class="kpis">
+      <div class="kpi blue"><div class="label">Clients contrôlés</div><div class="value" id="k-clients">—</div><div class="sub">Total actifs</div></div>
+      <div class="kpi red"><div class="label">Clients à haut risque</div><div class="value" id="k-highrisk">—</div><div class="sub">HIGH / CRITICAL</div></div>
+      <div class="kpi amber"><div class="label">Alertes critiques</div><div class="value" id="k-alerts">—</div><div class="sub">En attente</div></div>
+      <div class="kpi purple"><div class="label">Alertes en retard</div><div class="value" id="k-overdue">—</div><div class="sub">SLA dépassé</div></div>
+      <div class="kpi green"><div class="label">Transactions</div><div class="value" id="k-tx">—</div><div class="sub">À examiner</div></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Distribution du risque client</h3>
+        <div id="risk-dist"></div>
+      </div>
+      <div class="card">
+        <h3>Synthèse Conformité</h3>
+        <div id="compliance"></div>
+      </div>
+    </div>
+
+    <div class="section-title">Alertes prioritaires</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Code</th><th>Titre</th><th>Sévérité</th><th>Statut</th><th>Échéance</th></tr></thead>
+        <tbody id="priority-body"><tr><td colspan="5" class="empty">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== ALERTS ==================== -->
+  <section class="view" id="view-alerts">
+    <div class="section-title">File d'alertes</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Code</th><th>Titre</th><th>Sévérité</th><th>Type</th><th>Statut</th><th>Retard</th></tr></thead>
+        <tbody id="alerts-body"><tr><td colspan="6" class="empty">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== CASES ==================== -->
+  <section class="view" id="view-cases">
+    <div class="section-title">Dossiers d'investigation</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Code</th><th>Titre</th><th>Statut</th><th>Niveau risque</th><th>Créé le</th></tr></thead>
+        <tbody id="cases-body"><tr><td colspan="5" class="empty">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== CUSTOMERS ==================== -->
+  <section class="view" id="view-customers">
+    <div class="section-title">Clients contrôlés</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>ID</th><th>Nom</th><th>Risque</th><th>KYC</th><th>Caisse</th></tr></thead>
+        <tbody id="customers-body"><tr><td colspan="5" class="empty">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== SCREENING ==================== -->
+  <section class="view" id="view-screening">
+    <div class="section-title">Listes de filtrage (frais)</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Liste</th><th>Version</th><th>Téléchargée</th><th>Courante</th></tr></thead>
+        <tbody id="screen-body"><tr><td colspan="4" class="empty">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== AUDIT ==================== -->
+  <section class="view" id="view-audit">
+    <div class="section-title">Journal d'audit</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Horodatage</th><th>Acteur</th><th>Rôle</th><th>Action</th><th>Entité</th><th>ID</th></tr></thead>
+        <tbody id="audit-body"><tr><td colspan="6" class="empty">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ==================== ORG ==================== -->
+  <section class="view" id="view-org">
+    <div class="section-title">Caisses du réseau</div>
+    <div class="card">
+      <table>
+        <thead><tr><th>Code</th><th>Nom</th><th>Ville</th><th>Sync</th></tr></thead>
+        <tbody id="org-body"><tr><td colspan="4" class="empty">Chargement…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<div id="toast"></div>
+
+<script>
+const ROLE_LABEL = {superadmin:"Super Admin",admin:"Administrateur",conformite_reseau:"Conformité Réseau",
+  analyste_conformite:"Analyste",responsable_caisse:"Resp. Caisse",agent_caisse:"Agent Caisse",auditeur:"Auditeur"};
+
+let auth;
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",3500);}
+
+async function api(path, opts={}){
+  opts.headers = Object.assign({"Content-Type":"application/json"}, opts.headers||{});
+  const r = await fetch("/api/v1"+path, opts);
+  const j = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(j.error?.message || ("Erreur "+r.status));
+  return j;
+}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function fmtDate(s){if(!s)return"—";try{return new Date(s).toLocaleString("fr-FR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}catch(e){return s}}
+
+async function loadOverview(){
+  try{
+    const [sum,risk,prior] = await Promise.all([
+      api("/dashboard/summary"), api("/dashboard/risk-distribution"), api("/dashboard/priority-alerts?limit=8")
+    ]);
+    const d=sum.data;
+    document.getElementById("k-clients").textContent=d.clientsControlled;
+    document.getElementById("k-highrisk").textContent=d.highRiskClients;
+    document.getElementById("k-alerts").textContent=d.criticalOpenAlerts;
+    document.getElementById("k-overdue").textContent=d.overdueAlerts;
+    document.getElementById("k-tx").textContent=d.transactionsToReview;
+
+    let rd="";
+    const total=risk.data.reduce((s,r)=>s+r.count,0)||1;
+    const colors={LOW:["#4ade80","Vert"],MEDIUM:["#fbbf24","Moyen"],HIGH:["#fb923c","Élevé"],CRITICAL:["#f87171","Critique"]};
+    risk.data.forEach(r=>{
+      const c=colors[r.level]||["#94a3b8",r.level];
+      const pct=(r.count/total*100).toFixed(1);
+      rd+=`<div style="display:flex;justify-content:space-between;font-size:.8rem;margin:.3rem 0">
+             <span><span class="dot" style="background:${c[0]}"></span>${c[1]}</span><span>${r.count} (${pct}%)</span></div>
+           <div class="bar"><div style="width:${pct}%"></div></div>`;
+    });
+    document.getElementById("risk-dist").innerHTML=rd;
+
+    const comp=await api("/dashboard/compliance-summary");
+    const c=comp.data;
+    const rows=[
+      ["KYC",(c.kyc||[]).map(x=>`${x.status}:${x.count}`).join(" · ")],
+      ["Correspondances filtrage",(c.screening_matches||[]).map(x=>`${x.status}:${x.count}`).join(" · ")],
+      ["Dossiers",(c.cases||[]).map(x=>`${x.status}:${x.count}`).join(" · ")],
+      ["Déclarations",(c.declarations||[]).map(x=>`${x.status}:${x.count}`).join(" · ")],
+    ];
+    document.getElementById("compliance").innerHTML=rows.map(([k,v])=>`<div style="font-size:.82rem;margin:.4rem 0"><b>${k}</b> <span style="color:var(--muted)" class="mono">${esc(v||"—")}</span></div>`).join("");
+
+    document.getElementById("priority-body").innerHTML=prior.data.map(a=>`<tr>
+      <td class="mono">${esc(a.code)}</td><td>${esc(a.title)}</td>
+      <td><span class="pill ${a.severity}">${a.severity}</span></td>
+      <td><span class="pill ${a.status}">${a.status.replace("_"," ")}</span></td>
+      <td>${fmtDate(a.due_at)}</td></tr>`).join("")||'<tr><td colspan="5" class="empty">Aucune</td></tr>';
+  }catch(e){toast(e.message)}
+}
+
+async function loadAlerts(){
+  try{const j=await api("/alerts?limit=50");
+    document.getElementById("alerts-body").innerHTML=j.data.map(a=>`<tr>
+      <td class="mono">${esc(a.code)}</td><td>${esc(a.title)}</td>
+      <td><span class="pill ${a.severity||'LOW'}">${a.severity||'—'}</span></td>
+      <td>${esc(a.alert_type||"—")}</td>
+      <td><span class="pill ${a.status}">${esc(a.status.replace("_"," "))}</span></td>
+      <td>${a.is_overdue?'<span style="color:var(--red)">●</span>':'<span style="color:var(--muted)">○</span>'}</td></tr>`).join("")
+      ||'<tr><td colspan="6" class="empty">Aucune alerte</td></tr>';
+  }catch(e){toast(e.message)}
+}
+
+async function loadCases(){
+  try{const j=await api("/cases?limit=50");
+    document.getElementById("cases-body").innerHTML=j.data.map(c=>`<tr>
+      <td class="mono">${esc(c.code)}</td><td>${esc(c.title)}</td>
+      <td><span class="pill ${c.status}">${esc(c.status.replace("_"," "))}</span></td>
+      <td><span class="pill ${c.risk_level}">${esc(c.risk_level)}</span></td>
+      <td>${fmtDate(c.created_at)}</td></tr>`).join("")
+      ||'<tr><td colspan="5" class="empty">Aucun dossier</td></tr>';
+  }catch(e){toast(e.message)}
+}
+
+async function loadCustomers(){
+  try{const j=await api("/customers?limit=50");
+    document.getElementById("customers-body").innerHTML=j.data.map(c=>`<tr>
+      <td class="mono">${c.id}</td><td>${esc(c.first_name||"")} ${esc(c.last_name||"")}</td>
+      <td><span class="pill ${c.risk_level}">${esc(c.risk_level)} ${c.risk_score}</span></td>
+      <td>${esc(c.kyc_status||"—")}</td>
+      <td class="mono">${esc(c.branch_id||"—")}</td></tr>`).join("")
+      ||'<tr><td colspan="5" class="empty">Aucun client</td></tr>';
+  }catch(e){toast(e.message)}
+}
+
+async function loadScreening(){
+  try{const j=await api("/screening/list-versions");
+    document.getElementById("screen-body").innerHTML=j.data.map(v=>`<tr>
+      <td>${esc(v.list_name)}</td><td class="mono">v${esc(v.version)}</td>
+      <td>${fmtDate(v.downloaded_at)}</td>
+      <td>${v.is_current?'<span style="color:var(--green)">Courante</span>':'<span style="color:var(--muted)">Ancienne</span>'}</td></tr>`).join("")
+      ||'<tr><td colspan="4" class="empty">Aucune liste</td></tr>';
+  }catch(e){toast(e.message)}
+}
+
+async function loadAudit(){
+  try{const j=await api("/audit?limit=40");
+    document.getElementById("audit-body").innerHTML=j.data.map(a=>`<tr>
+      <td>${fmtDate(a.ts)}</td><td class="mono">#${a.actor_id}</td>
+      <td>${esc(a.actor_role)}</td><td class="mono">${esc(a.action)}</td>
+      <td>${esc(a.entity_type)}</td><td class="mono">${a.entity_id!=null?a.entity_id:"—"}</td></tr>`).join("")
+      ||'<tr><td colspan="6" class="empty">Aucune entrée</td></tr>';
+  }catch(e){toast(e.message)}
+}
+
+async function loadOrg(){
+  try{const j=await api("/branches");
+    document.getElementById("org-body").innerHTML=j.data.map(b=>`<tr>
+      <td class="mono">${esc(b.code)}</td><td>${esc(b.name)}</td>
+      <td>${esc(b.city||"—")}</td><td>${esc(b.sync_status||"—")}</td></tr>`).join("")
+      ||'<tr><td colspan="4" class="empty">Aucune caisse</td></tr>';
+  }catch(e){toast(e.message)}
+}
+
+const LOADERS={overview:loadOverview,alerts:loadAlerts,cases:loadCases,customers:loadCustomers,screening:loadScreening,audit:loadAudit,org:loadOrg};
+let activeView="overview";
+
+document.querySelectorAll("nav button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+    activeView=b.dataset.view;
+    document.getElementById("view-"+activeView).classList.add("active");
+    (LOADERS[activeView]||loadOverview)();
+  });
+});
+
+document.getElementById("logout").addEventListener("click",()=>{
+  api("/auth/logout",{method:"POST",headers:{Authorization:"Bearer "+auth.access_token}}).catch(()=>{});
+  sessionStorage.removeItem("auth");location.href="/admin/index.html";
+});
+
+function renderUser(){
+  document.getElementById("user-name").textContent=(auth.first_name+" "+auth.last_name).trim()||auth.email;
+  document.getElementById("avatar").textContent=((auth.first_name||auth.email)[0]||"?").toUpperCase();
+  const r=document.getElementById("user-role");
+  r.textContent=ROLE_LABEL[auth.roles?.[0]]||auth.roles?.[0]||"";
+  r.className="pill "+(auth.roles?.[0]||"");
+}
+
+(async function init(){
+  auth = JSON.parse(sessionStorage.getItem("auth")||"null");
+  if(!auth){location.href="/admin/index.html";return;}
+  renderUser();
+  loadOverview();
+})();
+</script>
+</body>
+</html>

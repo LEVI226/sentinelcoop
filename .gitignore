@@ -1,7 +1,24 @@
-graphify-out/
-mifosplatform-25.03.22.RELEASE/
-PYP-Hamada-master/
-*.pdf
-*.docx
+# Environnement
+.venv/
+venv/
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
+
+# Secrets
+.env
+
+# Logs
+*.log
+logs/
+
+# Stockage local
+storage/
+
+# Certificats (clés privées — jamais versionnées)
+certs/*.pfx
+certs/*.key
+
+# IDE
+.idea/
+.vscode/
